@@ -149,14 +149,16 @@
         </div>
       </div>
       <!-- main body -->
-      <div class="text-[27px] text-black flex flex-col gap-4 px-4 py-4">
+      <div class="text-[27px] text-black flex flex-col gap-4 px-4 mt-5 py-4">
         <!-- search -->
-        <div class="flex gap-2 bg-gray-100 py-1 rounded-sm items-center">
+        <div
+          class="flex gap-3 bg-gray-100 py-1 rounded-sm justify-center items-center "
+        >
           <input
             type="text"
             name="search"
             placeholder="What are you looking for?"
-            class="ml-2 placeholder:text-sm md:text-base outline-none text-[#7A7A7A]"
+            class="ml-2 px-2 w-8/12 placeholder:text-sm text-sm md:text-base outline-none text-[#7A7A7A]"
           />
 
           <div>
@@ -201,11 +203,11 @@
         <!--=========== salam kategoriya  ===========-->
         <div>
           <div class="h-px w-full bg-black"></div>
-          <div class=" text-base md:text-lg font-bold">Categories</div>
+          <div class=" text-base  md:text-lg font-bold">Categories</div>
         </div>
         <!-- Woman's Fashion -->
         <div class="flex justify-between items-center group cursor-pointer">
-          <span class="group-hover:text-[#DB4444] transition-colors"
+          <span class="group-hover:text-[#DB4444] transition-colors text-xs"
             >Woman's Fashion</span
           >
           <svg
@@ -226,7 +228,7 @@
 
         <!-- Man's Fashion -->
         <div class="flex justify-between items-center group cursor-pointer">
-          <span class="group-hover:text-[#DB4444] transition-colors"
+          <span class="group-hover:text-[#DB4444] transition-colors text-xs"
             >Man's Fashion</span
           >
           <svg
@@ -249,7 +251,7 @@
         <div
           v-for="category in categories"
           :key="category"
-          class="flex justify-between items-center group cursor-pointer"
+          class="flex justify-between items-center group cursor-pointer text-xs"
         >
           <span class="group-hover:text-[#DB4444] transition-colors">{{
             category

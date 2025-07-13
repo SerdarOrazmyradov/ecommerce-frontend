@@ -12,9 +12,10 @@
           </div>
         </div>
       </div>
-
+      <!-- swiper buttons -->
       <div class="flex-1 flex justify-end" style="align-self: flex-end">
         <div class="w-[100px] h-[46px] flex gap-[8px]">
+          <!--prev button  -->
           <div
             class="w-[46px] h-[46px] bg-[#F5F5F5] rounded-full flex justify-center items-center custom2-prev-button"
           >
@@ -33,6 +34,7 @@
               />
             </svg>
           </div>
+          <!-- next button -->
           <div
             class="w-[46px] h-[46px] bg-[#F5F5F5] rounded-full flex justify-center items-center custom2-next-button"
           >
@@ -86,7 +88,7 @@
         grabCursor
         :breakpoints="{
           0: {
-            slidesPerView: 1,
+            slidesPerView: 1.2,
             spaceBetween: 10,
           },
           480: {

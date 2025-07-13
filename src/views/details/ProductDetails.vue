@@ -1,13 +1,20 @@
 <template>
   <div>
     <div class="bg-black h-px"></div>
-    <div class="container px-1 md:px-3 xl:px-7 lg:mx-auto">
+    <div class="container px-1 md:px-4 xl:px-7 mx-auto">
+      <!-- header -->
       <div class="mt-20 h-5 py-px flex items-center">
-        <div class="text-xs lg:text-sm ml-3 text-gray-500 cursor-pointer">Account</div>
+        <div class="text-xs lg:text-sm ml-3 text-gray-500 cursor-pointer">
+          Account
+        </div>
         <div class="h-3.5 w-[1px] ml-3 bg-gray-500 rotate-[30grad]"></div>
-        <div class="text-xs lg:text-sm ml-3 text-gray-500 cursor-pointer">Gaming</div>
+        <div class="text-xs lg:text-sm ml-3 text-gray-500 cursor-pointer">
+          Gaming
+        </div>
         <div class="h-3.5 w-[1px] ml-3 bg-gray-500 rotate-[30grad]"></div>
-        <div class="text-xs lg:text-sm ml-3 cursor-pointer" >Havic HV G-92 Gamepad</div>
+        <div class="text-xs lg:text-sm ml-3 cursor-pointer">
+          Havic HV G-92 Gamepad
+        </div>
       </div>
 
       <div class="mt-20 mb-40 flex flex-col lg:flex-row gap-4">
@@ -148,27 +155,27 @@
             <div class="text-lg lg:text-xl">Size:</div>
             <div class="flex gap-4 items-center">
               <div
-                class="w-4 h-4 md:w-6 md:h-6 lg:w-8 lg:h-8 rounded-sm flex items-center justify-center text-xs lg:text-sm border cursor-pointer"
+                class="w-5 h-5 md:w-7 md:h-7 lg:w-9 lg:h-9 rounded-sm flex items-center justify-center text-xs lg:text-sm border cursor-pointer"
               >
                 XS
               </div>
               <div
-                class="w-4 h-4 md:w-6 md:h-6 lg:w-8 lg:h-8 rounded-sm flex items-center justify-center text-xs lg:text-sm border cursor-pointer"
+                class="w-5 h-5 md:w-7 md:h-7 lg:w-9 lg:h-9 rounded-sm flex items-center justify-center text-xs lg:text-sm border cursor-pointer"
               >
                 S
               </div>
               <div
-                class="w-4 h-4 md:w-6 md:h-6 lg:w-8 lg:h-8 rounded-sm flex items-center justify-center text-xs lg:text-sm border bg-red-400 border-red-400 text-neutral-50 cursor-pointer"
+                class="w-5 h-5 md:w-7 md:h-7 lg:w-9 lg:h-9 rounded-sm flex items-center justify-center text-xs lg:text-sm border bg-red-400 border-red-400 text-neutral-50 cursor-pointer"
               >
                 M
               </div>
               <div
-                class="w-4 h-4 md:w-6 md:h-6 lg:w-8 lg:h-8 rounded-sm flex items-center justify-center text-xs lg:text-sm border cursor-pointer"
+                class="w-5 h-5 md:w-7 md:h-7 lg:w-9 lg:h-9 rounded-sm flex items-center justify-center text-xs lg:text-sm border cursor-pointer"
               >
                 L
               </div>
               <div
-                class="w-4 h-4 md:w-6 md:h-6 lg:w-8 lg:h-8 rounded-sm flex items-center justify-center text-xs lg:text-sm border cursor-pointer"
+                class="w-5 h-5 md:w-7 md:h-7 lg:w-9 lg:h-9 rounded-sm flex items-center justify-center text-xs lg:text-sm border cursor-pointer"
               >
                 XL
               </div>
@@ -293,11 +300,162 @@
         </div>
       </div>
     </div>
+
+    <div class="h-vh container mx-auto px-1 md:px-4 xl:px-7">
+      <!-- header -->
+
+      <div class="flex flex-col mx-auto max-w-6xl">
+        <div class="flex items-center mb-[24px]">
+          <div class="bg-[#DB4444] w-[20px] h-[40px] rounded-[4px]"></div>
+          <div class="text-[#DB4444] text-[16px] ml-[16px]">Related Item</div>
+        </div>
+        <!-- swiper buttons -->
+        <div class="flex-1 flex justify-end" style="align-self: flex-end">
+          <div class="w-[100px] h-[46px] flex gap-[8px]">
+            <!--prev button  -->
+            <div
+              class="w-[46px] h-[46px] bg-[#F5F5F5] rounded-full flex justify-center items-center custom3-prev-button"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="size-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"
+                />
+              </svg>
+            </div>
+            <!-- next button -->
+            <div
+              class="w-[46px] h-[46px] bg-[#F5F5F5] rounded-full flex justify-center items-center custom3-next-button"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="size-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- swiper -->
+
+      <Swiper
+        :navigation="{
+          nextEl: '.custom3-next-button',
+          prevEl: '.custom3-prev-button',
+        }"
+        :slides-per-view="4"
+        :space-between="30"
+        :breakpoints="{
+          0: {
+            slidesPerView: 1.2,
+            spaceBetween: 10,
+          },
+          480: {
+            slidesPerView: 1.3,
+            spaceBetween: 20,
+          },
+          640: {
+            slidesPerView: 2,
+            spaceBetween: 25,
+          },
+          768: {
+            slidesPerView: 3,
+            spaceBetween: 25,
+          },
+          1024: {
+            slidesPerView: 4,
+            spaceBetween: 30,
+          },
+        }"
+        :modules="[Navigation, Manipulation]"
+        grabCursor
+        class="mx-auto max-w-6xl"
+      >
+        <SwiperSlide
+          v-for="(product, i) in products"
+          :key="i"
+          class="transition duration-300 w-auto"
+          style="box-sizing: border-box"
+        >
+          <productcard :product="product"></productcard>
+        </SwiperSlide>
+      </Swiper>
+    </div>
   </div>
 </template>
 
-<script>
-export default {};
+<script setup>
+import { Navigation, Manipulation } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/vue";
+import "swiper/css";
+import "swiper/css/navigation";
+import { ref } from "vue";
+
+import productcard from "../../components/product/ProductCard.vue";
+const products = ref([
+  {
+    title: "HAVIT HV-G92 Gamepad",
+    image:
+      "http://localhost:5173/best_selling/672462_ZAH9D_5626_002_100_0000_Light-The-North-Face-x-Gucci-coat 1.png",
+    price: 120,
+    oldPrice: 160,
+    discount: 40,
+    rating: 4,
+    reviews: 88,
+    id: 1,
+  },
+  {
+    title: "AK-900 Wired Keyboard",
+    image:
+      "http://localhost:5173/best_selling/547953_9C2ST_8746_001_082_0000_Light-Gucci-Savoy-medium-duffle-bag 1.png",
+    price: 960,
+    oldPrice: 1160,
+    discount: 35,
+    rating: 4,
+    reviews: 75,
+    id: 2,
+  },
+  {
+    title: "IPS LCD Gaming Monitor",
+    image:
+      "http://localhost:5173/best_selling/gammaxx-l240-argb-1-500x500 1.png",
+    price: 370,
+    oldPrice: 400,
+    discount: 30,
+    rating: 5,
+    reviews: 99,
+    id: 3,
+  },
+  {
+    title: "S-Series Comfort Chair",
+    image:
+      "http://localhost:5173/best_selling/sam-moghadam-khamseh-L_7MQsHl_aU-unsplash 1.png",
+    price: 375,
+    oldPrice: 500,
+    discount: 25,
+    rating: 4,
+    reviews: 99,
+    id: 4,
+  },
+]);
 </script>
 
 <style lang="scss" scoped></style>

@@ -1,5 +1,6 @@
 <template>
   <div class="flex max-w-[1170px] mx-auto mb-[60px]">
+    <!-- header -->
     <div class="flex flex-col">
       <div class="flex items-center mb-[24px]">
         <div class="bg-[#DB4444] w-[20px] h-[40px] rounded-[4px]"></div>
@@ -28,7 +29,7 @@
     :space-between="30"
     :breakpoints="{
         0: {
-          slidesPerView: 1,
+          slidesPerView: 1.2,
           spaceBetween: 10,
         },
         480: {

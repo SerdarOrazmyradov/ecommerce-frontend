@@ -4,13 +4,21 @@
     <footer
       class="container px-4 sm:px-6 md:px-8 lg:px-14 xl:px-20 py-8 sm:py-12 md:py-16 lg:py-20 text-[#fafafa] mx-auto"
     >
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 text-center  sm:text-start"
+      >
         <!-- Column 1 -->
         <div class="flex flex-col gap-4 sm:gap-6">
           <div class="text-2xl font-bold">Exclusive</div>
-          <div class="text-lg sm:text-xl font-medium cursor-pointer">Subscribe</div>
-          <div class="text-base sm:text-lg cursor-pointer">Get 10% off your first order</div>
-          <div class="flex gap-1 border-2 border-white rounded-sm h-12 sm:h-14 w-full items-center">
+          <div class="text-lg sm:text-xl font-medium cursor-pointer">
+            Subscribe
+          </div>
+          <div class="text-base sm:text-lg cursor-pointer">
+            Get 10% off your first order
+          </div>
+          <div
+            class="flex gap-1 border-2 border-white rounded-sm h-12 sm:h-14 w-fit sm:w-full items-center self-center sm:self-start"
+           >
             <input
               type="email"
               class="px-3 text-sm sm:text-base border-none outline-none bg-transparent w-full"
@@ -36,14 +44,18 @@
         <!-- Column 2 -->
         <div class="flex flex-col gap-4 sm:gap-6">
           <div class="text-xl font-bold">Support</div>
-          <div class="text-base sm:text-lg cursor-pointer">exclusive@gmail.com</div>
+          <div class="text-base sm:text-lg cursor-pointer">
+            exclusive@gmail.com
+          </div>
         </div>
 
         <!-- Column 3 -->
         <div class="flex flex-col gap-4 sm:gap-6">
           <div class="text-xl font-bold">Account</div>
           <div class="text-base sm:text-lg cursor-pointer">My Account</div>
-          <div class="text-base sm:text-lg cursor-pointer">Login / Register</div>
+          <div class="text-base sm:text-lg cursor-pointer">
+            Login / Register
+          </div>
           <div class="text-base sm:text-lg cursor-pointer">Cart</div>
           <div class="text-base sm:text-lg cursor-pointer">Wishlist</div>
           <div class="text-base sm:text-lg cursor-pointer">Shop</div>
@@ -55,7 +67,9 @@
           <div class="text-base sm:text-lg cursor-pointer">Privacy Policy</div>
           <div class="text-base sm:text-lg cursor-pointer">Terms Of Use</div>
           <div class="text-base sm:text-lg cursor-pointer">FAQ</div>
-          <div class="text-base sm:text-lg cursor-pointer hover:text-gray-500 transition duration-300">
+          <div
+            class="text-base sm:text-lg cursor-pointer hover:text-gray-500 transition duration-300"
+          >
             Contact
           </div>
         </div>
@@ -66,8 +80,8 @@
 
 <script>
 export default {
-  name: 'FooterComponent'
-}
+  name: "FooterComponent",
+};
 </script>
 
 <style lang="scss" scoped>
