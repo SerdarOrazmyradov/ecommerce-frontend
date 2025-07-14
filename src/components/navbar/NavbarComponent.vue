@@ -1,7 +1,7 @@
 <template>
   <div class="mt-10 flex justify-around mb-4 max-w-[1170px] mx-auto">
     <div class="text-2xl font-bold">Exclusive</div>
-    <div class="hidden text-base lg:flex gap-12 items-center">
+    <div class="hidden text-base lg:flex lg:gap-10 xl:gap-12 items-center">
       <router-link :to="{ name: 'home' }" class="hover:underline cursor-pointer"
         >Home</router-link
       >
@@ -32,7 +32,9 @@
     </div>
     <div class="flex gap-3 items-center">
       <!-- search -->
-      <div class="hidden flex gap-3 bg-gray-100 py-2 rounded-sm items-center">
+      <div
+        class="hidden md:flex gap-3 bg-gray-100 py-2 rounded-sm items-center"
+      >
         <input
           type="text"
           name="search"
@@ -58,35 +60,67 @@
         </div>
       </div>
       <!-- hearth -->
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke-width="1.5"
-        stroke="currentColor"
-        class="size-[32px] ml-[24px]"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
-        />
-      </svg>
+      <div class="relative">
+        <div
+          class="absolute w-4 h-4 bg-red-400 -top-1 -right-1 text-neutral-50 rounded-full flex justify-center items-center text-xs"
+        >
+          2
+        </div>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-[32px] ml-[24px]"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
+          />
+        </svg>
+      </div>
       <!-- cart -->
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke-width="1.5"
-        stroke="currentColor"
-        class="size-[32px] ml-[16px]"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
-        />
-      </svg>
+      <div class="relative">
+        <div
+          class="absolute w-4 h-4 bg-red-400 -top-1 -right-1 text-neutral-50 rounded-full flex justify-center items-center text-xs"
+        >
+          2
+        </div>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-[32px] ml-[16px]"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
+          />
+        </svg>
+      </div>
+      <!-- profile -->
+      <!-- <div class="relative ml-4" :class="''">
+        <div class="top-0  absolute size-8 bg-red-400 rounded-full -z-10"></div>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="white"
+          class="size-6 absolute top-0"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+          />
+        </svg>
+      </div> -->
       <!-- close button -->
       <div @click="toggleMobileNavbar" class="flex lg:hidden cursor-pointer">
         <div
@@ -151,14 +185,12 @@
       <!-- main body -->
       <div class="text-[27px] text-black flex flex-col gap-4 px-4 mt-5 py-4">
         <!-- search -->
-        <div
-          class="flex gap-3 bg-gray-100 py-1 rounded-sm justify-center items-center "
-        >
+        <div class="flex gap-3 bg-gray-100 py-1 rounded-sm items-center">
           <input
             type="text"
             name="search"
             placeholder="What are you looking for?"
-            class="ml-2 px-2 w-8/12 placeholder:text-sm text-sm md:text-base outline-none text-[#7A7A7A]"
+            class="w-full placeholder:text-sm text-sm md:text-base outline-none text-[#7A7A7A]"
           />
 
           <div>
@@ -203,7 +235,7 @@
         <!--=========== salam kategoriya  ===========-->
         <div>
           <div class="h-px w-full bg-black"></div>
-          <div class=" text-base  md:text-lg font-bold">Categories</div>
+          <div class="text-base md:text-lg font-bold">Categories</div>
         </div>
         <!-- Woman's Fashion -->
         <div class="flex justify-between items-center group cursor-pointer">

@@ -4,14 +4,14 @@
     <div class="container px-1 md:px-4 xl:px-7 mx-auto">
       <!-- header -->
       <div class="mt-20 h-5 py-px flex items-center">
-        <div class="text-xs lg:text-sm ml-3 text-gray-500 cursor-pointer">
+        <div class="text-xs lg:text-sm ml-2 sm:ml-3 text-gray-500 cursor-pointer">
           Account
         </div>
-        <div class="h-3.5 w-[1px] ml-3 bg-gray-500 rotate-[30grad]"></div>
-        <div class="text-xs lg:text-sm ml-3 text-gray-500 cursor-pointer">
+        <div class="h-3.5 w-[1px] ml-2 sm:ml-3 bg-gray-500 rotate-[30grad]"></div>
+        <div class="text-xs lg:text-sm ml-2 sm:ml-3 text-gray-500 cursor-pointer">
           Gaming
         </div>
-        <div class="h-3.5 w-[1px] ml-3 bg-gray-500 rotate-[30grad]"></div>
+        <div class="h-3.5 w-[1px] ml-2 sm:ml-3 bg-gray-500 rotate-[30grad]"></div>
         <div class="text-xs lg:text-sm ml-3 cursor-pointer">
           Havic HV G-92 Gamepad
         </div>
@@ -146,7 +146,11 @@
           <div class="flex gap-6 mt-2 items-center">
             <div class="text-lg lg:text-xl">Colours:</div>
             <div class="flex gap-2 items-center">
-              <div class="w-5 h-5 rounded-full bg-black cursor-pointer"></div>
+              <input
+                type="radio"
+                checked="true"
+                class="w-5 h-5 rounded-full bg-black cursor-pointer accent-neutral-50"
+              />
               <div class="w-5 h-5 rounded-full bg-red-400 cursor-pointer"></div>
             </div>
           </div>
@@ -155,6 +159,19 @@
             <div class="text-lg lg:text-xl">Size:</div>
             <div class="flex gap-4 items-center">
               <div
+                @click="selectedSize[size] = !selectedSize[size]"
+                v-for="(size, index) in sizes"
+                :key="index"
+                class="select-none w-5 h-5 md:w-7 md:h-7 lg:w-9 lg:h-9 rounded-sm flex items-center justify-center text-xs lg:text-sm border cursor-pointer"
+                :class="
+                  selectedSize[size]
+                    ? 'bg-red-400 border-red-400 text-neutral-50'
+                    : ''
+                "
+              >
+                {{ size }}
+              </div>
+              <!-- <div
                 class="w-5 h-5 md:w-7 md:h-7 lg:w-9 lg:h-9 rounded-sm flex items-center justify-center text-xs lg:text-sm border cursor-pointer"
               >
                 XS
@@ -165,7 +182,7 @@
                 S
               </div>
               <div
-                class="w-5 h-5 md:w-7 md:h-7 lg:w-9 lg:h-9 rounded-sm flex items-center justify-center text-xs lg:text-sm border bg-red-400 border-red-400 text-neutral-50 cursor-pointer"
+                class="w-5 h-5 md:w-7 md:h-7 lg:w-9 lg:h-9 rounded-sm flex items-center justify-center text-xs lg:text-sm border cursor-pointer bg-red-400 border-red-400 text-neutral-50"
               >
                 M
               </div>
@@ -178,13 +195,18 @@
                 class="w-5 h-5 md:w-7 md:h-7 lg:w-9 lg:h-9 rounded-sm flex items-center justify-center text-xs lg:text-sm border cursor-pointer"
               >
                 XL
-              </div>
+              </div> -->
             </div>
           </div>
           <!-- quantity -->
           <div class="flex gap-4">
             <div class="flex">
               <div
+                @click="
+                  if (count > 1) {
+                    count -= 1;
+                  }
+                "
                 class="h-8 w-7 lg:h-11 lg:w-10 flex items-center border hover:bg-red-400 hover:text-white hover:border-red-400 cursor-pointer rounded-l-sm rounded-bl-sm justify-center"
               >
                 <svg
@@ -202,12 +224,15 @@
                   />
                 </svg>
               </div>
+              <!-- product count -->
               <div
-                class="h-8 w-15 lg:h-11 lg:w-20 text-lg lg:text-xl flex items-center justify-center border-y font-medium"
+                class="select-none h-8 w-15 lg:h-11 lg:w-20 text-lg lg:text-xl flex items-center justify-center border-y font-medium"
               >
-                2
+                {{ count }}
               </div>
+              <!-- plus button -->
               <div
+                @click="count++"
                 class="h-8 w-7 lg:h-11 lg:w-10 flex items-center border hover:bg-red-400 hover:text-white hover:border-red-400 cursor-pointer rounded-r-sm rounded-br-sm justify-center"
               >
                 <svg
@@ -228,7 +253,7 @@
             </div>
             <div class="flex items-center gap-4">
               <div
-                class="h-8 lg:h-11 w-32 lg:w-40 flex items-center justify-center text-neutral-50 bg-red-400 rounded-sm cursor-pointer"
+                class="select-none h-8 lg:h-11 w-32 lg:w-40 flex items-center justify-center text-neutral-50 bg-red-400 rounded-sm cursor-pointer"
               >
                 Buy Now
               </div>
@@ -300,7 +325,7 @@
         </div>
       </div>
     </div>
-
+    <!-- related item -->
     <div class="h-vh container mx-auto px-1 md:px-4 xl:px-7">
       <!-- header -->
 
@@ -456,6 +481,10 @@ const products = ref([
     id: 4,
   },
 ]);
+
+const sizes = ref(["XS", "S", "M", "L", "XL"]);
+const selectedSize = ref({});
+const count = ref(1);
 </script>
 
 <style lang="scss" scoped></style>

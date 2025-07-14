@@ -54,6 +54,16 @@ const routes = [
     name: "checkout",
     component: () => import("../views/checkout/CheckOut.vue"),
   },
+  {
+    path: "/cart",
+    name: "cart",
+    component: () => import("../views/cart/CartComponent.vue"),
+  },
+  {
+    path: '/:pathMatch(.*)*', // Catch-all route for Vue 3
+    name: 'NotFound',
+    component:  () => import("../views/notfound/NotFound.vue"),
+  }
 ];
 
 const router = createRouter({

@@ -1,32 +1,36 @@
 <template>
-  <div class="container px-5">
+  <div class="container px-3 md:px-5">
     <!-- <div class="bg-black h-px"></div> -->
     <!-- header -->
     <div class="mt-20 h-5 py-px flex items-center">
-      <div class="text-xs lg:text-sm ml-3 text-gray-500 cursor-pointer">
+      <div class="text-xs lg:text-sm ml-2 sm:ml-3 text-gray-500 cursor-pointer">
         Account
       </div>
-      <div class="h-3.5 w-[1px] ml-3 bg-gray-500 rotate-[30grad]"></div>
-      <div class="text-xs lg:text-sm ml-3 text-gray-500 cursor-pointer">
+      <div class="h-3.5 w-px ml-2 sm:ml-3 bg-gray-500 rotate-[30grad]"></div>
+      <div class="text-xs lg:text-sm ml-2 sm:ml-3 text-gray-500 cursor-pointer">
         My Account
       </div>
-      <div class="h-3.5 w-[1px] ml-3 bg-gray-500 rotate-[30grad]"></div>
-      <div class="text-xs lg:text-sm ml-3 text-gray-500 cursor-pointer">
+      <div class="h-3.5 w-px ml-2 sm:ml-3 bg-gray-500 rotate-[30grad]"></div>
+      <div class="text-xs lg:text-sm ml-2 sm:ml-3 text-gray-500 cursor-pointer">
         Product
       </div>
-      <div class="h-3.5 w-[1px] ml-3 bg-gray-500 rotate-[30grad]"></div>
-      <div class="text-xs lg:text-sm ml-3 text-gray-500 cursor-pointer">
+      <div class="h-3.5 w-px ml-2 sm:ml-3 bg-gray-500 rotate-[30grad]"></div>
+      <div class="text-xs lg:text-sm ml-2 sm:ml-3 text-gray-500 cursor-pointer">
         View Cart
       </div>
-      <div class="h-3.5 w-[1px] ml-3 bg-gray-500 rotate-[30grad]"></div>
+      <div class="h-3.5 w-px ml-2 sm:ml-3 bg-gray-500 rotate-[30grad]"></div>
       <div class="text-xs lg:text-sm ml-3 cursor-pointer">CheckOut</div>
     </div>
     <!-- body -->
-    <div class="flex justify-around">
+    <div class="flex flex-col md:flex-row justify-around">
       <div class="">
-        <div class="text-4xl font-medium mt-20">Billing Details</div>
+        <div class="text-3xl md:text-4xl font-medium mt-14 md:mt-20">
+          Billing Details
+        </div>
         <!-- form -->
-        <div class="flex flex-col gap-8 mt-12 mb-36 max-w-xl">
+        <div
+          class="flex flex-col gap-6 md:gap-8 mt-10 md:mt-12 mb-2 md:mb-36 max-w-xl"
+        >
           <div class="">
             <div class="text-base text-gray-500">
               First Name <span class="text-red-400">*</span>
@@ -58,7 +62,7 @@
               Apartment, floor, etc. (optional)
             </div>
             <input
-              class="px-3 mt-2 w-xs w-48 h-12 border outline-none rounded-sm shadow-none focus:ring-1 focus:ring-blue-400 transition duration-500"
+              class="px-3 mt-2 w-xs h-12 border outline-none rounded-sm shadow-none focus:ring-1 focus:ring-blue-400 transition duration-500"
               type="text"
             />
           </div>
@@ -67,7 +71,7 @@
               Phone Number <span class="text-red-400">*</span>
             </div>
             <input
-              class="px-3 mt-2 w-xs w-48 h-12 border outline-none rounded-sm shadow-none focus:ring-1 focus:ring-blue-400 transition duration-500"
+              class="px-3 mt-2 w-xs h-12 border outline-none rounded-sm shadow-none focus:ring-1 focus:ring-blue-400 transition duration-500"
               type="text"
             />
           </div>
@@ -76,23 +80,28 @@
               Email Address <span class="text-red-400">*</span>
             </div>
             <input
-              class="px-3 mt-2 w-xs w-48 h-12 border outline-none rounded-sm shadow-none focus:ring-1 focus:ring-blue-400 transition duration-500"
+              class="px-3 mt-2 w-xs h-12 border outline-none rounded-sm shadow-none focus:ring-1 focus:ring-blue-400 transition duration-500"
               type="text"
             />
           </div>
           <div class="flex gap-4 items-center">
-            <input type="checkbox" name="fast_checkout" class="w-6 h-6" />
-            <label class="text-base"
+            <input
+              type="checkbox"
+              name="fast_checkout"
+              id="fast_checkout"
+              class="w-6 h-6"
+            />
+            <label class="text-base" for="fast_checkout"
               >Save this information for faster check-out next time</label
             >
           </div>
         </div>
       </div>
       <!-- right  side -->
-      <div class="relative">
-        <div class="flex flex-col gap-8 relative top-52">
-          <div class="h-xl w-lg">
-            <div class="w-md flex flex-col gap-8">
+      <div class="mt-10 md:mt-0 md:px-5 md:relative">
+        <div class="flex flex-col gap-8 mb-10 md:mb-0 md:relative md:top-52">
+          <div class="max-w-lg">
+            <div class="max-w-md flex flex-col gap-8">
               <!-- first product -->
               <div class="flex gap-6 items-center">
                 <img
@@ -142,7 +151,7 @@
                 </div>
               </div>
               <!-- cash -->
-              <div class="flex justify-between items-center">
+              <div class="flex gap-6 sm:justify-between items-center">
                 <div class="flex items-center gap-4">
                   <input type="radio" class="w-6 h-6" />
                   <div>Bank</div>
@@ -171,7 +180,7 @@
                 </div>
               </div>
               <!-- Cash on delivery -->
-              <div class="flex justify-between items-center">
+              <div class="flex sm:justify-between items-center">
                 <div class="flex items-center gap-4">
                   <input
                     type="radio"
@@ -184,21 +193,24 @@
               </div>
             </div>
           </div>
-          <div class="flex items-center justify-between gap-4">
+          <!-- coupon code -->
+          <div
+            class="flex items-center max-w-lg md:w-full justify-between gap-4"
+          >
             <input
               placeholder="Coupon Code"
               type="text"
-              class="text-base py-4 focus:ring-1 duration-500 transition outline-none border rounded-sm pl-6"
+              class="text-sm md:text-base py-2 md:py-4 focus:ring-1 duration-500 transition outline-none border rounded-sm pl-4 md:pl-6"
             />
             <div
-              class="hover:bg-red-300 cursor-pointer text-base py-4 bg-red-400 rounded-sm flex items-center justify-center flex-1 text-neutral-50"
+              class="hover:bg-red-300 cursor-pointer text-sm md:text-base py-2 md:py-4 bg-red-400 rounded-sm flex items-center justify-center w-40 md:w-44 text-neutral-50"
             >
               Apply Coupon
             </div>
           </div>
           <!-- place order -->
           <div
-            class="w-48 text-base font-medium bg-red-400 py-4 text-neutral-50 rounded-sm flex items-center justify-center"
+            class="w-44 md:w-xs text-sm md:text-base font-medium bg-red-400 py-2 md:py-4 text-neutral-50 rounded-sm flex items-center justify-center"
           >
             Place Order
           </div>

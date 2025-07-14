@@ -1,45 +1,75 @@
 <template>
-  <div class="max-w-[1170px] mx-auto px-4 sm:px-6 lg:px-8 mb-8 sm:mb-10 md:mb-12">
+  <div
+    class="max-w-[1170px] mx-auto px-4 sm:px-6 lg:px-8 mb-8 sm:mb-10 md:mb-12"
+  >
     <!-- Header Section -->
-    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6 mb-8">
+    <div
+      class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6 mb-8"
+    >
       <!-- Title Section -->
       <div class="flex flex-col">
         <div class="flex items-center mb-4 sm:mb-6">
           <div class="bg-[#DB4444] w-4 sm:w-5 h-8 sm:h-10 rounded-md"></div>
-          <div class="text-[#DB4444] text-sm sm:text-base ml-3 sm:ml-4">Today's</div>
+          <div class="text-[#DB4444] text-sm sm:text-base ml-3 sm:ml-4">
+            Today's
+          </div>
         </div>
-        <h2 class="text-2xl sm:text-3xl md:text-4xl font-semibold leading-tight">Flash Sales</h2>
+        <h2
+          class="text-2xl sm:text-3xl md:text-4xl font-semibold leading-tight"
+        >
+          Flash Sales
+        </h2>
       </div>
 
       <!-- Countdown Timer -->
       <div class="flex items-end gap-1 sm:gap-2 md:gap-4">
         <div class="text-center">
           <div class="text-xs sm:text-sm font-medium">Days</div>
-          <div class="text-2xl sm:text-3xl md:text-4xl font-bold">{{ timer.days }}</div>
+          <div class="text-2xl sm:text-3xl md:text-4xl font-bold">
+            {{ timer.days }}
+          </div>
         </div>
         <div class="flex flex-col justify-end gap-1 sm:gap-2 mb-1 sm:mb-2">
-          <div class="rounded-full w-1 h-1 sm:w-1.5 sm:h-1.5 bg-[#E07575]"></div>
-          <div class="rounded-full w-1 h-1 sm:w-1.5 sm:h-1.5 bg-[#E07575]"></div>
+          <div
+            class="rounded-full w-1 h-1 sm:w-1.5 sm:h-1.5 bg-[#E07575]"
+          ></div>
+          <div
+            class="rounded-full w-1 h-1 sm:w-1.5 sm:h-1.5 bg-[#E07575]"
+          ></div>
         </div>
         <div class="text-center">
           <div class="text-xs sm:text-sm font-medium">Hours</div>
-          <div class="text-2xl sm:text-3xl md:text-4xl font-bold">{{ timer.hours }}</div>
+          <div class="text-2xl sm:text-3xl md:text-4xl font-bold">
+            {{ timer.hours }}
+          </div>
         </div>
         <div class="flex flex-col justify-end gap-1 sm:gap-2 mb-1 sm:mb-2">
-          <div class="rounded-full w-1 h-1 sm:w-1.5 sm:h-1.5 bg-[#E07575]"></div>
-          <div class="rounded-full w-1 h-1 sm:w-1.5 sm:h-1.5 bg-[#E07575]"></div>
+          <div
+            class="rounded-full w-1 h-1 sm:w-1.5 sm:h-1.5 bg-[#E07575]"
+          ></div>
+          <div
+            class="rounded-full w-1 h-1 sm:w-1.5 sm:h-1.5 bg-[#E07575]"
+          ></div>
         </div>
         <div class="text-center">
           <div class="text-xs sm:text-sm font-medium">Minutes</div>
-          <div class="text-2xl sm:text-3xl md:text-4xl font-bold">{{ timer.minutes }}</div>
+          <div class="text-2xl sm:text-3xl md:text-4xl font-bold">
+            {{ timer.minutes }}
+          </div>
         </div>
         <div class="flex flex-col justify-end gap-1 sm:gap-2 mb-1 sm:mb-2">
-          <div class="rounded-full w-1 h-1 sm:w-1.5 sm:h-1.5 bg-[#E07575]"></div>
-          <div class="rounded-full w-1 h-1 sm:w-1.5 sm:h-1.5 bg-[#E07575]"></div>
+          <div
+            class="rounded-full w-1 h-1 sm:w-1.5 sm:h-1.5 bg-[#E07575]"
+          ></div>
+          <div
+            class="rounded-full w-1 h-1 sm:w-1.5 sm:h-1.5 bg-[#E07575]"
+          ></div>
         </div>
         <div class="text-center">
           <div class="text-xs sm:text-sm font-medium">Seconds</div>
-          <div class="text-2xl sm:text-3xl md:text-4xl font-bold">{{ timer.seconds }}</div>
+          <div class="text-2xl sm:text-3xl md:text-4xl font-bold">
+            {{ timer.seconds }}
+          </div>
         </div>
       </div>
 
@@ -57,7 +87,11 @@
             stroke="currentColor"
             class="w-5 h-5 sm:w-6 sm:h-6"
           >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"
+            />
           </svg>
         </button>
         <button
@@ -72,7 +106,11 @@
             stroke="currentColor"
             class="w-5 h-5 sm:w-6 sm:h-6"
           >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+            />
           </svg>
         </button>
       </div>
@@ -98,17 +136,13 @@
             spaceBetween: 20,
           },
           1024: {
-            slidesPerView: 3,
+            slidesPerView: 3.5,
             spaceBetween: 25,
           },
           1280: {
-            slidesPerView: 4,
+            slidesPerView: 4.5,
             spaceBetween: 30,
           },
-          1536: {
-            slidesPerView: 5,
-            spaceBetween: 30,
-          }
         }"
         :navigation="{
           nextEl: '.custom-next-button',
@@ -117,6 +151,7 @@
         :modules="[Navigation, Manipulation]"
       >
         <SwiperSlide v-for="(product, i) in products" :key="i">
+          <!-- <ProductCard :product="product" :discount="product.discount" /> -->
           <ProductCard :product="product" :discount="product.discount" />
         </SwiperSlide>
       </Swiper>
@@ -140,7 +175,8 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation, Manipulation } from "swiper/modules";
-import ProductCard from "../homepage/ProductCart.vue";
+// import ProductCard from "../homepage/ProductCart.vue";
+import ProductCard from "../../components/product/ProductCard.vue";
 
 function onSwiperInit(swiper) {
   swiper.navigation.init();
@@ -150,30 +186,30 @@ function onSwiperInit(swiper) {
 // Countdown
 const timer = ref({ days: "03", hours: "23", minutes: "59", seconds: "56" });
 
-const startCountdown = () => {
-  setInterval(() => {
-    const target = new Date();
-    target.setHours(target.getHours() + 24);
-    const now = new Date();
-    const diff = target - now;
+// const startCountdown = () => {
+//   setInterval(() => {
+//     const target = new Date();
+//     target.setHours(target.getHours() + 24);
+//     const now = new Date();
+//     const diff = target - now;
 
-    if (diff > 0) {
-      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const m = Math.floor((diff / (1000 * 60)) % 60);
-      const s = Math.floor((diff / 1000) % 60);
+//     if (diff > 0) {
+//       const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+//       const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+//       const m = Math.floor((diff / (1000 * 60)) % 60);
+//       const s = Math.floor((diff / 1000) % 60);
 
-      timer.value = {
-        days: String(d).padStart(2, "0"),
-        hours: String(h).padStart(2, "0"),
-        minutes: String(m).padStart(2, "0"),
-        seconds: String(s).padStart(2, "0"),
-      };
-    }
-  }, 1000);
-};
+//       timer.value = {
+//         days: String(d).padStart(2, "0"),
+//         hours: String(h).padStart(2, "0"),
+//         minutes: String(m).padStart(2, "0"),
+//         seconds: String(s).padStart(2, "0"),
+//       };
+//     }
+//   }, 1000);
+// };
 
-onMounted(startCountdown);
+// onMounted(startCountdown);
 
 // Product list
 const products = ref([
@@ -185,7 +221,7 @@ const products = ref([
     discount: 40,
     rating: 4,
     reviews: 88,
-    id:1,
+    id: 1,
   },
   {
     title: "AK-900 Wired Keyboard",
@@ -195,7 +231,7 @@ const products = ref([
     discount: 35,
     rating: 4,
     reviews: 75,
-    id:1,
+    id: 1,
   },
   {
     title: "IPS LCD Gaming Monitor",
@@ -205,27 +241,29 @@ const products = ref([
     discount: 30,
     rating: 5,
     reviews: 99,
-    id:1,
+    id: 1,
   },
   {
     title: "S-Series Comfort Chair",
-    image: "./flash_sales_images/sam-moghadam-khamseh-kvmdsTrGOBM-unsplash 1.png",
+    image:
+      "./flash_sales_images/sam-moghadam-khamseh-kvmdsTrGOBM-unsplash 1.png",
     price: 375,
     oldPrice: 500,
     discount: 25,
     rating: 4,
     reviews: 99,
-    id:1,
+    id: 1,
   },
   {
     title: "Another Product",
-    image: "./flash_sales_images/sam-moghadam-khamseh-kvmdsTrGOBM-unsplash 1.png",
+    image:
+      "./flash_sales_images/sam-moghadam-khamseh-kvmdsTrGOBM-unsplash 1.png",
     price: 500,
     oldPrice: 700,
     discount: 28,
     rating: 4,
     reviews: 60,
-    id:1,
+    id: 1,
   },
 ]);
 </script>

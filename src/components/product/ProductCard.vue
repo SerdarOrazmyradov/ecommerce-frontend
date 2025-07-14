@@ -1,10 +1,18 @@
 <template>
-  <div class="max-w-2xs bg-gray-100 h-96 relative group ">
+  <div class="max-w-2xs bg-gray-100 h-96 relative group">
     <!-- discount -->
     <div
+      v-if="product.discount"
       class="absolute top-3 left-3 flex items-center justify-center bg-red-400 rounded-sm text-neutral-50 h-6 w-14 py-1"
     >
       -{{ product.discount }}%
+    </div>
+    <!-- new -->
+    <div
+      v-else-if="isNew"
+      class="absolute top-3 left-3 bg-[#00FF66] text-[#FAFAFA] text-xs sm:text-sm px-3 py-1 rounded-md z-10"
+    >
+      NEW
     </div>
     <!-- heart & wishlist icons -->
 
