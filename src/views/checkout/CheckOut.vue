@@ -22,7 +22,10 @@
       <div class="text-xs lg:text-sm ml-3 cursor-pointer">CheckOut</div>
     </div>
     <!-- body -->
-    <div class="flex flex-col md:flex-row justify-around">
+    <div
+      ref="myDiv"
+      class="md:h-10/12v flex flex-col md:flex-row justify-around"
+    >
       <div class="">
         <div class="text-3xl md:text-4xl font-medium mt-14 md:mt-20">
           Billing Details
@@ -36,28 +39,24 @@
               First Name <span class="text-red-400">*</span>
             </div>
             <input
+              v-model="name"
               name="name"
               class="px-3 w-xs mt-2 h-12 border outline-none rounded-sm shadow-none focus:ring-1 focus:ring-blue-400 transition duration-500"
               type="text"
             />
           </div>
-          <div class="">
-            <div class="text-base text-gray-500">Company Name</div>
-            <input
-              class="px-3 mt-2 w-xs h-12 border outline-none rounded-sm shadow-none focus:ring-1 focus:ring-blue-400 transition duration-500"
-              type="text"
-            />
-          </div>
+
           <div class="">
             <div class="text-base text-gray-500">
               Street Address <span class="text-red-400">*</span>
             </div>
             <input
+              v-model="adress"
               class="px-3 mt-2 w-xs h-12 border outline-none rounded-sm shadow-none focus:ring-1 focus:ring-blue-400 transition duration-500"
               type="text"
             />
           </div>
-          <div class="">
+          <!-- <div class="">
             <div class="text-base text-gray-500">
               Apartment, floor, etc. (optional)
             </div>
@@ -65,21 +64,24 @@
               class="px-3 mt-2 w-xs h-12 border outline-none rounded-sm shadow-none focus:ring-1 focus:ring-blue-400 transition duration-500"
               type="text"
             />
-          </div>
+          </div> -->
           <div class="">
             <div class="text-base text-gray-500">
               Phone Number <span class="text-red-400">*</span>
             </div>
             <input
+              v-model="phone_number"
               class="px-3 mt-2 w-xs h-12 border outline-none rounded-sm shadow-none focus:ring-1 focus:ring-blue-400 transition duration-500"
-              type="text"
+              type="tel"
             />
           </div>
           <div class="">
             <div class="text-base text-gray-500">
-              Email Address <span class="text-red-400">*</span>
+              Note
+              <!-- <span class="text-red-400">*</span> -->
             </div>
             <input
+              v-model="note"
               class="px-3 mt-2 w-xs h-12 border outline-none rounded-sm shadow-none focus:ring-1 focus:ring-blue-400 transition duration-500"
               type="text"
             />
@@ -91,7 +93,7 @@
               id="fast_checkout"
               class="w-6 h-6"
             />
-            <label class="text-base" for="fast_checkout"
+            <label class="text-base cursor-pointer" for="fast_checkout"
               >Save this information for faster check-out next time</label
             >
           </div>
@@ -103,19 +105,23 @@
           <div class="max-w-lg">
             <div class="max-w-md flex flex-col gap-8">
               <!-- first product -->
-              <div class="flex gap-6 items-center">
+              <div
+                v-for="(product, index) in products"
+                :key="index"
+                class="flex gap-6 items-center"
+              >
                 <img
-                  src="../../../public/best_selling/547953_9C2ST_8746_001_082_0000_Light-Gucci-Savoy-medium-duffle-bag 1.png"
+                  :src="IMAGE_BASE_URL + product.main_image"
                   alt="product"
                   class="w-14 h-14"
                 />
                 <div class="flex justify-between flex-1">
-                  <div class="text-base">LCD Monitor</div>
-                  <div class="text-base">$650</div>
+                  <div class="text-base">{{ product.name }}</div>
+                  <div class="text-base">${{ product.price }}</div>
                 </div>
               </div>
               <!-- second product -->
-              <div class="flex gap-6 items-center">
+              <!-- <div class="flex gap-6 items-center">
                 <img
                   src="../../../public/best_selling//672462_ZAH9D_5626_002_100_0000_Light-The-North-Face-x-Gucci-coat 1.png"
                   alt="product"
@@ -125,12 +131,12 @@
                   <div class="text-base">LCD Monitor</div>
                   <div class="text-base">$1100</div>
                 </div>
-              </div>
+              </div> -->
               <!-- subtotal -->
               <div class="flex flex-col gap-4">
                 <div class="flex justify-between flex-1">
                   <div class="text-base">Subtotal:</div>
-                  <div class="text-base">$1750</div>
+                  <div class="text-base">${{ subtotal }}</div>
                 </div>
                 <div class="h-px w-full bg-gray-500"></div>
               </div>
@@ -147,34 +153,42 @@
               <div class="flex flex-col gap-4">
                 <div class="flex justify-between flex-1">
                   <div class="text-base">Total:</div>
-                  <div class="text-base">$1750</div>
+                  <div class="text-base">${{ subtotal }}</div>
                 </div>
               </div>
               <!-- cash -->
               <div class="flex gap-6 sm:justify-between items-center">
                 <div class="flex items-center gap-4">
-                  <input type="radio" class="w-6 h-6" />
-                  <div>Bank</div>
+                  <input
+                    v-model="payment_type"
+                    name="myRadioGroup"
+                    value="card"
+                    id="bank"
+                    type="radio"
+                    class="w-6 h-6 accent-black"
+                  />
+                  <label class="cursor-pointer" for="bank">Bank</label>
                 </div>
+                <!-- bank images -->
                 <div class="flex gap-2 h-10 items-center">
                   <img
                     src="../../../public/bcash/image 30.png"
-                    class="cursor-pointer"
+                    class=""
                     alt=""
                   />
                   <img
                     src="../../../public/bcash/image 31.png"
-                    class="cursor-pointer"
+                    class=""
                     alt=""
                   />
                   <img
                     src="../../../public/bcash/image 32.png"
-                    class="cursor-pointer"
+                    class=""
                     alt=""
                   />
                   <img
                     src="../../../public/bcash/image 33.png"
-                    class="cursor-pointer"
+                    class=""
                     alt=""
                   />
                 </div>
@@ -183,12 +197,16 @@
               <div class="flex sm:justify-between items-center">
                 <div class="flex items-center gap-4">
                   <input
+                    v-model="payment_type"
+                    name="myRadioGroup"
+                    value="cash"
+                    id="cash_on_delivary"
                     type="radio"
-                    style="accent-color: #000"
-                    checked="true"
-                    class="w-6 h-6"
+                    class="w-6 h-6 accent-black"
                   />
-                  <div>Cash on delivery</div>
+                  <label class="cursor-pointer" for="cash_on_delivary"
+                    >Cash on delivery</label
+                  >
                 </div>
               </div>
             </div>
@@ -203,14 +221,15 @@
               class="text-sm md:text-base py-2 md:py-4 focus:ring-1 duration-500 transition outline-none border rounded-sm pl-4 md:pl-6"
             />
             <div
-              class="hover:bg-red-300 cursor-pointer text-sm md:text-base py-2 md:py-4 bg-red-400 rounded-sm flex items-center justify-center w-40 md:w-44 text-neutral-50"
+              class="select-none hover:bg-red-300 cursor-pointer text-sm md:text-base py-2 md:py-4 bg-red-400 rounded-sm flex items-center justify-center w-40 md:w-44 text-neutral-50"
             >
               Apply Coupon
             </div>
           </div>
           <!-- place order -->
           <div
-            class="w-44 md:w-xs text-sm md:text-base font-medium bg-red-400 py-2 md:py-4 text-neutral-50 rounded-sm flex items-center justify-center"
+            @click="placeOrder()"
+            class="select-none hover:bg-red-300 cursor-pointer w-44 md:w-xs text-sm md:text-base font-medium bg-red-400 py-2 md:py-4 text-neutral-50 rounded-sm flex items-center justify-center"
           >
             Place Order
           </div>
@@ -220,8 +239,111 @@
   </div>
 </template>
 
-<script>
-export default {};
+<script setup>
+import { computed, onMounted, ref } from "vue";
+const BASE_URL = "http://localhost:3000/";
+const IMAGE_BASE_URL = "http://localhost:3000/uploads/images/";
+const myDiv = ref(null);
+const products = ref([]);
+const status = ref("pending");
+const name = ref("");
+const phone_number = ref("");
+const adress = ref("abcd++");
+const note = ref("abcdef");
+// ↓ ↓ ↓ ↓ ↓ ↓ ↓ -şuny localStorage-de saklamaly
+const total_quantity = ref(2);
+const total_price = ref(4000);
+const payment_type = ref("cash");
+const order_items = ref(
+  "'{\n  'products': [\n    { 'id': 1, 'count': 2 },\n    { 'id': 2, 'count': 3 }\n  ]\n}'"
+);
+
+const subtotal = computed(() =>
+  products.value.reduce(
+    (acc, product) => acc + product.price * product.count,
+    0
+  )
+);
+
+const getCartProducts = () => {
+  products.value = JSON.parse(localStorage.getItem("cartProducts" || []));
+};
+const setOrderItems = () => {
+  order_items.value = JSON.parse(localStorage.getItem("cartProducts" || []));
+
+  order_items.value.forEach((element) => {
+    delete element.category_id;
+    delete element.category_name;
+    delete element.created_at;
+    delete element.description;
+    delete element.discount;
+    delete element.main_image;
+    delete element.name;
+    delete element.oldprice;
+    delete element.price;
+    delete element.rating;
+    delete element.stock;
+    delete element.total_count;
+  });
+};
+
+const placeOrder = () => {
+  const token = localStorage.getItem("token");
+  const postData = {
+    status: status.value,
+    name: name.value,
+    phone_number: phone_number.value,
+    adress: adress.value,
+    note: note.value,
+    total_quantity: total_quantity.value,
+    total_price: subtotal.value,
+    payment_type: payment_type.value,
+    order_items: JSON.stringify({
+      products: order_items.value,
+    }),
+  };
+  console.log("iberiljek maglumatlar ", postData);
+
+  fetch(BASE_URL + "user/api/create-order", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(postData),
+  })
+    .then((response) => {
+      // if (!response.ok) {
+      //   throw new Error(`HTTP error! status: ${response.status}`);
+      // }
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+      if (data.success) {
+        // redirect
+      } else {
+      }
+    })
+    .catch((error) => {
+      console.error("Error detected -!!! : ", error);
+    });
+};
+
+onMounted(() => {
+  setOrderItems();
+  getCartProducts();
+  console.log("product sany", products.value.length);
+  if (window.innerWidth > 768) {
+    if (products.value.length > 2) {
+      myDiv.value.style.height =
+        String(myDiv.value.clientHeight + (products.value.length - 2) * 200) +
+        "px";
+
+      // console.log("current height ", myDiv.value.clientHeight);
+    }
+  }
+});
 </script>
 
 <style lang="scss" scoped></style>

@@ -178,6 +178,8 @@ import { Navigation, Manipulation } from "swiper/modules";
 // import ProductCard from "../homepage/ProductCart.vue";
 import ProductCard from "../../components/product/ProductCard.vue";
 
+const BASE_URL = "http://localhost:3000/";
+
 function onSwiperInit(swiper) {
   swiper.navigation.init();
   swiper.navigation.update();
@@ -217,7 +219,7 @@ const products = ref([
     title: "HAVIT HV-G92 Gamepad",
     image: "./flash_sales_images/g92-2-500x500 1.png",
     price: 120,
-    oldPrice: 160,
+    oldprice: 160,
     discount: 40,
     rating: 4,
     reviews: 88,
@@ -227,7 +229,7 @@ const products = ref([
     title: "AK-900 Wired Keyboard",
     image: "./flash_sales_images/Frame 612.png",
     price: 960,
-    oldPrice: 1160,
+    oldprice: 1160,
     discount: 35,
     rating: 4,
     reviews: 75,
@@ -237,7 +239,7 @@ const products = ref([
     title: "IPS LCD Gaming Monitor",
     image: "./flash_sales_images/g27cq4-500x500 1.png",
     price: 370,
-    oldPrice: 400,
+    oldprice: 400,
     discount: 30,
     rating: 5,
     reviews: 99,
@@ -248,7 +250,7 @@ const products = ref([
     image:
       "./flash_sales_images/sam-moghadam-khamseh-kvmdsTrGOBM-unsplash 1.png",
     price: 375,
-    oldPrice: 500,
+    oldprice: 500,
     discount: 25,
     rating: 4,
     reviews: 99,
@@ -259,13 +261,40 @@ const products = ref([
     image:
       "./flash_sales_images/sam-moghadam-khamseh-kvmdsTrGOBM-unsplash 1.png",
     price: 500,
-    oldPrice: 700,
+    oldprice: 700,
     discount: 28,
     rating: 4,
     reviews: 60,
     id: 1,
   },
 ]);
+onMounted(() => {
+  fetch(BASE_URL + "guest/api/get-products", {
+    method: "GET",
+    // headers: {
+    //   Authorization: `Bearer ${token}`,
+    // },
+  })
+    .then((response) => {
+      // if (!response.ok) {
+      //   throw new Error(`HTTP error! status: ${response.status}`);
+      // }
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+      if (data.success) {
+        products.value = data.data;
+        // redirect
+      } else {
+        console.log("success false :res status 200");
+        console.log("res : ", data);
+      }
+    })
+    .catch((error) => {
+      console.error("Error detected -!!! : ", error);
+    });
+});
 </script>
 
 <style scoped>

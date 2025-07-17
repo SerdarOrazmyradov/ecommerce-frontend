@@ -1,9 +1,9 @@
 <template>
-  <div class="max-w-2xs bg-gray-100 h-96 relative group">
+  <div class="cursor-pointer max-w-2xs bg-gray-100 h-96 relative group">
     <!-- discount -->
     <div
       v-if="product.discount"
-      class="absolute top-3 left-3 flex items-center justify-center bg-red-400 rounded-sm text-neutral-50 h-6 w-14 py-1"
+      class="select-none absolute top-3 left-3 flex items-center justify-center bg-red-400 rounded-sm text-neutral-50 h-6 w-14 py-1"
     >
       -{{ product.discount }}%
     </div>
@@ -18,7 +18,12 @@
 
     <!-- Action Buttons -->
     <div class="absolute top-3 right-3 flex flex-col gap-2 z-10">
+      <!-- heart -->
       <button
+        @click="
+          useLikedStore.setCountVal(useLikedStore.count + 1);
+          addLikedProduct(product);
+        "
         class="w-8 h-8 sm:w-9 sm:h-9 flex justify-center items-center rounded-full bg-white hover:bg-gray-100 transition-colors duration-200 shadow-sm cursor-pointer"
         aria-label="Add to wishlist"
       >
@@ -37,6 +42,7 @@
           />
         </svg>
       </button>
+      <!-- eye icon -->
       <button
         class="w-8 h-8 sm:w-9 sm:h-9 flex justify-center items-center rounded-full bg-white hover:bg-gray-100 transition-colors duration-200 shadow-sm cursor-pointer"
         aria-label="Quick view"
@@ -63,31 +69,44 @@
       </button>
     </div>
 
-    <!-- image -->
-    <div class="absolute top-0 left-0 w-full">
+    <div class="select-none absolute top-0 left-0 w-full">
+      <!-- image -->
       <img
-        :src="product.image"
+        @click="
+          router.replace({
+            name: 'product_details',
+            params: { id: product.id },
+          })
+        "
+        :src="'http://localhost:3000/uploads/images/' + product.main_image"
         alt="product image "
         class="w-42 h-36 mt-9 mx-auto"
       />
       <!-- add to cart button -->
       <div
+        @click="
+          useCartQuentityStore.setCountVal(useCartQuentityStore.count + 1);
+          addCartProduct(product);
+        "
         class="bg-black w-full h-10 rounded-bl-sm rounded-br-sm text-base text-neutral-50 font-medium flex items-center justify-center mt-3 py-px cursor-pointer hover:bg-black/80 opacity-0 group-hover:opacity-100 transition duration-300"
       >
         Add To Cart
       </div>
       <!-- title & price & review-->
       <div class="mt-4 flex flex-col gap-2">
-        <div class="text-base font-medium">{{ product.title }}</div>
+        <div class="text-base font-medium">{{ product.name }}</div>
         <div class="flex gap-2 md:gap-3">
           <div class="text-base text-red-400 font-medium">
             ${{ product.price }}
           </div>
-          <div class="line-through text-base text-gray-600 font-medium">
-            ${{ product.oldPrice }}
+          <div
+            v-if="product.oldprice"
+            class="line-through text-base text-gray-600 font-medium"
+          >
+            ${{ product.oldprice }}
           </div>
         </div>
-        <div class="flex gap-1">
+        <div v-if="product.rating" class="flex gap-1">
           <i
             v-for="(n, index) in 5"
             :key="index"
@@ -105,8 +124,42 @@
 
 <script setup>
 import { defineProps } from "vue";
+import { useLiked, useCartQuentity } from "../../stores/stores";
+import { useRoute, useRouter } from "vue-router";
 
-defineProps({
+const router = useRouter();
+const route = useRoute();
+const useLikedStore = useLiked();
+const useCartQuentityStore = useCartQuentity();
+
+const addLikedProduct = (prod) => {
+  let likedProducts = JSON.parse(localStorage.getItem("likedProducts"));
+
+  if (likedProducts == null) likedProducts = [];
+  let product = {};
+  product[product] = prod;
+
+  likedProducts.push(product);
+  localStorage.setItem("likedProducts", JSON.stringify(likedProducts));
+};
+
+const addCartProduct = (prod) => {
+  let cartProducts = JSON.parse(localStorage.getItem("cartProducts") || "[]");
+
+  // Bar bolsa count-y artdyr, ýok bolsa täze goş
+  let existingProduct = cartProducts.find((p) => p.id === prod.id);
+
+  if (existingProduct) {
+    existingProduct.count += 1;
+  } else {
+    prod.count = 1;
+    cartProducts.push(prod);
+  }
+
+  localStorage.setItem("cartProducts", JSON.stringify(cartProducts));
+};
+
+const props = defineProps({
   product: { type: Object },
 });
 </script>

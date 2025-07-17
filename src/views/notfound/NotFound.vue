@@ -22,11 +22,12 @@
           Your visited page not found. You may go home page.
         </div>
         <!-- back to home button -->
-        <div
+        <router-link
+          :to="{ name: 'home' }"
           class="mb-28 sm:mb-32 md:mb-40 self-center cursor-pointer mt-6 md:mt-10 w-56 bg-red-400 rounded-sm md:w-64 py-2 md:py-4 h-11 md:h-14 text-neutral-50 flex items-center justify-center hover:bg-red-300"
         >
           Back to home page
-        </div>
+        </router-link>
       </div>
     </div>
   </div>

@@ -1,6 +1,15 @@
 <template>
   <div class="mt-10 flex justify-around mb-4 max-w-[1170px] mx-auto">
-    <div class="text-2xl font-bold">Exclusive</div>
+    <div
+      @click="
+        router.replace({
+          name: 'home',
+        })
+      "
+      class="cursor-pointer select-none text-2xl font-bold"
+    >
+      Exclusive
+    </div>
     <div class="hidden text-base lg:flex lg:gap-10 xl:gap-12 items-center">
       <router-link :to="{ name: 'home' }" class="hover:underline cursor-pointer"
         >Home</router-link
@@ -60,11 +69,19 @@
         </div>
       </div>
       <!-- hearth -->
-      <div class="relative">
+      <div
+        @click="
+          router.replace({
+            name: 'cart',
+          })
+        "
+        class="relative cursor-pointer"
+      >
         <div
-          class="absolute w-4 h-4 bg-red-400 -top-1 -right-1 text-neutral-50 rounded-full flex justify-center items-center text-xs"
+          class="select-none absolute w-4 h-4 bg-red-400 -top-1 -right-1 text-neutral-50 rounded-full flex justify-center items-center text-xs"
+          :class="useLikedStore.count == 0 ? 'hidden' : 'flex'"
         >
-          2
+          {{ useLikedStore.count }}
         </div>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -82,11 +99,21 @@
         </svg>
       </div>
       <!-- cart -->
-      <div class="relative">
+      <div
+        @click="
+          console.log('salam from  cart icon');
+
+          router.replace({
+            name: 'cart',
+          });
+        "
+        class="cursor-pointer relative"
+      >
         <div
-          class="absolute w-4 h-4 bg-red-400 -top-1 -right-1 text-neutral-50 rounded-full flex justify-center items-center text-xs"
+          class="select-none absolute w-4 h-4 bg-red-400 -top-1 -right-1 text-neutral-50 rounded-full flex justify-center items-center text-xs"
+          :class="useCartQuentityStore.count == 0 ? 'hidden' : 'flex'"
         >
-          2
+          {{ useCartQuentityStore.count }}
         </div>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -152,7 +179,7 @@
   <transition name="fade">
     <div
       v-if="showMobileNavbar"
-      class="block lg:hidden fixed top-12 w-screen h-screen bg-white z-40 overflow-y-auto"
+      class="block  lg:hidden fixed top-12 w-screen h-screen bg-white z-40 overflow-y-auto"
     >
       <!-- close button -->
       <div
@@ -283,7 +310,7 @@
         <div
           v-for="category in categories"
           :key="category"
-          class="flex justify-between items-center group cursor-pointer text-xs"
+          class="mb-2 sm:mb-3 md:mb-4 flex justify-between items-center group cursor-pointer text-xs"
         >
           <span class="group-hover:text-[#DB4444] transition-colors">{{
             category
@@ -298,6 +325,14 @@
 
 <script setup>
 import { ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { useLiked, useCartQuentity } from "../../stores/stores";
+
+const useLikedStore = useLiked();
+const useCartQuentityStore = useCartQuentity();
+
+const router = useRouter();
+const route = useRoute();
 const showMobileNavbar = ref(false);
 const toggleMobileNavbar = () => {
   showMobileNavbar.value = !showMobileNavbar.value;

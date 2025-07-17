@@ -239,7 +239,7 @@ const signUpFn = (username, password) => {
     .then((data) => {
       console.log(data);
       if (data.success) {
-        // redire
+        // redirect
         isVisiable.value = true;
         isCompleted.value = true;
 

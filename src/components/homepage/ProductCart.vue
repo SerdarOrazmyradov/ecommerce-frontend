@@ -100,10 +100,10 @@
           ${{ product.price }}
         </span>
         <span
-          v-if="product.oldPrice"
+          v-if="product.oldprice"
           class="line-through text-[#7F7F7F] text-xs sm:text-sm"
         >
-          ${{ product.oldPrice }}
+          ${{ product.oldprice }}
         </span>
       </div>
 

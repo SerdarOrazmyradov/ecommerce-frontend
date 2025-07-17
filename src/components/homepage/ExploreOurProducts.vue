@@ -141,7 +141,8 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation, Manipulation } from "swiper/modules";
 
-import ProductCard from "../../components/homepage/ProductCart.vue";
+// import ProductCard from "../../components/homepage/ProductCart.vue";
+import ProductCard from "../../components/product/ProductCard.vue";
 import { ref } from "vue";
 
 const products = ref([
@@ -149,7 +150,7 @@ const products = ref([
     title: "HAVIT HV-G92 Gamepad",
     image: "http://localhost:5173/our_products/71RdoeXxtrL 1.png",
     price: 120,
-    oldPrice: 160,
+    oldprice: 160,
     discount: 40,
     rating: 4,
     reviews: 88,
@@ -159,7 +160,7 @@ const products = ref([
     title: "AK-900 Wired Keyboard",
     image: "http://localhost:5173/our_products/eos-250d-03-500x500 1.png",
     price: 960,
-    oldPrice: 1160,
+    oldprice: 1160,
     discount: 35,
     rating: 4,
     reviews: 75,
@@ -170,7 +171,7 @@ const products = ref([
     image:
       "http://localhost:5173/our_products/ideapad-gaming-3i-01-500x500 1.png",
     price: 370,
-    oldPrice: 400,
+    oldprice: 400,
     discount: 30,
     rating: 5,
     reviews: 99,
@@ -181,7 +182,7 @@ const products = ref([
     image:
       "http://localhost:5173/flash_sales_images/sam-moghadam-khamseh-kvmdsTrGOBM-unsplash 1.png",
     price: 375,
-    oldPrice: 500,
+    oldprice: 500,
     discount: 25,
     rating: 4,
     reviews: 99,
@@ -195,7 +196,7 @@ const products1 = ref([
     image:
       "http://localhost:5173/our_products/New-Mercedes-Benz-Gtr-Licensed-Ride-on-Car-Kids-Electric-Toy-Car 1.png",
     price: 120,
-    oldPrice: 160,
+    oldprice: 160,
     discount: 40,
     rating: 4,
     reviews: 88,
@@ -206,7 +207,7 @@ const products1 = ref([
     title: "AK-900 Wired Keyboard",
     image: "http://localhost:5173/our_products/Copa_Sense 1.png",
     price: 960,
-    oldPrice: 1160,
+    oldprice: 1160,
     discount: 35,
     rating: 4,
     reviews: 75,
@@ -217,7 +218,7 @@ const products1 = ref([
     title: "IPS LCD Gaming Monitor",
     image: "http://localhost:5173/our_products/GP11_PRD3 1.png",
     price: 370,
-    oldPrice: 400,
+    oldprice: 400,
     discount: 30,
     rating: 5,
     reviews: 99,
@@ -229,7 +230,7 @@ const products1 = ref([
     image:
       "http://localhost:5173/our_products/698717_Z8A1X_3475_001_100_0000_Light-Reversible-quilted-satin-jacket 1.png",
     price: 375,
-    oldPrice: 500,
+    oldprice: 500,
     discount: 25,
     rating: 4,
     reviews: 99,

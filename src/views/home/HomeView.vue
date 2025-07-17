@@ -11,7 +11,7 @@
     </div>
 
     <div class="max-w-[1170px] h-[1px] bg-[#B3B3B3] mx-auto my-[70px]"></div>
-    <div class="p-3">
+    <div class="p-3 max-w-6xl mx-auto">
       <BestSelling />
     </div>
 
@@ -21,7 +21,7 @@
     <div class="p-3">
       <ExploreOurProducts />
     </div>
-    
+
     <div class="p-3">
       <NewArrival />
     </div>
@@ -38,7 +38,6 @@
     28px-3xl -->
     <ScrollToTopButton />
     <!-- <NewScrollUpButton /> -->
-   
   </div>
 </template>
 
@@ -55,6 +54,9 @@ import NewArrival from "../../components/homepage/NewArrival.vue";
 import ServiceComponent from "../../components/homepage/ServiceComponent.vue";
 import ScrollToTopButton from "../../components/homepage/ScrollToTopButton.vue";
 import NewScrollUpButton from "../../components/homepage/NewScrollUpButton.vue";
+import { useLiked } from "../../stores/stores";
+
+const useLikedStore = useLiked();
 </script>
 
 <style scoped></style>

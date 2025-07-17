@@ -268,7 +268,7 @@ const loginFn = (username, password) => {
         // Get a cookie
         // const value = this.$cookie.get('myKey'); // For vue-cookie
 
-        // redire
+        // redirect
       } else {
         isVisiable.value = false;
         error_username.value = data.message;

@@ -1,56 +1,77 @@
 <template>
-  <div>
+  <!-- <div
+    class="w-full h-full flex items-center justify-center z-10  fixed backdrop-blur-xs "
+  >
+    <img
+      :src="IMAGE_BASE_URL + product.main_image"
+      alt="modal image"
+      class=""
+    />
+  </div> -->
+
+  <!-- <LightBox :media="[
+  { // For image
+    thumb: 'http://example.com/thumb.jpg',
+    src: 'http://example.com/image.jpg',
+    caption: 'caption to display. receive <html> <b>tag</b>', // Optional
+    srcset: '...' // Optional for displaying responsive images
+  },
+  { // For video
+    thumb: 'https://s3-us-west-1.amazonaws.com/powr/defaults/image-slider2.jpg',
+    sources: [
+      {
+        src: 'https://www.w3schools.com/html/mov_bbb.mp4',
+        type: 'video/mp4'
+      }
+    ],
+    type: 'video',
+    caption: '<h4>Monsters Inc.</h4>',
+    width: 800, // required
+    height: 600, // required
+    autoplay: true //Optional to autoplay video when lightbox opens
+  }]"
+  ></LightBox> -->
+  <div class="">
     <div class="bg-black h-px"></div>
     <div class="container px-1 md:px-4 xl:px-7 mx-auto">
       <!-- header -->
       <div class="mt-20 h-5 py-px flex items-center">
-        <div class="text-xs lg:text-sm ml-2 sm:ml-3 text-gray-500 cursor-pointer">
+        <div
+          class="text-xs lg:text-sm ml-2 sm:ml-3 text-gray-500 cursor-pointer"
+        >
           Account
         </div>
-        <div class="h-3.5 w-[1px] ml-2 sm:ml-3 bg-gray-500 rotate-[30grad]"></div>
-        <div class="text-xs lg:text-sm ml-2 sm:ml-3 text-gray-500 cursor-pointer">
+        <div
+          class="h-3.5 w-[1px] ml-2 sm:ml-3 bg-gray-500 rotate-[30grad]"
+        ></div>
+        <div
+          class="text-xs lg:text-sm ml-2 sm:ml-3 text-gray-500 cursor-pointer"
+        >
           Gaming
         </div>
-        <div class="h-3.5 w-[1px] ml-2 sm:ml-3 bg-gray-500 rotate-[30grad]"></div>
+        <div
+          class="h-3.5 w-[1px] ml-2 sm:ml-3 bg-gray-500 rotate-[30grad]"
+        ></div>
         <div class="text-xs lg:text-sm ml-3 cursor-pointer">
-          Havic HV G-92 Gamepad
+          {{ product.name }}
         </div>
       </div>
 
       <div class="mt-20 mb-40 flex flex-col lg:flex-row gap-4">
         <div class="hidden lg:flex lg:flex-col gap-4">
           <div
+            v-for="(image, index) in product_images"
+            :key="index"
             class="w-40 h-32.5 bg-gray-100 rounded-sm flex justify-center items-center"
           >
             <img
-              src="../../../public/details/image 57.png"
-              alt="practising"
-              class="cursor-pointer"
-            />
-          </div>
-          <div
-            class="w-40 h-32.5 bg-gray-100 rounded-sm flex justify-center items-center"
-          >
-            <img
-              src="../../../public/details/image 58.png"
-              alt="practising"
-              class="cursor-pointer"
-            />
-          </div>
-          <div
-            class="w-40 h-32.5 bg-gray-100 rounded-sm flex justify-center items-center"
-          >
-            <img
-              src="../../../public/details/image 61.png"
-              alt="practising"
-              class="cursor-pointer"
-            />
-          </div>
-          <div
-            class="w-40 h-32.5 bg-gray-100 rounded-sm flex justify-center items-center"
-          >
-            <img
-              src="../../../public/details/image 59.png"
+              @click="
+                console.log(
+                  'basylan iamge-in path-y ',
+                  IMAGE_BASE_URL + image.img_path
+                )
+              "
+              :src="IMAGE_BASE_URL + image.img_path"
               alt="practising"
               class="cursor-pointer"
             />
@@ -60,7 +81,13 @@
           class="hidden lg:flex flex-1 lg:w-full bg-gray-100 items-center justify-center rounded-sm"
         >
           <img
-            src="../../../public/details/image 63.png"
+            @click="
+              console.log(
+                'basylan iamge-in path-y ',
+                IMAGE_BASE_URL + product.main_image
+              )
+            "
+            :src="IMAGE_BASE_URL + product.main_image"
             alt="practising"
             class="mx-auto cursor-pointer"
           />
@@ -68,37 +95,18 @@
         <div class="flex gap-4">
           <div class="flex flex-col lg:hidden gap-4">
             <div
+              v-for="(image, index) in product_images"
+              :key="index"
               class="w-40 h-32.5 bg-gray-100 rounded-sm flex justify-center items-center"
             >
               <img
-                src="../../../public/details/image 57.png"
-                alt="practising"
-                class="cursor-pointer"
-              />
-            </div>
-            <div
-              class="w-40 h-32.5 bg-gray-100 rounded-sm flex justify-center items-center"
-            >
-              <img
-                src="../../../public/details/image 58.png"
-                alt="practising"
-                class="cursor-pointer"
-              />
-            </div>
-            <div
-              class="w-40 h-32.5 bg-gray-100 rounded-sm flex justify-center items-center"
-            >
-              <img
-                src="../../../public/details/image 61.png"
-                alt="practising"
-                class="cursor-pointer"
-              />
-            </div>
-            <div
-              class="w-40 h-32.5 bg-gray-100 rounded-sm flex justify-center items-center"
-            >
-              <img
-                src="../../../public/details/image 59.png"
+                @click="
+                  console.log(
+                    'basylan iamge-in path-y ',
+                    IMAGE_BASE_URL + image.img_path
+                  )
+                "
+                :src="IMAGE_BASE_URL + image.img_path"
                 alt="practising"
                 class="cursor-pointer"
               />
@@ -108,7 +116,13 @@
             class="lg:hidden flex flex-1 lg:w-full bg-gray-100 items-center justify-center rounded-sm"
           >
             <img
-              src="../../../public/details/image 63.png"
+              @click="
+                console.log(
+                  'basylan iamge-in path-y ',
+                  IMAGE_BASE_URL + product.main_image
+                )
+              "
+              :src="IMAGE_BASE_URL + product.main_image"
               alt="practising"
               class="mx-auto cursor-pointer"
             />
@@ -116,14 +130,14 @@
         </div>
         <div class="flex flex-col gap-4">
           <div class="text-xl lg:text-2xl font-semibold">
-            Havic HV G-92 Gamepad
+            {{ product.name }}
           </div>
           <div class="flex items-center gap-2">
             <!-- stars -->
             <div class="flex text-yellow-500">
               <template v-for="n in 5" :key="n"
                 ><i
-                  :class="n < Math.round(5) ? 'fas fa-star ' : 'far fa-star'"
+                  :class="n < Math.round(4) ? 'fas fa-star ' : 'far fa-star'"
                   class="sm:text-sm text-xs"
                 ></i>
               </template>
@@ -133,13 +147,19 @@
             <!-- line -->
             <div class="h-4 w-px bg-gray-500 ml-2"></div>
             <!-- stock -->
-            <div class="ml-2 text-xs lg:text-sm text-[#00FF66]">In Stock</div>
+            <div
+              v-if="product.stock > 0"
+              class="ml-2 text-xs lg:text-sm text-[#00FF66]"
+            >
+              In Stock
+            </div>
+            <div v-else class="ml-2 text-xs lg:text-sm text-red-400 text-left">
+              In Stock
+            </div>
           </div>
-          <div class="text-2xl">$192.00</div>
-          <div class="text-xs lg:text-sm pt-2">
-            PlayStation 5 Controller Skin High quality vinyl with air <br />
-            channel adhesive for easy bubble free install & mess <br />
-            free removal Pressure sensitive.
+          <div class="text-2xl">${{ product.price }}</div>
+          <div class="text-xs lg:text-sm pt-2 break-normal max-w-96">
+            {{ product.description }}
           </div>
           <div class="w-full mt-2 h-px bg-black/90"></div>
           <!-- colors -->
@@ -147,11 +167,15 @@
             <div class="text-lg lg:text-xl">Colours:</div>
             <div class="flex gap-2 items-center">
               <input
+                name="myRadioGroup1"
                 type="radio"
-                checked="true"
-                class="w-5 h-5 rounded-full bg-black cursor-pointer accent-neutral-50"
+                class=" appearance-none rounded-full w-5 h-5 cursor-pointer border-4 accent-neutral-50 border-black transition-all"
               />
-              <div class="w-5 h-5 rounded-full bg-red-400 cursor-pointer"></div>
+              <input
+                name="myRadioGroup1"
+                type="radio"
+                class=" appearance-none rounded-full w-5 h-5 cursor-pointer border-4 accent-neutral-50 bg-red-400  transition-all"
+              />
             </div>
           </div>
           <!-- size -->
@@ -171,31 +195,6 @@
               >
                 {{ size }}
               </div>
-              <!-- <div
-                class="w-5 h-5 md:w-7 md:h-7 lg:w-9 lg:h-9 rounded-sm flex items-center justify-center text-xs lg:text-sm border cursor-pointer"
-              >
-                XS
-              </div>
-              <div
-                class="w-5 h-5 md:w-7 md:h-7 lg:w-9 lg:h-9 rounded-sm flex items-center justify-center text-xs lg:text-sm border cursor-pointer"
-              >
-                S
-              </div>
-              <div
-                class="w-5 h-5 md:w-7 md:h-7 lg:w-9 lg:h-9 rounded-sm flex items-center justify-center text-xs lg:text-sm border cursor-pointer bg-red-400 border-red-400 text-neutral-50"
-              >
-                M
-              </div>
-              <div
-                class="w-5 h-5 md:w-7 md:h-7 lg:w-9 lg:h-9 rounded-sm flex items-center justify-center text-xs lg:text-sm border cursor-pointer"
-              >
-                L
-              </div>
-              <div
-                class="w-5 h-5 md:w-7 md:h-7 lg:w-9 lg:h-9 rounded-sm flex items-center justify-center text-xs lg:text-sm border cursor-pointer"
-              >
-                XL
-              </div> -->
             </div>
           </div>
           <!-- quantity -->
@@ -289,11 +288,11 @@
                   alt="icon delivary"
                 />
                 <div class="flex flex-col gap-2">
-                  <div class="text-sm lg:text-base font-medium">
+                  <div class="select-none text-sm lg:text-base font-medium">
                     Free Delivery
                   </div>
                   <div
-                    class="underline text-xs/4 lg:text-xs font-medium cursor-pointer"
+                    class="select-none underline text-xs/4 lg:text-xs font-medium cursor-pointer"
                   >
                     Enter your postal code for Delivery Availability
                   </div>
@@ -309,10 +308,10 @@
                   alt="icon delivary"
                 />
                 <div class="flex flex-col gap-2">
-                  <div class="text-sm lg:text-base font-medium">
+                  <div class="select-none text-sm lg:text-base font-medium">
                     Return Delivery
                   </div>
-                  <div class="text-xs/4 lg:text-xs font-medium">
+                  <div class="select-none text-xs/4 lg:text-xs font-medium">
                     Free 30 Days Delivery Returns.
                     <span class="underline text-xs font-medium cursor-pointer">
                       Details</span
@@ -326,122 +325,27 @@
       </div>
     </div>
     <!-- related item -->
-    <div class="h-vh container mx-auto px-1 md:px-4 xl:px-7">
-      <!-- header -->
-
-      <div class="flex flex-col mx-auto max-w-6xl">
-        <div class="flex items-center mb-[24px]">
-          <div class="bg-[#DB4444] w-[20px] h-[40px] rounded-[4px]"></div>
-          <div class="text-[#DB4444] text-[16px] ml-[16px]">Related Item</div>
-        </div>
-        <!-- swiper buttons -->
-        <div class="flex-1 flex justify-end" style="align-self: flex-end">
-          <div class="w-[100px] h-[46px] flex gap-[8px]">
-            <!--prev button  -->
-            <div
-              class="w-[46px] h-[46px] bg-[#F5F5F5] rounded-full flex justify-center items-center custom3-prev-button"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="size-6"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"
-                />
-              </svg>
-            </div>
-            <!-- next button -->
-            <div
-              class="w-[46px] h-[46px] bg-[#F5F5F5] rounded-full flex justify-center items-center custom3-next-button"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="size-6"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
-                />
-              </svg>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- swiper -->
-
-      <Swiper
-        :navigation="{
-          nextEl: '.custom3-next-button',
-          prevEl: '.custom3-prev-button',
-        }"
-        :slides-per-view="4"
-        :space-between="30"
-        :breakpoints="{
-          0: {
-            slidesPerView: 1.2,
-            spaceBetween: 10,
-          },
-          480: {
-            slidesPerView: 1.3,
-            spaceBetween: 20,
-          },
-          640: {
-            slidesPerView: 2,
-            spaceBetween: 25,
-          },
-          768: {
-            slidesPerView: 3,
-            spaceBetween: 25,
-          },
-          1024: {
-            slidesPerView: 4,
-            spaceBetween: 30,
-          },
-        }"
-        :modules="[Navigation, Manipulation]"
-        grabCursor
-        class="mx-auto max-w-6xl"
-      >
-        <SwiperSlide
-          v-for="(product, i) in products"
-          :key="i"
-          class="transition duration-300 w-auto"
-          style="box-sizing: border-box"
-        >
-          <productcard :product="product"></productcard>
-        </SwiperSlide>
-      </Swiper>
-    </div>
+    <RelatedItem :products="products" />
   </div>
 </template>
 
 <script setup>
-import { Navigation, Manipulation } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/vue";
-import "swiper/css";
-import "swiper/css/navigation";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
-import productcard from "../../components/product/ProductCard.vue";
+import { useRoute, useRouter } from "vue-router";
+import { onMounted } from "vue";
+// import LightBox from 'vue-image-lightbox'
+import RelatedItem from "../../components/product/RelatedItem.vue";
+
+const BASE_URL = "http://localhost:3000/";
+const IMAGE_BASE_URL = "http://localhost:3000/uploads/images/";
 const products = ref([
   {
     title: "HAVIT HV-G92 Gamepad",
     image:
       "http://localhost:5173/best_selling/672462_ZAH9D_5626_002_100_0000_Light-The-North-Face-x-Gucci-coat 1.png",
     price: 120,
-    oldPrice: 160,
+    oldprice: 160,
     discount: 40,
     rating: 4,
     reviews: 88,
@@ -452,7 +356,7 @@ const products = ref([
     image:
       "http://localhost:5173/best_selling/547953_9C2ST_8746_001_082_0000_Light-Gucci-Savoy-medium-duffle-bag 1.png",
     price: 960,
-    oldPrice: 1160,
+    oldprice: 1160,
     discount: 35,
     rating: 4,
     reviews: 75,
@@ -463,7 +367,7 @@ const products = ref([
     image:
       "http://localhost:5173/best_selling/gammaxx-l240-argb-1-500x500 1.png",
     price: 370,
-    oldPrice: 400,
+    oldprice: 400,
     discount: 30,
     rating: 5,
     reviews: 99,
@@ -474,17 +378,89 @@ const products = ref([
     image:
       "http://localhost:5173/best_selling/sam-moghadam-khamseh-L_7MQsHl_aU-unsplash 1.png",
     price: 375,
-    oldPrice: 500,
+    oldprice: 500,
     discount: 25,
     rating: 4,
     reviews: 99,
     id: 4,
   },
 ]);
-
+const product = ref({});
+const product_images = ref([]);
 const sizes = ref(["XS", "S", "M", "L", "XL"]);
 const selectedSize = ref({});
 const count = ref(1);
+
+const route = useRoute();
+const router = useRouter();
+//image click  bolanda modal açylmaly onuň üçin  bolsa  adyny almaly
+const fetchProductById = (id) => {
+  // product detatils fetching
+  fetch(BASE_URL + "guest/api/product/" + id, {
+    method: "GET",
+    // headers: {
+    //   Authorization: `Bearer ${token}`,
+    // },
+  })
+    .then((response) => {
+      // if (!response.ok) {
+      //   throw new Error(`HTTP error! status: ${response.status}`);
+      // }
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+      if (data.success) {
+        product.value = data.details;
+
+        console.log("fetch-lenen  maglumat !-", product.value);
+      } else {
+        console.log("res status 200 ýöne success false");
+      }
+    })
+    .catch((error) => {
+      console.error("Error detected !!!- :", error);
+    });
+  // product images fetching
+
+  fetch(BASE_URL + "guest/api/product-images/" + id, {
+    method: "GET",
+    // headers: {
+    //   Authorization: `Bearer ${token}`,
+    // },
+  })
+    .then((response) => {
+      // if (!response.ok) {
+      //   throw new Error(`HTTP error! status: ${response.status}`);
+      // }
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+      if (data.success) {
+        product_images.value = data.details;
+
+        console.log("fetch-lenen  maglumat !-", product_images.value);
+      } else {
+        console.log("res status 200 ýöne success false");
+      }
+    })
+    .catch((error) => {
+      console.error("Error detected !!!- :", error);
+    });
+};
+
+onMounted(() => {});
+watch(
+  () => route.params.id,
+  (newVal, oldVal) => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    fetchProductById(newVal);
+
+    console.log("new val ", newVal);
+  },
+  { immediate: true }
+);
 </script>
 
 <style lang="scss" scoped></style>
