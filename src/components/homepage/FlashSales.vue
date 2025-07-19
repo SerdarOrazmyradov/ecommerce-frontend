@@ -160,8 +160,13 @@
     <!-- View All Button -->
     <div class="mt-10 sm:mt-12 md:mt-16 text-center">
       <button
+        @click="
+          router.replace({
+            name: 'productlist',
+          })
+        "
         aria-label="View All Flash Sale Products"
-        class="bg-[#DB4444] text-white px-8 sm:px-10 py-3 sm:py-4 rounded-md text-sm sm:text-base font-medium hover:bg-[#C13333] transition-colors"
+        class="bg-[#DB4444] text-white px-8 sm:px-10 py-3 sm:py-4 cursor-pointer rounded-md text-sm sm:text-base font-medium hover:bg-[#C13333] transition-colors"
       >
         View All Products
       </button>
@@ -177,7 +182,9 @@ import "swiper/css/navigation";
 import { Navigation, Manipulation } from "swiper/modules";
 // import ProductCard from "../homepage/ProductCart.vue";
 import ProductCard from "../../components/product/ProductCard.vue";
-
+import { useRoute, useRouter } from "vue-router";
+const router = useRouter();
+const route = useRoute();
 const BASE_URL = "http://localhost:3000/";
 
 function onSwiperInit(swiper) {

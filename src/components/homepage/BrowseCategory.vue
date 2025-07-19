@@ -18,7 +18,7 @@
     <div class="flex-1 flex justify-end" style="align-self: flex-end">
       <div class="w-[100px] h-[46px] flex gap-[8px]">
         <div
-          class="w-[46px] h-[46px] bg-[#F5F5F5] rounded-full flex justify-center items-center custom1-prev-button"
+          class="w-[46px] hover:bg-gray-200 h-[46px] bg-[#F5F5F5] rounded-full flex justify-center items-center custom1-prev-button"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -36,7 +36,7 @@
           </svg>
         </div>
         <div
-          class="w-[46px] h-[46px] bg-[#F5F5F5] rounded-full flex justify-center items-center custom1-next-button"
+          class=" hover:bg-gray-200 w-[46px] h-[46px] bg-[#F5F5F5] rounded-full flex justify-center items-center custom1-next-button"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

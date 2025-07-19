@@ -1,4 +1,13 @@
 <template>
+  <ImageModal
+    :showLayer="showImageModal"
+    :product_images="product_images"
+    @changeShowLayerValue="
+      () => {
+        showImageModal = !showImageModal;
+      }
+    "
+  />
   <!-- <div
     class="w-full h-full flex items-center justify-center z-10  fixed backdrop-blur-xs "
   >
@@ -57,7 +66,7 @@
         </div>
       </div>
 
-      <div class="mt-20 mb-40 flex flex-col lg:flex-row gap-4">
+      <div class="mt-20 mb-40 flex flex-col mx-10 md:mx-0 lg:flex-row gap-4">
         <div class="hidden lg:flex lg:flex-col gap-4">
           <div
             v-for="(image, index) in product_images"
@@ -66,10 +75,11 @@
           >
             <img
               @click="
+                showImageModal = true;
                 console.log(
                   'basylan iamge-in path-y ',
                   IMAGE_BASE_URL + image.img_path
-                )
+                );
               "
               :src="IMAGE_BASE_URL + image.img_path"
               alt="practising"
@@ -82,10 +92,11 @@
         >
           <img
             @click="
+              showImageModal = true;
               console.log(
                 'basylan iamge-in path-y ',
                 IMAGE_BASE_URL + product.main_image
-              )
+              );
             "
             :src="IMAGE_BASE_URL + product.main_image"
             alt="practising"
@@ -101,10 +112,11 @@
             >
               <img
                 @click="
+                  showImageModal = true;
                   console.log(
                     'basylan iamge-in path-y ',
                     IMAGE_BASE_URL + image.img_path
-                  )
+                  );
                 "
                 :src="IMAGE_BASE_URL + image.img_path"
                 alt="practising"
@@ -117,10 +129,11 @@
           >
             <img
               @click="
+                showImageModal = true;
                 console.log(
                   'basylan iamge-in path-y ',
                   IMAGE_BASE_URL + product.main_image
-                )
+                );
               "
               :src="IMAGE_BASE_URL + product.main_image"
               alt="practising"
@@ -163,23 +176,27 @@
           </div>
           <div class="w-full mt-2 h-px bg-black/90"></div>
           <!-- colors -->
-          <div class="flex gap-6 mt-2 items-center">
+          <div v-if="product.colors" class="flex gap-6 mt-2 items-center">
             <div class="text-lg lg:text-xl">Colours:</div>
             <div class="flex gap-2 items-center">
               <input
                 name="myRadioGroup1"
                 type="radio"
-                class=" appearance-none rounded-full w-5 h-5 cursor-pointer border-4 accent-neutral-50 border-black transition-all"
+                class="appearance-none rounded-full w-5 h-5 cursor-pointer border-4 accent-neutral-50 border-black transition-all"
               />
               <input
                 name="myRadioGroup1"
                 type="radio"
-                class=" appearance-none rounded-full w-5 h-5 cursor-pointer border-4 accent-neutral-50 bg-red-400  transition-all"
+                class="appearance-none rounded-full w-5 h-5 cursor-pointer border-4 accent-neutral-50 bg-red-400 transition-all"
               />
+
+              <!-- color swatch component -->
+
+              <!-- <v-swatches v-model="color"></v-swatches> -->
             </div>
           </div>
           <!-- size -->
-          <div class="flex gap-6 mt-2 items-center">
+          <div v-if="product.sizes" class="flex gap-6 mt-2 items-center">
             <div class="text-lg lg:text-xl">Size:</div>
             <div class="flex gap-4 items-center">
               <div
@@ -252,7 +269,8 @@
             </div>
             <div class="flex items-center gap-4">
               <div
-                class="select-none h-8 lg:h-11 w-32 lg:w-40 flex items-center justify-center text-neutral-50 bg-red-400 rounded-sm cursor-pointer"
+                @click="addCartProduct(product)"
+                class="hover:bg-red-300 select-none h-8 lg:h-11 w-32 lg:w-40 flex items-center justify-center text-neutral-50 bg-red-400 rounded-sm cursor-pointer"
               >
                 Buy Now
               </div>
@@ -284,6 +302,7 @@
             >
               <div class="h-12 ml-2 lg:ml-4 flex gap-2 lg:gap-4 items-center">
                 <img
+                  class="select-none"
                   src="../../../public/icons/icon-delivery (1).png"
                   alt="icon delivary"
                 />
@@ -304,6 +323,7 @@
             >
               <div class="h-12 ml-2 lg:ml-4 flex gap-2 lg:gap-4 items-center">
                 <img
+                  class="select-none"
                   src="../../../public/icons/Icon-return.png"
                   alt="icon delivary"
                 />
@@ -325,18 +345,27 @@
       </div>
     </div>
     <!-- related item -->
-    <RelatedItem :products="products" />
+    <div class="mx-9 md:mx-0 mb-10 md:mt-15">
+      <RelatedItem :products="products" />
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch, onMounted } from "vue";
+// import VSwatches from "vue-swatches";
+// import VSwatches from 'vue-swatches'
 
+// Import the styles too, globally
+// import 'vue-swatches/dist/vue-swatches.css'
 import { useRoute, useRouter } from "vue-router";
-import { onMounted } from "vue";
+
 // import LightBox from 'vue-image-lightbox'
 import RelatedItem from "../../components/product/RelatedItem.vue";
+import ImageModal from "../../components/modal/ImageModal.vue";
 
+// const color = "#1CA085";
+const showImageModal = ref(false);
 const BASE_URL = "http://localhost:3000/";
 const IMAGE_BASE_URL = "http://localhost:3000/uploads/images/";
 const products = ref([
@@ -387,12 +416,28 @@ const products = ref([
 ]);
 const product = ref({});
 const product_images = ref([]);
+const modal_images = ref([]);
 const sizes = ref(["XS", "S", "M", "L", "XL"]);
 const selectedSize = ref({});
 const count = ref(1);
 
 const route = useRoute();
 const router = useRouter();
+const addCartProduct = (prod) => {
+  let cartProducts = JSON.parse(localStorage.getItem("cartProducts") || "[]");
+
+  // Bar bolsa count-y artdyr, ýok bolsa täze goş
+  let existingProduct = cartProducts.find((p) => p.id === prod.id);
+
+  if (existingProduct) {
+    existingProduct.count += 1;
+  } else {
+    prod.count = 1;
+    cartProducts.push(prod);
+  }
+
+  localStorage.setItem("cartProducts", JSON.stringify(cartProducts));
+};
 //image click  bolanda modal açylmaly onuň üçin  bolsa  adyny almaly
 const fetchProductById = (id) => {
   // product detatils fetching
@@ -412,6 +457,10 @@ const fetchProductById = (id) => {
       console.log(data);
       if (data.success) {
         product.value = data.details;
+        modal_images.value.push(
+          IMAGE_BASE_URL + String(product.value.main_image)
+        );
+        console.log(" img modal ucin :" + modal_images.value);
 
         console.log("fetch-lenen  maglumat !-", product.value);
       } else {
@@ -439,8 +488,10 @@ const fetchProductById = (id) => {
       console.log(data);
       if (data.success) {
         product_images.value = data.details;
-
-        console.log("fetch-lenen  maglumat !-", product_images.value);
+        // her bir suraty modal üçin array-a geçir!
+        product_images.value.forEach((image) => {
+          modal_images.value.push(IMAGE_BASE_URL + String(image.img_path));
+        });
       } else {
         console.log("res status 200 ýöne success false");
       }

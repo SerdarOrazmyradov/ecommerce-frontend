@@ -1,4 +1,5 @@
 <template>
+  <loading-animation v-if="isLoading" text="Process" />
   <div class="container px-3 md:px-5">
     <!-- <div class="bg-black h-px"></div> -->
     <!-- header -->
@@ -241,6 +242,8 @@
 
 <script setup>
 import { computed, onMounted, ref } from "vue";
+import LoadingAnimation from "../../components/loader/LoadingAnimation.vue";
+const isLoading = ref(false);
 const BASE_URL = "http://localhost:3000/";
 const IMAGE_BASE_URL = "http://localhost:3000/uploads/images/";
 const myDiv = ref(null);
@@ -288,6 +291,7 @@ const setOrderItems = () => {
 };
 
 const placeOrder = () => {
+  isLoading.value = true;
   const token = localStorage.getItem("token");
   const postData = {
     status: status.value,
@@ -319,6 +323,7 @@ const placeOrder = () => {
       return response.json();
     })
     .then((data) => {
+      isLoading.value = false;
       console.log(data);
       if (data.success) {
         // redirect

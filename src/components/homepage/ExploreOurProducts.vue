@@ -78,8 +78,8 @@
         </SwiperSlide>
       </Swiper> -->
       <Swiper
-        :slides-per-view="4"
-        :space-between="30"
+        :slides-per-view="1.2"
+        :space-between="10"
         :navigation="{
           nextEl: '.custom2-next-button',
           prevEl: '.custom2-prev-button',
@@ -87,28 +87,24 @@
         :modules="[Navigation, Manipulation]"
         grabCursor
         :breakpoints="{
-          0: {
-            slidesPerView: 1.2,
-            spaceBetween: 10,
-          },
           480: {
-            slidesPerView: 2,
-            spaceBetween: 10,
-          },
-          640: {
-            slidesPerView: 3,
+            slidesPerView: 1.5,
             spaceBetween: 15,
           },
+          640: {
+            slidesPerView: 2,
+            spaceBetween: 20,
+          },
           768: {
-            slidesPerView: 3,
+            slidesPerView: 2.5,
             spaceBetween: 20,
           },
           1024: {
-            slidesPerView: 4,
+            slidesPerView: 3.5,
             spaceBetween: 25,
           },
           1280: {
-            slidesPerView: 5,
+            slidesPerView: 4.5,
             spaceBetween: 30,
           },
         }"
@@ -117,14 +113,20 @@
         <SwiperSlide
           v-for="(product, i) in products1"
           :key="i"
-          class="transition duration-300"
-          style="box-sizing: border-box; width: auto"
+          style="box-sizing: border-box"
         >
-          <ProductCard :product="product" :isNew="product.isNew" />
+          <ProductCard :product="product" />
         </SwiperSlide>
       </Swiper>
 
-      <div class="mt-[60px] text-center">
+      <div
+        @click="
+          router.replace({
+            name: 'productlist',
+          })
+        "
+        class="mt-[60px] text-center"
+      >
         <button
           class="bg-[#DB4444] text-[#FAFAFA] px-[48px] py-[16px] rounded text-[16px] font-medium"
         >
@@ -143,7 +145,12 @@ import { Navigation, Manipulation } from "swiper/modules";
 
 // import ProductCard from "../../components/homepage/ProductCart.vue";
 import ProductCard from "../../components/product/ProductCard.vue";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
+
+const router = useRouter();
+const route = useRoute();
+const BASE_URL = "http://localhost:3000";
 
 const products = ref([
   {
@@ -237,6 +244,34 @@ const products1 = ref([
     id: 12,
   },
 ]);
+
+onMounted(() => {
+  fetch(BASE_URL + "/guest/api/get-products", {
+    method: "GET",
+    // headers: {
+    //   Authorization: `Bearer ${token}`,
+    // },
+  })
+    .then((response) => {
+      // if (!response.ok) {
+      //   throw new Error(`HTTP error! status: ${response.status}`);
+      // }
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+      if (data.success) {
+        products1.value = data.data;
+        // redirect
+      } else {
+        console.log("success false :res status 200");
+        console.log("res : ", data);
+      }
+    })
+    .catch((error) => {
+      console.error("Error detected -!!! : ", error);
+    });
+});
 </script>
 
 <style lang="scss" scoped></style>

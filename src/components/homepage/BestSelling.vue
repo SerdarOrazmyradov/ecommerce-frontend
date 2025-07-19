@@ -16,8 +16,13 @@
     </div>
 
     <div class="flex-1 flex justify-end" style="align-self: flex-end">
-      <div
-        class="w-30 sm:w-[159px] h-[56px] flex justify-center items-center rounded bg-[#DB4444]"
+      <div 
+        @click="
+          router.replace({
+            name: 'productlist',
+          })
+        "
+        class="w-30 sm:w-[159px] h-[56px] flex justify-center items-center rounded bg-[#DB4444] hover:bg-red-300 cursor-pointer"
       >
         <div class="m-auto text-sm sm:text-[16px] font-medium text-[#FAFAFA]">
           View All
@@ -84,7 +89,9 @@ import "swiper/css/navigation";
 
 import ProductCart from "./ProductCart.vue";
 import ProductCard from "../../components/product/ProductCard.vue";
-
+import { useRoute, useRouter } from "vue-router";
+const router = useRouter();
+const route = useRoute();
 const BASE_URL = "http://localhost:3000/";
 const products = ref([
   // {
@@ -153,7 +160,6 @@ onMounted(() => {
           products.value
         );
 
-        // redirect
       } else {
         console.log("success false :res status 200");
         console.log("res : ", data);

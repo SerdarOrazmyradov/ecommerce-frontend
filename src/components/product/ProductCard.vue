@@ -1,5 +1,6 @@
 <template>
-  <div class="cursor-pointer max-w-2xs bg-gray-100 h-96 relative group">
+  
+  <div class="cursor-pointer max-w-2xs h-96 relative group">
     <!-- discount -->
     <div
       v-if="product.discount"
@@ -69,6 +70,9 @@
       </button>
     </div>
 
+    <div
+      class="absolute top-0 left-0 h-[200px] w-full bg-gray-100 rounded-sm"
+    ></div>
     <div class="select-none absolute top-0 left-0 w-full">
       <!-- image -->
       <img
