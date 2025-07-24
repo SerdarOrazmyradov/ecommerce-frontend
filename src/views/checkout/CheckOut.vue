@@ -1,6 +1,36 @@
 <template>
-  <loading-animation v-if="isLoading" text="Process" />
-  <div class="container px-3 md:px-5">
+  <message-modal
+    v-if="showMessageModal"
+    @close="showMessageModal = false"
+    @again="
+      () => {
+        showMessageModal = false;
+        console.log('showMessageModal :', showMessageModal);
+        placeOrder();
+      }
+    "
+    @continue="
+      () => {
+        showMessageModal = false;
+        console.log('showMessageModal :', showMessageModal);
+
+        router.push({
+          name: 'home',
+        });
+      }
+    "
+    :isError="isError"
+    :message="message"
+  />
+
+  <div
+    v-if="isLoading"
+    class="fixed top-0 bg-gray-100/90 w-full h-full flex items-center justify-center"
+  >
+    <loading-animation text="Process" />
+  </div>
+
+  <div class="container px-3 md:px-5 mx-auto">
     <!-- <div class="bg-black h-px"></div> -->
     <!-- header -->
     <div class="mt-20 h-5 py-px flex items-center">
@@ -243,6 +273,14 @@
 <script setup>
 import { computed, onMounted, ref } from "vue";
 import LoadingAnimation from "../../components/loader/LoadingAnimation.vue";
+import MessageModal from "../../components/modal/MessageModal.vue";
+import { useRoute, useRouter } from "vue-router";
+
+const showMessageModal = ref(false);
+const message = ref("");
+const isError = ref(false);
+const router = useRouter();
+const route = useRoute();
 const isLoading = ref(false);
 const BASE_URL = "http://localhost:3000/";
 const IMAGE_BASE_URL = "http://localhost:3000/uploads/images/";
@@ -291,48 +329,70 @@ const setOrderItems = () => {
 };
 
 const placeOrder = () => {
-  isLoading.value = true;
-  const token = localStorage.getItem("token");
-  const postData = {
-    status: status.value,
-    name: name.value,
-    phone_number: phone_number.value,
-    adress: adress.value,
-    note: note.value,
-    total_quantity: total_quantity.value,
-    total_price: subtotal.value,
-    payment_type: payment_type.value,
-    order_items: JSON.stringify({
-      products: order_items.value,
-    }),
-  };
-  console.log("iberiljek maglumatlar ", postData);
+  // try {
 
-  fetch(BASE_URL + "user/api/create-order", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(postData),
-  })
-    .then((response) => {
-      // if (!response.ok) {
-      //   throw new Error(`HTTP error! status: ${response.status}`);
-      // }
-      return response.json();
+  // } catch (error) {
+  //   console.log("error detecting!!! -", error);
+
+  // }
+
+  const token = localStorage.getItem("token");
+  if (token) {
+    isLoading.value = true;
+    const postData = {
+      status: status.value,
+      name: name.value,
+      phone_number: phone_number.value,
+      adress: adress.value,
+      note: note.value,
+      total_quantity: total_quantity.value,
+      total_price: subtotal.value,
+      payment_type: payment_type.value,
+      order_items: JSON.stringify({
+        products: order_items.value,
+      }),
+    };
+    console.log("iberiljek maglumatlar ", postData);
+
+    fetch(BASE_URL + "user/api/create-order", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(postData),
     })
-    .then((data) => {
-      isLoading.value = false;
-      console.log(data);
-      if (data.success) {
-        // redirect
-      } else {
-      }
-    })
-    .catch((error) => {
-      console.error("Error detected -!!! : ", error);
-    });
+      .then((response) => {
+        // if (!response.ok) {
+        //   throw new Error(`HTTP error! status: ${response.status}`);
+        // }
+        return response.json();
+      })
+      .then((data) => {
+        isLoading.value = false;
+        showMessageModal.value = true;
+
+        console.log(data);
+        if (data.success) {
+          isError.value = false;
+          message.value = data.message;
+          localStorage.removeItem("cartProducts");
+          // redirect
+        } else {
+          isError.value = true;
+          message.value = data.message;
+        }
+      })
+      .catch((error) => {
+        console.error("Error detected -!!! : ", error);
+      });
+  } else {
+    setTimeout(() => {
+      router.push({
+        name: "signup",
+      });
+    }, 1000);
+  }
 };
 
 onMounted(() => {

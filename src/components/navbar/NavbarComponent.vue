@@ -6,28 +6,37 @@
           name: 'home',
         })
       "
-      class="cursor-pointer select-none text-2xl font-bold"
+      class="cursor-pointer select-none text-2xl font-bold flex items-center"
     >
       Exclusive
     </div>
     <div class="hidden text-base lg:flex lg:gap-10 xl:gap-12 items-center">
-      <router-link :to="{ name: 'home' }" class="hover:underline cursor-pointer"
+      <router-link
+        
+        :to="{ name: 'home' }"
+        class="relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 cursor-pointer"
         >Home</router-link
       >
-      <div class="hover:underline cursor-pointer">Contact</div>
-      <div class="hover:underline cursor-pointer">About</div>
+      <div class="relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 cursor-pointer">Contact</div>
+      <div class="relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 cursor-pointer">About</div>
       <router-link
+        
         :to="{ name: 'signup' }"
-        class="hover:underline cursor-pointer"
+        class="relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 cursor-pointer"
         >Sign Up</router-link
       >
       <!-- Categories with dropdown -->
-      <div class="relative group hidden md:block xl:hidden">
-        <div class="hover:underline cursor-pointer">Categories</div>
+      <div
+        @mouseenter="showDropdown = true"
+        @mouseleave="showDropdown = false"
+        class="relative py-3 group hidden md:block xl:hidden"
+      >
+        <div class="relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 cursor-pointer">Categories</div>
 
         <!-- Dropdown box -->
         <div
-          class="absolute top-full left-0 mt-2 w-[200px] bg-white text-black rounded shadow-lg p-4 z-50 hidden group-hover:block"
+          v-if="showDropdown"
+          class="absolute top-10 left-0 mt-2 w-[200px] bg-white text-black rounded shadow-lg p-4 z-50 hidden group-hover:block"
         >
           <div
             v-for="category in categories"
@@ -41,47 +50,22 @@
     </div>
     <div class="flex gap-3 items-center">
       <!-- search -->
-      <div
-        class="hidden md:flex gap-3 bg-gray-100 py-2 rounded-sm items-center"
-      >
-        <input
-          type="text"
-          name="search"
-          placeholder="What are you looking for?"
-          class="ml-5 md:text-base outline-none text-[#7A7A7A]"
-        />
+      <SearchComponent />
 
-        <div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="size-6 md:ml-[34px] md:mr-3"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-            />
-          </svg>
-        </div>
-      </div>
       <!-- hearth -->
       <div
         @click="
           router.replace({
-            name: 'cart',
+            name: 'wishlist',
           })
         "
         class="relative cursor-pointer"
       >
         <div
           class="select-none absolute w-4 h-4 bg-red-400 -top-1 -right-1 text-neutral-50 rounded-full flex justify-center items-center text-xs"
-          :class="useLikedStore.count == 0 ? 'hidden' : 'flex'"
+          :class="likedProductsCount == 0 ? 'hidden' : 'flex'"
         >
-          {{ useLikedStore.count }}
+          {{ likedProductsCount }}
         </div>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -111,10 +95,11 @@
       >
         <div
           class="select-none absolute w-4 h-4 bg-red-400 -top-1 -right-1 text-neutral-50 rounded-full flex justify-center items-center text-xs"
-          :class="useCartQuentityStore.count == 0 ? 'hidden' : 'flex'"
+          :class="cartProductsCount == 0 ? 'hidden' : 'flex'"
         >
-          {{ useCartQuentityStore.count }}
+          {{ cartProductsCount }}
         </div>
+
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -130,24 +115,10 @@
           />
         </svg>
       </div>
+
       <!-- profile -->
-      <!-- <div class="relative ml-4" :class="''">
-        <div class="top-0  absolute size-8 bg-red-400 rounded-full -z-10"></div>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="white"
-          class="size-6 absolute top-0"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
-          />
-        </svg>
-      </div> -->
+      <NavbarProfile />
+
       <!-- close button -->
       <div @click="toggleMobileNavbar" class="flex lg:hidden cursor-pointer">
         <div
@@ -179,7 +150,7 @@
   <transition name="fade">
     <div
       v-if="showMobileNavbar"
-      class="block  lg:hidden fixed top-12 w-screen h-screen bg-white z-40 overflow-y-auto"
+      class="block lg:hidden fixed top-12 w-screen h-screen bg-white z-40 overflow-y-auto"
     >
       <!-- close button -->
       <div
@@ -239,23 +210,23 @@
         </div>
         <router-link
           :to="{ name: 'home' }"
-          class="cursor-pointer hover:underline text-base md:text-lg font-bold"
+          class="cursor-pointer relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 text-base md:text-lg font-bold"
           >Home</router-link
         >
         <div
-          class="cursor-pointer hover:underline text-base md:text-lg font-bold"
+          class="cursor-pointer relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 text-base md:text-lg font-bold"
         >
           Contact
         </div>
         <div
-          class="cursor-pointer hover:underline text-base md:text-lg font-bold"
+          class="cursor-pointer relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 text-base md:text-lg font-bold"
         >
           About
         </div>
-        <!-- <div class="cursor-pointer hover:underline">Sign Up</div> -->
+        <!-- <div class="cursor-pointer relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100">Sign Up</div> -->
         <router-link
           :to="{ name: 'signup' }"
-          class="cursor-pointer hover:underline text-base md:text-lg font-bold"
+          class="cursor-pointer relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 text-base md:text-lg font-bold"
           >Sign Up</router-link
         >
 
@@ -324,19 +295,30 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { useLiked, useCartQuentity } from "../../stores/stores";
-
-const useLikedStore = useLiked();
-const useCartQuentityStore = useCartQuentity();
+import { useLiked, useCart } from "../../stores/stores";
+import SearchComponent from "./searchInput/searchComponent.vue";
+import NavbarProfile from "./profile/NavbarProfile.vue";
 
 const router = useRouter();
 const route = useRoute();
 const showMobileNavbar = ref(false);
+const showDropdown = ref(false);
+
+const useLikedStore = useLiked();
+const useCartStore = useCart();
+
+const likedProductsCount = computed(() => useLikedStore.likedProducts.length);
+
+const cartProductsCount = computed(() =>
+  useCartStore.cartProducts.reduce((acc, p) => acc + p.count, 0)
+);
+
 const toggleMobileNavbar = () => {
   showMobileNavbar.value = !showMobileNavbar.value;
 };
+
 const categories = [
   "Electronics",
   "Home & Lifestyle",

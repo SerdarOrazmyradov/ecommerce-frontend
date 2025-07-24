@@ -1,5 +1,7 @@
 <template>
-  <div class="relative overflow-hidden w-full h-[300px] sm:h-[350px] md:h-[400px] lg:h-[344px] bg-black text-white rounded-lg">
+  <div
+    class="relative overflow-hidden w-full h-[300px] sm:h-[350px] md:h-[400px] lg:h-[344px] bg-black text-white rounded-lg"
+  >
     <!-- Slides container -->
     <div
       class="flex h-full transition-transform duration-500 ease-in-out"
@@ -23,21 +25,25 @@
               iPhone 14 Series
             </p>
           </div>
-          <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold mb-4 sm:mb-6">
+          <h1
+            class="text-2xl sm:text-3xl md:text-4xl font-semibold mb-4 sm:mb-6"
+          >
             Up to 10%<br />off Voucher
           </h1>
-          <a
+          <div
+            @click="showSuccessToast"
             href="#"
-            class="inline-block text-white text-base sm:text-lg border-b border-white hover:opacity-70 transition-opacity"
-            >Shop Now →</a
+            class="cursor-pointer inline-block text-white text-base sm:text-lg border-b border-white hover:opacity-70 transition-opacity"
           >
+            Shop Now →
+          </div>
         </div>
 
         <!-- Image -->
         <div class="flex-1 flex justify-center">
-          <img 
-            :src="image_src" 
-            alt="iPhone 14" 
+          <img
+            :src="image_src"
+            alt="iPhone 14"
             class="w-[200px] sm:w-[300px] md:w-[350px] lg:w-[400px] xl:w-[496px] object-contain drop-shadow-2xl"
           />
         </div>
@@ -54,17 +60,20 @@
         @click="goToSlide(index)"
         :class="[
           'w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-colors',
-          currentIndex === index ? 'bg-[#DB4444]' : 'bg-gray-500 hover:bg-gray-400',
+          currentIndex === index
+            ? 'bg-[#DB4444]'
+            : 'bg-gray-500 hover:bg-gray-400',
         ]"
-       :aria-label="'Go to slide ' + (index + 1)"
+        :aria-label="'Go to slide ' + (index + 1)"
       ></button>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref,onMounted, onBeforeUnmount } from "vue";
-
+import { ref, onMounted, onBeforeUnmount } from "vue";
+import { useToast } from "../../stores/stores";
+const toastStore = useToast();
 const image_src = ref("./hero_section/hero_endframe__cvklg0xk3w6e_large.png");
 const image_src_logo = ref("./hero_section/1200px-Apple_gray_logo 1.png");
 const currentIndex = ref(0);
@@ -74,19 +83,25 @@ const goToSlide = (index) => {
   currentIndex.value = index;
 };
 
-
 // Auto slide logic
 let intervalId;
 
 onMounted(() => {
   intervalId = setInterval(() => {
     currentIndex.value = (currentIndex.value + 1) % slides.value.length;
-  }, 2000); // every 2 seconds
+  }, 3000); // every 2 seconds
 });
 
 onBeforeUnmount(() => {
   clearInterval(intervalId);
 });
+
+const showSuccessToast = () => {
+  toastStore.addToast({
+    message: "Üstünlikli ýerine ýetirildi!",
+    type: "success",
+  });
+};
 </script>
 
 <style scoped>

@@ -36,7 +36,7 @@
           </svg>
         </div>
         <div
-          class=" hover:bg-gray-200 w-[46px] h-[46px] bg-[#F5F5F5] rounded-full flex justify-center items-center custom1-next-button"
+          class="hover:bg-gray-200 w-[46px] h-[46px] bg-[#F5F5F5] rounded-full flex justify-center items-center custom1-next-button"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -99,7 +99,8 @@
         @click="selectCategory(index)"
         class="cursor-pointer"
       >
-        <div
+        <router-link
+          :to="{ name: 'productlist', query: { category: cat.name } }"
           :class="[
             'flex flex-col items-center justify-center max-w-[170px] h-[145px] border rounded-md transition duration-300 hover:bg-[#DB4444] hover:text-white border-gray-300',
             selectedIndex === index ? ' ' : '   ',
@@ -111,7 +112,7 @@
             <i :class="[cat.icon, 'text-2xl leading-[1] ']"></i>
           </div>
           <span class="text-[16px] leading-[1] mb-[24px]">{{ cat.name }}</span>
-        </div>
+        </router-link>
       </SwiperSlide>
     </Swiper>
   </div>

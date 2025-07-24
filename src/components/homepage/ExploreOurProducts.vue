@@ -123,12 +123,13 @@
         @click="
           router.replace({
             name: 'productlist',
+            query: { message: 'exploreourproducts' },
           })
         "
         class="mt-[60px] text-center"
       >
         <button
-          class="bg-[#DB4444] text-[#FAFAFA] px-[48px] py-[16px] rounded text-[16px] font-medium"
+          class="bg-[#DB4444] hover:bg-red-300 cursor-pointer text-[#FAFAFA] px-[48px] py-[16px] rounded text-[16px] font-medium"
         >
           View All Products
         </button>
@@ -147,6 +148,7 @@ import { Navigation, Manipulation } from "swiper/modules";
 import ProductCard from "../../components/product/ProductCard.vue";
 import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { Message } from "primevue";
 
 const router = useRouter();
 const route = useRoute();

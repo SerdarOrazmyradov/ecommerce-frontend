@@ -11,12 +11,16 @@
   "dependencies": {
     "@heroicons/vue": "^2.2.0",
     "@mdi/font": "^7.4.47",
+    "@primeuix/themes": "^1.2.1",
     "@vueuse/components": "^13.5.0",
+    "@vueuse/core": "^13.5.0",
     "axios": "^1.8.4",
     "joi": "^17.13.3",
     "json-server": "^1.0.0-beta.3",
     "lodash": "^4.17.21",
+    "notiwind": "^2.1.0",
     "pinia": "^3.0.3",
+    "primevue": "^4.3.6",
     "remixicon": "^4.6.0",
     "swiper": "^11.2.6",
     "vue": "^3.5.13",
@@ -29,6 +33,7 @@
     "@vitejs/plugin-vue": "^5.2.2",
     "sass-embedded": "^1.89.2",
     "tailwindcss": "^4.1.4",
-    "vite": "^6.3.1"
+    "vite": "^6.3.1",
+    "vite-plugin-vue-devtools": "^7.7.7"
   }
 }

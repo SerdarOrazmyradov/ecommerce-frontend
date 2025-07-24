@@ -4,10 +4,16 @@
   >
     <!-- Categories Sidebar -->
     <div
-      class="w-full xl:w-[217px] h-auto xl:h-[344px] text-base mt-5 lg:mt-10 space-y-3.5 hidden xl:block"
+      class="w-full xl:w-[217px] xl:h-[344px] overflow-y-scroll text-base mt-5 lg:mt-10 space-y-3.5 hidden xl:block"
     >
       <!-- categories -->
       <div
+        @click="
+          router.push({
+            name: 'productlist',
+            query: { page: 1, categories: encodeURIComponent(category.name) },
+          })
+        "
         v-for="category in categories"
         :key="category"
         class="flex justify-between items-center group cursor-pointer"
@@ -31,7 +37,6 @@
           />
         </svg>
       </div>
-
     </div>
 
     <!-- Vertical Divider (Desktop only) -->
@@ -49,7 +54,9 @@
 <script setup>
 import { onMounted, ref, watch } from "vue";
 import CorouselComponent from "./CorouselCopmonent.vue";
-
+import { useRoute, useRouter } from "vue-router";
+const router = useRouter();
+const route = useRoute();
 const BASE_URL = "http://localhost:3000";
 const get_categories_api = "/guest/api/categories";
 
@@ -66,9 +73,9 @@ const categories = ref([
   "Health & Beauty",
 ]);
 
-const getCategories = (page = 1) => {
+const getCategories = (page = 1, limit = 20) => {
   // isLoading.value = true;
-  fetch(BASE_URL + get_categories_api + "?page=" + page, {
+  fetch(BASE_URL + get_categories_api + "?page=" + page + "&limit=" + limit, {
     method: "GET",
     // headers: {
     //   Authorization: `Bearer ${token}`,

@@ -75,7 +75,7 @@
             :src="product.image"
             :alt="product.title"
             class="max-w-full max-h-full object-contain"
-            loading="lazy"
+            
           />
         </div>
       </div>

@@ -26,7 +26,7 @@
     >
       <!-- component kan yaz :kod arassa bolsun:basda işlär ýaly kod ýaz soň ýaltanman düzet bolmasa şonuň üçin hem işden çykarýarlar -->
       <!--filter side  -->
-      <div class="relative left-0 top-16 h-full w-80 hidden lg:block">
+      <div class="relative left-1 top-16 h-full w-72 hidden lg:block">
         <div class="flex gap-8 items-center">
           <div
             class="flex items-center justify-center rounded-full bg-gray-300 cursor-pointer hover:bg-gray-200 w-10 h-10"
@@ -73,7 +73,7 @@
           </div> -->
         </div>
         <div class="text-base font-medium my-4">Categories</div>
-        <div class="flex flex-col gap-2">
+        <div class="flex flex-col gap-2 overflow-y-scroll h-72">
           <label
             v-for="(category, index) in categories"
             :key="index"
@@ -87,7 +87,7 @@
           >
         </div>
         <div class="text-base font-medium my-4">Price</div>
-        <div class="flex flex-col gap-2">
+        <!-- <div class="flex flex-col gap-2">
           <label
             v-for="(price, index) in prices"
             :key="index"
@@ -95,7 +95,10 @@
             ><input type="checkbox" class="accent-blue-400" />
             {{ price }}</label
           >
-        </div>
+        </div> -->
+        <Slider v-model="value" :min="20" :max="80" range class="w-56" />
+
+        <!-- <Slider v-model="value" range class="w-56" /> -->
       </div>
 
       <!-- divider -->
@@ -104,7 +107,7 @@
       ></div>
       <!-- products side -->
       <div
-        class="relative left-0 top-16 h-full lg:px-10 max-w-xl md:min-w-3xl lg:min-w-[800px] xl:min-w-5xl"
+        class="relative left-0 top-16 h-full lg:px-10 max-w-xl md:min-w-3xl lg:min-w-[800px] xl:min-w-5xl 2xl:min-w-6xl"
       >
         <div class="flex justify-between flex-col sm:flex-row">
           <!-- product list text -->
@@ -114,14 +117,16 @@
               ({{ total_results }})
             </div>
           </div>
-          <div class="flex gap-6 mt-10 sm:mt-0">
+          <div
+            class="flex gap-6 mt-10 sm:mt-0 justify-between md:justify-normal"
+          >
             <div class="flex lg:hidden relative">
               <div
                 @click="
                   mFilterToggle = !mFilterToggle;
                   console.log(mFilterToggle);
                 "
-                class="flex gap-3 items-center"
+                class="flex gap-3 items-center cursor-pointer"
               >
                 <div
                   class="flex items-center justify-center rounded-full bg-gray-300 cursor-pointer hover:bg-gray-200 w-7 h-7"
@@ -191,18 +196,19 @@
                     </div>
                     <div class="text-base font-medium my-4">Price</div>
                     <div class="flex flex-col gap-2">
-                      <label
+                      <!-- <label
                         v-for="(price, index) in prices"
                         :key="index"
                         class="text-sm font-medium"
                         ><input type="checkbox" class="accent-blue-400" />
                         {{ price }}</label
-                      >
+                      > -->
+                      <Slider range v-model="value" class="w-44" />
                     </div>
                     <div class="flex w-full justify-end">
                       <div
                         @click="mFilterToggle = false"
-                        class="py-2 px-2 rounded-sm bg-blue-400 text-neutral-50 hover:bg-blue-300"
+                        class="py-2 px-2 rounded-sm bg-blue-400 text-neutral-50 hover:bg-blue-300 cursor-pointer"
                       >
                         Done
                       </div>
@@ -232,22 +238,23 @@
                 <option class="text-xs font-light" value="user_rating">
                   user rating
                 </option>
-                <option class="text-xs font-light" value="best-selling">
+                <!-- <option class="text-xs font-light" value="best-selling">
                   best-selling
-                </option>
+                </option> -->
               </select>
             </div>
           </div>
         </div>
         <!--products list  -->
         <div
-          class="grid sm:grid-cols-2 lg:grid-cols-3 sm:grid-rows-5 lg:grid-rows-4 mt-10 gap-10"
+          class="md:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:grid-rows-5 lg:grid-rows-4 xl:grid-rows-3 mt-10 gap-10"
         >
           <ProductCard
             v-for="(product, index) in sortedProducts"
             :key="index"
             :product="product"
           />
+
           <!-- <ProductCard :product="products[1]" />
           <ProductCard :product="products[2]" /> -->
         </div>
@@ -315,6 +322,7 @@ import ProductCard from "../../components/product/ProductCard.vue";
 import { useRoute, useRouter } from "vue-router";
 
 import LoadingAnimation from "../../components/loader/LoadingAnimation.vue";
+import Slider from "primevue/slider";
 
 const BASE_URL = "http://localhost:3000";
 const get_products_api = "/guest/api/get-products";
@@ -326,7 +334,12 @@ const mFilterToggle = ref(false);
 const isLoading = ref(false);
 const total_pages = ref(0);
 const total_results = ref(0);
-const sort_by = ref("low_to_high");
+// const sort_by = ref("low_to_high");
+const sort_by = ref("");
+const messageCategory = computed(() => {
+  const answer = route.query.message || "";
+  return answer;
+});
 const router = useRouter();
 const route = useRoute();
 const colors = ref([
@@ -343,139 +356,98 @@ const categories = ref([
   "Aether Studios",
   "Boreal Brewing Co.",
 ]);
-const prices = ref(["50-100", "100-150", "150-200", "200-250", "250-300"]);
-
-const products = ref([
-  {
-    title: "HAVIT HV-G92 Gamepad",
-    image:
-      "./best_selling/672462_ZAH9D_5626_002_100_0000_Light-The-North-Face-x-Gucci-coat 1.png",
-    price: 120,
-    oldprice: 160,
-    discount: 40,
-    rating: 4,
-    reviews: 88,
-    id: 1,
-  },
-  {
-    title: "AK-900 Wired Keyboard",
-    image:
-      "./best_selling/547953_9C2ST_8746_001_082_0000_Light-Gucci-Savoy-medium-duffle-bag 1.png",
-    price: 960,
-    oldprice: 1160,
-    discount: 35,
-    rating: 4,
-    reviews: 75,
-    id: 2,
-  },
-  {
-    title: "IPS LCD Gaming Monitor",
-    image: "./best_selling/gammaxx-l240-argb-1-500x500 1.png",
-    price: 370,
-    oldprice: 400,
-    discount: 30,
-    rating: 5,
-    reviews: 99,
-    id: 3,
-  },
-  {
-    title: "S-Series Comfort Chair",
-    image: "./best_selling/sam-moghadam-khamseh-L_7MQsHl_aU-unsplash 1.png",
-    price: 375,
-    oldprice: 500,
-    discount: 25,
-    rating: 4,
-    reviews: 99,
-    id: 4,
-  },
-]);
+// const prices = ref(["50-100", "100-150", "150-200", "200-250", "250-300"]);
+const value = ref([0, 80]);
+const products = ref([]);
 
 const sortedProducts = computed(() => {
-  if (sort_by.value == "best-selling") {
-    const best_selling_page = route.query.page || 1;
-    fetch(
-      BASE_URL + get_bestsellingproducts_api + "?page=" + best_selling_page,
-      {
-        method: "GET",
-        // headers: {
-        //   Authorization: `Bearer ${token}`,
-        // },
-      }
-    )
-      .then((response) => {
-        // if (!response.ok) {
-        //   throw new Error(`HTTP error! status: ${response.status}`);
-        // }
-        return response.json();
-      })
-      .then(async (data) => {
-        isLoading.value = false;
-
-        if (data.success) {
-          total_pages.value = data.total_pages;
-          total_results.value = data.total_results;
-          sortedProducts.value = [...data.details];
-          // şunda  ýalňyş bar!
-          // redirect
-        } else {
-          console.log("success false :res status 200");
-          console.log("res : ", data);
-        }
-      })
-      .catch((error) => {
-        console.error("Error detected -!!! : ", error);
-      });
-  }
+  if (sort_by.value == "") return [...products.value];
+  // if (sort_by.value == "best-selling") {
+  //   const best_selling_page = route.query.page || 1;
+  //   fetch(
+  //     BASE_URL + get_bestsellingproducts_api + "?page=" + best_selling_page,
+  //     {
+  //       method: "GET",
+  //       // headers: {
+  //       //   Authorization: `Bearer ${token}`,
+  //       // },
+  //     }
+  //   )
+  //     .then((response) => {
+  //       // if (!response.ok) {
+  //       //   throw new Error(`HTTP error! status: ${response.status}`);
+  //       // }
+  //       return response.json();
+  //     })
+  //     .then(async (data) => {
+  //       isLoading.value = false;
+  //       const test = ref(null);
+  //       test.value = data;
+  //       if (data.success) {
+  //         total_pages.value = data.total_pages;
+  //         total_results.value = data.total_results;
+  //         // sortedProducts.value = [...data.details];
+  //         // şunda  ýalňyş bar!
+  //         // redirect
+  //       } else {
+  //         console.log("success false :res status 200");
+  //         console.log("res : ", data);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error detected -!!! : ", error);
+  //     });
+  // }
   switch (sort_by.value) {
     case "low_to_high":
       // console.log(
       //   "saylanan cetegory-lar ucin test : ",
       //   Object.values(selectedCategories.value).indexOf(true)
       // );
-      let sel_cat = [];
+      // let sel_cat = [];
 
-      sel_cat = Object.keys(selectedCategories.value).filter(
-        (c) => selectedCategories.value[c]
-      );
+      // sel_cat = Object.keys(selectedCategories.value).filter(
+      //   (c) => selectedCategories.value[c]
+      // );
 
-      console.log("selected category ", sel_cat);
-      let newProducts = [
-        ...products.value.filter((p) => sel_cat.includes(p.category_name)),
-      ];
-      total_results.value = newProducts.length;
-      return newProducts.sort((a, b) => a.price - b.price);
+      // console.log("selected category ", sel_cat);
+      // let newProducts = [
+      //   ...products.value.filter((p) => (p.category_name)),
+      // ];
+      total_results.value = products.value.length;
+      return [...products.value].sort((a, b) => a.price - b.price);
 
     // return [...products.value].sort((a, b) => a.price - b.price);
 
     case "high_to_low":
-      let sel_cat1 = [];
+      // let sel_cat1 = [];
 
-      sel_cat1 = Object.keys(selectedCategories.value).filter(
-        (c) => selectedCategories.value[c]
-      );
+      // sel_cat1 = Object.keys(selectedCategories.value).filter(
+      //   (c) => selectedCategories.value[c]
+      // );
 
-      console.log("selected category ", sel_cat1);
-      let newProducts1 = [
-        ...products.value.filter((p) => sel_cat1.includes(p.category_name)),
-      ];
-      total_results.value = newProducts1.length;
-      return newProducts1.sort((a, b) => b.price - a.price);
+      // console.log("selected category ", sel_cat1);
+      // let newProducts1 = [
+      //   ...products.value.filter((p) => sel_cat1.includes(p.category_name)),
+      // ];
+      total_results.value = products.value.length;
+      return products.value.sort((a, b) => b.price - a.price);
 
     // return [...products.value].sort((a, b) => b.price - a.price);
 
     case "newest":
-      let sel_cat2 = [];
+      // let sel_cat2 = [];
 
-      sel_cat2 = Object.keys(selectedCategories.value).filter(
-        (c) => selectedCategories.value[c]
-      );
+      // sel_cat2 = Object.keys(selectedCategories.value).filter(
+      //   (c) => selectedCategories.value[c]
+      // );
 
-      console.log("selected category ", sel_cat2);
-      let newProducts2 = [
-        ...products.value.filter((p) => sel_cat2.includes(p.category_name)),
-      ];
-      total_results.value = newProducts2.length;
-      return newProducts2.sort((a, b) => {
+      // console.log("selected category ", sel_cat2);
+      // let newProducts2 = [
+      //   ...products.value.filter((p) => sel_cat2.includes(p.category_name)),
+      // ];
+      total_results.value = products.value.length;
+      return [...products.value].sort((a, b) => {
         const dateA = new Date(a.created_at);
         const dateB = new Date(b.created_at);
         return dateB - dateA;
@@ -487,18 +459,18 @@ const sortedProducts = computed(() => {
     //   return dateB - dateA;
     // });
     case "user_rating":
-      let sel_cat3 = [];
+      // let sel_cat3 = [];
 
-      sel_cat3 = Object.keys(selectedCategories.value).filter(
-        (c) => selectedCategories.value[c]
-      );
+      // sel_cat3 = Object.keys(selectedCategories.value).filter(
+      //   (c) => selectedCategories.value[c]
+      // );
 
-      console.log("selected category ", sel_cat3);
-      let newProducts3 = [
-        ...products.value.filter((p) => sel_cat3.includes(p.category_name)),
-      ];
-      total_results.value = newProducts3.length;
-      return newProducts3.sort((a, b) => b.rating - a.rating);
+      // console.log("selected category ", sel_cat3);
+      // let newProducts3 = [
+      //   ...products.value.filter((p) => sel_cat3.includes(p.category_name)),
+      // ];
+      total_results.value = products.value.length;
+      return [...products.value].sort((a, b) => b.rating - a.rating);
 
     // return [...products.value].sort((a, b) => b.rating - a.rating);
 
@@ -506,45 +478,182 @@ const sortedProducts = computed(() => {
       return products.value;
   }
 });
+const filteredProducts = computed(() => {
+  let sel_cat = [];
+  sel_cat = Object.keys(selectedCategories.value).filter(
+    (c) => selectedCategories.value[c]
+  );
+  console.log("selected products ", sel_cat);
 
-const getProducts = (page = 1) => {
-  isLoading.value = true;
-  fetch(BASE_URL + get_products_api + "?page=" + page, {
-    method: "GET",
-    // headers: {
-    //   Authorization: `Bearer ${token}`,
-    // },
-  })
-    .then((response) => {
-      // if (!response.ok) {
-      //   throw new Error(`HTTP error! status: ${response.status}`);
-      // }
-      return response.json();
-    })
-    .then((data) => {
-      isLoading.value = false;
-      console.log(data);
-      if (data.success) {
-        products.value = data.data;
-        total_pages.value = data.total_pages;
-        total_results.value = data.total_results;
+  return sel_cat;
 
-        console.log("fech-lenen product list: maglumat ", products.value);
-        console.log("fech-lende total page sany ", total_pages.value);
+  // if (sort_by.value == "") return [...products.value];
+  // if (sort_by.value == "best-selling") {
+  //   const best_selling_page = route.query.page || 1;
+  //   fetch(
+  //     BASE_URL + get_bestsellingproducts_api + "?page=" + best_selling_page,
+  //     {
+  //       method: "GET",
+  //       // headers: {
+  //       //   Authorization: `Bearer ${token}`,
+  //       // },
+  //     }
+  //   )
+  //     .then((response) => {
+  //       // if (!response.ok) {
+  //       //   throw new Error(`HTTP error! status: ${response.status}`);
+  //       // }
+  //       return response.json();
+  //     })
+  //     .then(async (data) => {
+  //       isLoading.value = false;
+  //       const test = ref(null);
+  //       test.value = data;
+  //       if (data.success) {
+  //         total_pages.value = data.total_pages;
+  //         total_results.value = data.total_results;
+  //         // sortedProducts.value = [...data.details];
+  //         // şunda  ýalňyş bar!
+  //         // redirect
+  //       } else {
+  //         console.log("success false :res status 200");
+  //         console.log("res : ", data);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error detected -!!! : ", error);
+  //     });
+  // }
+  // switch (sort_by.value) {
+  //   case "low_to_high":
+  //     // console.log(
+  //     //   "saylanan cetegory-lar ucin test : ",
+  //     //   Object.values(selectedCategories.value).indexOf(true)
+  //     // );
+  //     // let sel_cat = [];
 
-        // redirect
-      } else {
-        console.log("success false :res status 200");
-        console.log("res : ", data);
-      }
-    })
-    .catch((error) => {
-      console.error("Error detected -!!! : ", error);
-    });
+  //     // sel_cat = Object.keys(selectedCategories.value).filter(
+  //     //   (c) => selectedCategories.value[c]
+  //     // );
+
+  //     // console.log("selected category ", sel_cat);
+  //     // let newProducts = [
+  //     //   ...products.value.filter((p) => (p.category_name)),
+  //     // ];
+  //     total_results.value = products.value.length;
+  //     return [...products.value].sort((a, b) => a.price - b.price);
+
+  //   // return [...products.value].sort((a, b) => a.price - b.price);
+
+  //   case "high_to_low":
+  //     // let sel_cat1 = [];
+
+  //     // sel_cat1 = Object.keys(selectedCategories.value).filter(
+  //     //   (c) => selectedCategories.value[c]
+  //     // );
+
+  //     console.log("selected category ", sel_cat1);
+  //     // let newProducts1 = [
+  //     //   ...products.value.filter((p) => sel_cat1.includes(p.category_name)),
+  //     // ];
+  //     total_results.value = products.value.length;
+  //     return [...products.value];
+
+  //   // return [...products.value].sort((a, b) => b.price - a.price);
+
+  //   case "newest":
+  //     // let sel_cat2 = [];
+
+  //     // sel_cat2 = Object.keys(selectedCategories.value).filter(
+  //     //   (c) => selectedCategories.value[c]
+  //     // );
+
+  //     // console.log("selected category ", sel_cat2);
+  //     // let newProducts2 = [
+  //     //   ...products.value.filter((p) => sel_cat2.includes(p.category_name)),
+  //     // ];
+  //     total_results.value = products.value.length;
+  //     return [...products.value];
+
+  //   // return [...products.value].sort((a, b) => {
+  //   //   const dateA = new Date(a.created_at);
+  //   //   const dateB = new Date(b.created_at);
+  //   //   return dateB - dateA;
+  //   // });
+  //   case "user_rating":
+  //     // let sel_cat3 = [];
+
+  //     // sel_cat3 = Object.keys(selectedCategories.value).filter(
+  //     //   (c) => selectedCategories.value[c]
+  //     // );
+
+  //     // console.log("selected category ", sel_cat3);
+  //     // let newProducts3 = [
+  //     //   ...products.value.filter((p) => sel_cat3.includes(p.category_name)),
+  //     // ];
+  //     total_results.value = products.value.length;
+  //     return [...products.value];
+
+  //   // return [...products.value].sort((a, b) => b.rating - a.rating);
+
+  //   default:
+  //     return [...products.value];
+  // }
+});
+
+const getProducts = (page = 1, limit = 10) => {
+  if (messageCategory.value) {
+    switch (messageCategory.value) {
+      case "flashsales":
+        getFlashSalesProducts(page);
+        break;
+      case "exploreourproducts":
+        isLoading.value = true;
+        fetch(
+          BASE_URL + get_products_api + "?page=" + page + "&limit=" + limit,
+          {
+            method: "GET",
+            // headers: {
+            //   Authorization: `Bearer ${token}`,
+            // },
+          }
+        )
+          .then((response) => {
+            // if (!response.ok) {
+            //   throw new Error(`HTTP error! status: ${response.status}`);
+            // }
+            return response.json();
+          })
+          .then((data) => {
+            isLoading.value = false;
+            console.log(data);
+            if (data.success) {
+              products.value = data.data;
+              total_pages.value = data.total_pages;
+              total_results.value = data.total_results;
+
+              console.log("fech-lenen product list: maglumat ", products.value);
+              console.log("fech-lende total page sany ", total_pages.value);
+
+              // redirect
+            } else {
+              console.log("success false :res status 200");
+              console.log("res : ", data);
+            }
+          })
+          .catch((error) => {
+            console.error("Error detected -!!! : ", error);
+          });
+        break;
+      case "bestselling":
+        getBestSellingProducts(page, limit);
+        break;
+    }
+  }
 };
-const getCategories = (page = 1) => {
+const getCategories = (page = 1, limit = 20) => {
   // isLoading.value = true;
-  fetch(BASE_URL + get_categories_api + "?page=" + page, {
+  fetch(BASE_URL + get_categories_api + "?page=" + page + "&limit=" + limit, {
     method: "GET",
     // headers: {
     //   Authorization: `Bearer ${token}`,
@@ -558,12 +667,12 @@ const getCategories = (page = 1) => {
     })
     .then((data) => {
       // isLoading.value = false;
-      console.log("categories " + data);
+      console.log("categories ", data);
       if (data.success) {
         categories.value = data.data;
-        categories.value.forEach((element) => {
-          selectedCategories.value[element.name] = true;
-        });
+        // categories.value.forEach((element) => {
+        //   selectedCategories.value[element.name] = true;
+        // });
       } else {
         console.log("success false :res status 200");
         console.log("res : ", data);
@@ -573,14 +682,23 @@ const getCategories = (page = 1) => {
       console.error("Error detected -!!! : ", error);
     });
 };
-const getBestSellingProducts = (page = 1) => {
+
+const getBestSellingProducts = (page = 1, limit = 10) => {
   isLoading.value = true;
-  fetch(BASE_URL + get_bestsellingproducts_api + "?page=" + page, {
-    method: "GET",
-    // headers: {
-    //   Authorization: `Bearer ${token}`,
-    // },
-  })
+  fetch(
+    BASE_URL +
+      get_bestsellingproducts_api +
+      "?page=" +
+      page +
+      "&limit=" +
+      limit,
+    {
+      method: "GET",
+      // headers: {
+      //   Authorization: `Bearer ${token}`,
+      // },
+    }
+  )
     .then((response) => {
       // if (!response.ok) {
       //   throw new Error(`HTTP error! status: ${response.status}`);
@@ -594,6 +712,46 @@ const getBestSellingProducts = (page = 1) => {
       console.log("test edyan best selling products ", data);
 
       if (data.success) {
+        products.value = data.details;
+        total_pages.value = data.total_pages;
+        total_results.value = data.total_results;
+
+        return [...data.details];
+        // redirect
+      } else {
+        console.log("success false :res status 200");
+        console.log("res : ", data);
+      }
+    })
+    .catch((error) => {
+      console.error("Error detected -!!! : ", error);
+    });
+};
+const getFlashSalesProducts = (page = 1, limit = 10) => {
+  isLoading.value = true;
+  fetch(
+    BASE_URL + "/guest/api/flash_sales" + "?page=" + page + "&limit=" + limit,
+    {
+      method: "GET",
+      // headers: {
+      //   Authorization: `Bearer ${token}`,
+      // },
+    }
+  )
+    .then((response) => {
+      // if (!response.ok) {
+      //   throw new Error(`HTTP error! status: ${response.status}`);
+      // }
+      return response.json();
+    })
+    .then((data) => {
+      isLoading.value = false;
+      console.log(data);
+
+      console.log("test edyan best selling products ", data);
+
+      if (data.success) {
+        products.value = data.details;
         total_pages.value = data.total_pages;
         total_results.value = data.total_results;
 
@@ -609,21 +767,75 @@ const getBestSellingProducts = (page = 1) => {
     });
 };
 
-onMounted(() => {});
+onMounted(() => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+// watch(
+//   () => route.query.page,
+//   (newVal, oldVal) => {
+//     getProducts(newVal);
+//     getCategories();
+//   },
+//   { immediate: true }
+//   // { deep: true }
+// );
 
 watch(
-  () => route.query.page,
-  (newVal, oldVal) => {
-    console.log(
-      "taze bahasy  page-in : indi  bolsa  tipini kesgitlejek  ",
-      typeof newVal
-    );
+  () => [route.query.categories, route.query.page],
+  (newVal) => {
+    isLoading.value = true;
+    if (newVal[0]) {
+      newVal[0].split(",").map((c) => {
+        selectedCategories.value[c] = true;
+      });
 
-    getProducts(newVal);
-    getCategories();
+      let sel_cat = Object.keys(selectedCategories.value).filter(
+        (c) => selectedCategories.value[c]
+      );
+
+      fetch(
+        // http://localhost:3000/guest/api/get-products?page=1&categories=
+        BASE_URL +
+          "/guest/api/get-products" +
+          "?page=" +
+          newVal[1] +
+          "&categories=" +
+          sel_cat.toString(),
+        {
+          method: "GET",
+          // headers: {
+          //   "Content-Type": "application/json",
+          //   Authorization: `Bearer ${token}`,
+          // },
+          // body: JSON.stringify(postData),
+        }
+      )
+        .then((response) => {
+          // if (!response.ok) {
+          //   throw new Error(`HTTP error! status: ${response.status}`);
+          // }
+          return response.json();
+        })
+        .then((data) => {
+          isLoading.value = false;
+
+          console.log(data);
+          if (data.success) {
+            // products.value = data.data;
+          } else {
+          }
+        })
+        .catch((error) => {
+          console.error("Error detected -!!! : ", error);
+        });
+      getCategories();
+    } else {
+      getProducts(newVal[1]);
+      getCategories();
+    }
   },
   { immediate: true }
-  // { deep: true }
 );
 
 // watch(

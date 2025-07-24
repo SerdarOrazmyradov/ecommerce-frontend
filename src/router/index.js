@@ -45,6 +45,11 @@ const routes = [
     component: HomeView,
   },
   {
+    path: "/myaccount",
+    name: "myaccount",
+    component: () => import("../views/myaccount/MyAccount.vue"),
+  },
+  {
     path: "/product/:id",
     name: "product_details",
     component: () => import("../views/details/ProductDetails.vue"),
@@ -65,10 +70,53 @@ const routes = [
     component: () => import("../views/cart/CartComponent.vue"),
   },
   {
-    path: '/:pathMatch(.*)*', // Catch-all route for Vue 3
-    name: 'NotFound',
-    component:  () => import("../views/notfound/NotFound.vue"),
-  }
+    path: "/wishlist",
+    name: "wishlist",
+    component: () => import("../views/favorite/WishlistComponent.vue"),
+  },
+
+  {
+    path: "/admin",
+    name: "admin",
+    component: () => import("../views/admin/HomeView.vue"),
+    children: [
+      {
+        path: "profile",
+        name: "UserProfile",
+        component: () => import("../views/admin/UserProfileComponent.vue"),
+      },
+      {
+        path: "settings",
+        name: "UserSettings",
+        component: () => import("../views/admin/UserSettingsComponent.vue"),
+      },
+      {
+        path: "dashboard",
+        name: "Dashboard",
+        component: () => import("../views/admin/DashboardComponent.vue"),
+      },
+      {
+        path: "order",
+        name: "Order",
+        component: () => import("../views/admin/OrderComponent.vue"),
+      },
+      {
+        path: "listing",
+        name: "Listing",
+        component: () => import("../views/admin/ListingComponent.vue"),
+      },
+      {
+        path: "admin",
+        name: "Admin",
+        component: () => import("../views/admin/AdminComponent.vue"),
+      },
+    ],
+  },
+  {
+    path: "/:pathMatch(.*)*", // Catch-all route for Vue 3
+    name: "NotFound",
+    component: () => import("../views/notfound/NotFound.vue"),
+  },
 ];
 
 const router = createRouter({

@@ -214,85 +214,108 @@
               </div>
             </div>
           </div>
-          <!-- quantity -->
-          <div class="flex gap-4">
-            <div class="flex">
-              <div
-                @click="
-                  if (count > 1) {
-                    count -= 1;
-                  }
-                "
-                class="h-8 w-7 lg:h-11 lg:w-10 flex items-center border hover:bg-red-400 hover:text-white hover:border-red-400 cursor-pointer rounded-l-sm rounded-bl-sm justify-center"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  class="size-6"
+          <div class="flex gap-4 xl:min-w-96">
+            <!-- add to cart -->
+            <div
+              v-if="!useCartStore.cartProducts.some((p) => p.id == product.id)"
+              @click="
+                showSuccessToast();
+                useCartStore.addProduct(product);
+              "
+              class="bg-black w-full h-11 rounded text-base text-neutral-50 font-medium flex items-center justify-center py-2 cursor-pointer hover:bg-black/80 transition duration-300"
+            >
+              Add To Cart
+            </div>
+            <!-- quantity -->
+            <div v-else class="flex gap-4">
+              <div class="flex">
+                <!-- descrease -->
+                <div
+                  @click="useCartStore.addProduct(product, false)"
+                  class="h-8 w-7 lg:h-11 lg:w-10 flex items-center border hover:bg-red-400 hover:text-white hover:border-red-400 cursor-pointer rounded-l-sm rounded-bl-sm justify-center"
                 >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M5 12h14"
-                  />
-                </svg>
-              </div>
-              <!-- product count -->
-              <div
-                class="select-none h-8 w-15 lg:h-11 lg:w-20 text-lg lg:text-xl flex items-center justify-center border-y font-medium"
-              >
-                {{ count }}
-              </div>
-              <!-- plus button -->
-              <div
-                @click="count++"
-                class="h-8 w-7 lg:h-11 lg:w-10 flex items-center border hover:bg-red-400 hover:text-white hover:border-red-400 cursor-pointer rounded-r-sm rounded-br-sm justify-center"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  class="size-6"
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M5 12h14"
+                    />
+                  </svg>
+                </div>
+                <!-- product count -->
+                <div
+                  class="select-none h-8 w-15 lg:h-11 lg:w-20 text-lg lg:text-xl flex items-center justify-center border-y font-medium"
                 >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M12 4.5v15m7.5-7.5h-15"
-                  />
-                </svg>
+                  {{
+                    useCartStore.cartProducts.filter(
+                      (p) => p.id === product.id
+                    )[0]?.count
+                  }}
+                </div>
+                <!-- plus button -->
+                <div
+                  @click="useCartStore.addProduct(product)"
+                  class="h-8 w-7 lg:h-11 lg:w-10 flex items-center border hover:bg-red-400 hover:text-white hover:border-red-400 cursor-pointer rounded-r-sm rounded-br-sm justify-center"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M12 4.5v15m7.5-7.5h-15"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div class="flex items-center gap-4">
+                <div
+                  @click=""
+                  class="hover:bg-red-300 select-none h-8 lg:h-11 w-32 lg:w-40 flex items-center justify-center text-neutral-50 bg-red-400 rounded-sm cursor-pointer"
+                >
+                  Buy Now
+                </div>
               </div>
             </div>
-            <div class="flex items-center gap-4">
-              <div
-                @click="addCartProduct(product)"
-                class="hover:bg-red-300 select-none h-8 lg:h-11 w-32 lg:w-40 flex items-center justify-center text-neutral-50 bg-red-400 rounded-sm cursor-pointer"
+            <div
+              @click="toggleLike"
+              class="h-8 lg:h-11 w-7 lg:w-10 flex items-center border cursor-pointer rounded-sm justify-center focus:shadow-2xl focus:outline-none active:bg-gray-200/90"
+            >
+              <!-- heart icon -->
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="size-6"
+                :class="{
+                  'text-red-300': useLikedStore.likedProducts.some(
+                    (p) => p.id === product.id
+                  ),
+                  'text-black': !useLikedStore.likedProducts.some(
+                    (p) => p.id === product.id
+                  ),
+                }"
               >
-                Buy Now
-              </div>
-              <div
-                class="h-8 lg:h-11 w-7 lg:w-10 flex items-center border hover:bg-red-400 hover:text-white hover:border-red-400 cursor-pointer rounded-sm justify-center"
-              >
-                <!-- heart icon -->
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  class="size-6"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
-                  />
-                </svg>
-              </div>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
+                />
+              </svg>
             </div>
           </div>
           <div>
@@ -352,68 +375,27 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from "vue";
+import { ref, watch, onMounted, computed } from "vue";
 // import VSwatches from "vue-swatches";
 // import VSwatches from 'vue-swatches'
 
 // Import the styles too, globally
 // import 'vue-swatches/dist/vue-swatches.css'
 import { useRoute, useRouter } from "vue-router";
-
 // import LightBox from 'vue-image-lightbox'
 import RelatedItem from "../../components/product/RelatedItem.vue";
 import ImageModal from "../../components/modal/ImageModal.vue";
+import { useCart, useLiked, useToast } from "../../stores/stores";
+
+const useLikedStore = useLiked();
+const toastStore = useToast();
+const useCartStore = useCart();
 
 // const color = "#1CA085";
 const showImageModal = ref(false);
 const BASE_URL = "http://localhost:3000/";
 const IMAGE_BASE_URL = "http://localhost:3000/uploads/images/";
-const products = ref([
-  {
-    title: "HAVIT HV-G92 Gamepad",
-    image:
-      "http://localhost:5173/best_selling/672462_ZAH9D_5626_002_100_0000_Light-The-North-Face-x-Gucci-coat 1.png",
-    price: 120,
-    oldprice: 160,
-    discount: 40,
-    rating: 4,
-    reviews: 88,
-    id: 1,
-  },
-  {
-    title: "AK-900 Wired Keyboard",
-    image:
-      "http://localhost:5173/best_selling/547953_9C2ST_8746_001_082_0000_Light-Gucci-Savoy-medium-duffle-bag 1.png",
-    price: 960,
-    oldprice: 1160,
-    discount: 35,
-    rating: 4,
-    reviews: 75,
-    id: 2,
-  },
-  {
-    title: "IPS LCD Gaming Monitor",
-    image:
-      "http://localhost:5173/best_selling/gammaxx-l240-argb-1-500x500 1.png",
-    price: 370,
-    oldprice: 400,
-    discount: 30,
-    rating: 5,
-    reviews: 99,
-    id: 3,
-  },
-  {
-    title: "S-Series Comfort Chair",
-    image:
-      "http://localhost:5173/best_selling/sam-moghadam-khamseh-L_7MQsHl_aU-unsplash 1.png",
-    price: 375,
-    oldprice: 500,
-    discount: 25,
-    rating: 4,
-    reviews: 99,
-    id: 4,
-  },
-]);
+const products = ref([]);
 const product = ref({});
 const product_images = ref([]);
 const modal_images = ref([]);
@@ -423,21 +405,40 @@ const count = ref(1);
 
 const route = useRoute();
 const router = useRouter();
-const addCartProduct = (prod) => {
-  let cartProducts = JSON.parse(localStorage.getItem("cartProducts") || "[]");
 
-  // Bar bolsa count-y artdyr, ýok bolsa täze goş
-  let existingProduct = cartProducts.find((p) => p.id === prod.id);
+const isLiked = computed(() =>
+  useLikedStore.likedProducts.some((p) => p.id === product.value.id)
+);
 
-  if (existingProduct) {
-    existingProduct.count += 1;
+const toggleLike = () => {
+  if (isLiked.value) {
+    useLikedStore.removeProduct(product.value);
   } else {
-    prod.count = 1;
-    cartProducts.push(prod);
+    useLikedStore.addProduct(product.value);
   }
-
-  localStorage.setItem("cartProducts", JSON.stringify(cartProducts));
 };
+
+const showSuccessToast = () => {
+  toastStore.addToast({
+    message: "Üstünlikli ýerine ýetirildi!",
+    type: "success",
+  });
+};
+// const addCartProduct = (prod, number = 1) => {
+//   let cartProducts = JSON.parse(localStorage.getItem("cartProducts") || "[]");
+
+//   // Bar bolsa count-y artdyr, ýok bolsa täze goş
+//   let existingProduct = cartProducts.find((p) => p.id === prod.id);
+
+//   if (existingProduct) {
+//     existingProduct.count += number;
+//   } else {
+//     prod.count = 1;
+//     cartProducts.push(prod);
+//   }
+
+//   localStorage.setItem("cartProducts", JSON.stringify(cartProducts));
+// };
 //image click  bolanda modal açylmaly onuň üçin  bolsa  adyny almaly
 const fetchProductById = (id) => {
   // product detatils fetching

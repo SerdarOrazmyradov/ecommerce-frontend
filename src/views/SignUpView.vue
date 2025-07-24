@@ -32,7 +32,7 @@
 
         <div>
           <label
-            class="block  text-gray-700 uppercase font-bold text-[12px] tracking-[1px] mb-[0.5rem]"
+            class="block text-gray-700 uppercase font-bold text-[12px] tracking-[1px] mb-[0.5rem]"
             for="name"
             >Username</label
           >
@@ -41,7 +41,7 @@
             type="text"
             id="name"
             placeholder="John Doe"
-            class="w-full px-[0.375rem] py-[0.75rem]  border-gray-300  focus:ring-1 focus:ring-blue-400 outline-none transition duration-[0.6s] h-[52px] bg-[#fff] text-[#000] rounded-[5px] shadow-none border-[1px] border-solid-[rgba(0, 0, 0, 0.1)] tracking-[1.5] font-normal overflow-clip"
+            class="w-full px-[0.375rem] py-[0.75rem] border-gray-300 focus:ring-1 focus:ring-blue-400 outline-none transition duration-[0.6s] h-[52px] bg-[#fff] text-[#000] rounded-[5px] shadow-none border-[1px] border-solid-[rgba(0, 0, 0, 0.1)] tracking-[1.5] font-normal overflow-clip"
           />
         </div>
         <span class="flex items-center" v-if="error_username">
@@ -59,14 +59,14 @@
               d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"
             />
           </svg>
-          <div class="text-[#b50000] px-[0.375rem] ">{{ error_username }}</div>
+          <div class="text-[#b50000] px-[0.375rem]">{{ error_username }}</div>
         </span>
 
         <!-- Password -->
 
         <div class="relative">
           <label
-            class="block  text-gray-700 uppercase font-bold text-[12px] tracking-[1px] mb-[0.5rem]"
+            class="block text-gray-700 uppercase font-bold text-[12px] tracking-[1px] mb-[0.5rem]"
             for="password"
             >Password</label
           >
@@ -75,7 +75,7 @@
             :type="toggle_password ? 'text' : 'password'"
             id="password-field"
             placeholder="Password"
-            class="w-full px-[0.375rem] py-[0.75rem]  border-gray-300  focus:ring-1 focus:ring-blue-400 outline-none transition duration-[0.6s] h-[52px] bg-[#fff] text-[#000] rounded-[5px] shadow-none border-[1px] border-solid-[rgba(0, 0, 0, 0.1)] tracking-[1.5] font-normal overflow-clip"
+            class="w-full px-[0.375rem] py-[0.75rem] border-gray-300 focus:ring-1 focus:ring-blue-400 outline-none transition duration-[0.6s] h-[52px] bg-[#fff] text-[#000] rounded-[5px] shadow-none border-[1px] border-solid-[rgba(0, 0, 0, 0.1)] tracking-[1.5] font-normal overflow-clip"
           />
           <span
             class="absolute top-9 right-3 text-gray-500 cursor-pointer"
@@ -99,7 +99,7 @@
               d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"
             />
           </svg>
-          <div class="text-[#b50000] px-[0.375rem] ">{{ error_password }}</div>
+          <div class="text-[#b50000] px-[0.375rem]">{{ error_password }}</div>
         </span>
 
         <!-- Checkbox -->
@@ -127,11 +127,11 @@
 
       <p class="mt-4 text-sm text-gray-600">
         I'm already a member!
-        <a
-          href="#signin"
+        <router-link
+          :to="{ name: 'login' }"
           class="text-blue-500 hover:underline"
           style="transition: 0.3s all ease; box-sizing: border-box"
-          >Sign In</a
+          >Sign In</router-link
         >
       </p>
     </div>
@@ -149,6 +149,7 @@ import { ref } from "vue";
 import { signupValidation } from "../../validation/validations";
 import LoaderAndCheckmark from "../components/loader/LoaderAndCheckmark.vue";
 import { useRoute, useRouter } from "vue-router";
+import { useAuth } from "../stores/stores";
 
 const router = useRouter();
 const route = useRoute();
@@ -259,10 +260,10 @@ const signUpFn = (username, password) => {
           .then((data) => {
             console.log(data);
             if (data.success) {
-              localStorage.setItem("token", data.token);
-              // localStorage.setItem("user", JSON.stringify(data.user));
+              useAuth().login(data.token);
               isVisiable.value = false;
               isCompleted.value = true;
+              router.go(-1);
             } else {
               isVisiable.value = false;
               isCompleted.value = false;
@@ -274,17 +275,16 @@ const signUpFn = (username, password) => {
           });
         ////////////////////
 
-        setTimeout(() => {
-          router.replace({
-            name: "home",
-            // params: { genre: route.params.genre, page: route.params.page || "" },
-            // query: {
-            //   searchedText: route.query.searchedText || "",
-            //   page: route.query.page || "1",
-            // },
-          });
-        }, 1500);
-
+        // setTimeout(() => {
+        //   router.replace({
+        //     name: "home",
+        //     // params: { genre: route.params.genre, page: route.params.page || "" },
+        //     // query: {
+        //     //   searchedText: route.query.searchedText || "",
+        //     //   page: route.query.page || "1",
+        //     // },
+        //   });
+        // }, 1500);
       } else {
         isVisiable.value = false;
 

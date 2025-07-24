@@ -12,34 +12,26 @@
       <!-- Countdown Timer -->
       <div class="flex space-x-4">
         <div class="text-center">
-          <div
-            class="bg-white text-black w-16 h-16 flex items-center justify-center rounded-full text-xl font-bold"
-          >
-            23
-          </div>
-          <p class="mt-2">Hours</p>
-        </div>
-        <div class="text-center">
-          <div
-            class="bg-white text-black w-16 h-16 flex items-center justify-center rounded-full text-xl font-bold"
-          >
-            05
+          <div class="bg-white text-black w-16 h-16 flex items-center justify-center rounded-full text-xl font-bold">
+            {{ timer.days }}
           </div>
           <p class="mt-2">Days</p>
         </div>
         <div class="text-center">
-          <div
-            class="bg-white text-black w-16 h-16 flex items-center justify-center rounded-full text-xl font-bold"
-          >
-            59
+          <div class="bg-white text-black w-16 h-16 flex items-center justify-center rounded-full text-xl font-bold">
+            {{ timer.hours }}
+          </div>
+          <p class="mt-2">Hours</p>
+        </div>
+        <div class="text-center">
+          <div class="bg-white text-black w-16 h-16 flex items-center justify-center rounded-full text-xl font-bold">
+            {{ timer.minutes }}
           </div>
           <p class="mt-2">Minutes</p>
         </div>
         <div class="text-center">
-          <div
-            class="bg-white text-black w-16 h-16 flex items-center justify-center rounded-full text-xl font-bold"
-          >
-            35
+          <div class="bg-white text-black w-16 h-16 flex items-center justify-center rounded-full text-xl font-bold">
+            {{ timer.seconds }}
           </div>
           <p class="mt-2">Seconds</p>
         </div>
@@ -47,6 +39,7 @@
 
       <!-- Button -->
       <button
+        @click="showSuccessToast"
         class="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-3 rounded mt-4"
       >
         Buy Now!
@@ -64,8 +57,50 @@
   </div>
 </template>
 
-<script>
-export default {};
+<script setup>
+import { ref, onMounted } from "vue";
+import { useToast } from "../../stores/stores";
+
+const showSuccessToast = () => {
+  useToast().addToast({
+    message: "Üstünlikli ýerine ýetirildi!",
+    type: "success",
+  });
+};
+
+// Countdown timer
+const timer = ref({ days: "00", hours: "00", minutes: "00", seconds: "00" });
+let countdownInterval = null;
+
+// 24 sagat soň gutarýan countdown üçin target wagty bir gezek hasapla
+const target = new Date();
+target.setHours(target.getHours() + 24, 0, 0, 0);
+
+const startCountdown = () => {
+  countdownInterval = setInterval(() => {
+    const now = new Date();
+    const diff = target - now;
+
+    if (diff > 0) {
+      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const m = Math.floor((diff / (1000 * 60)) % 60);
+      const s = Math.floor((diff / 1000) % 60);
+
+      timer.value = {
+        days: String(d).padStart(2, "0"),
+        hours: String(h).padStart(2, "0"),
+        minutes: String(m).padStart(2, "0"),
+        seconds: String(s).padStart(2, "0"),
+      };
+    } else {
+      timer.value = { days: "00", hours: "00", minutes: "00", seconds: "00" };
+      clearInterval(countdownInterval);
+    }
+  }, 1000);
+};
+
+onMounted(startCountdown);
 </script>
 
 <style lang="scss" scoped></style>

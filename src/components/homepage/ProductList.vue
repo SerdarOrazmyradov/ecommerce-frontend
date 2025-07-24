@@ -21,7 +21,7 @@ const products = [
     discount: 40,
     rating: 4,
     reviews: 88,
-    id:1,
+    id: 1,
   },
   {
     title: "AK-900 Wired Keyboard",
@@ -31,7 +31,7 @@ const products = [
     discount: 35,
     rating: 4,
     reviews: 75,
-    id:1,
+    id: 1,
   },
   {
     title: "IPS LCD Gaming Monitor",
@@ -41,7 +41,7 @@ const products = [
     discount: 30,
     rating: 5,
     reviews: 99,
-    id:1,
+    id: 1,
   },
   {
     title: "S-Series Comfort Chair",
@@ -51,7 +51,7 @@ const products = [
     discount: 25,
     rating: 4,
     reviews: 99,
-    id:1,
+    id: 1,
   },
 ];
 </script>

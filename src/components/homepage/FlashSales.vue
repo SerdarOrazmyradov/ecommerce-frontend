@@ -22,7 +22,10 @@
       </div>
 
       <!-- Countdown Timer -->
-      <div class="flex items-end gap-1 sm:gap-2 md:gap-4">
+      <div
+        class="flex items-end gap-1 sm:gap-2 md:gap-4"
+        v-if="!(timer.days === '00' && timer.hours === '00' && timer.minutes === '00' && timer.seconds === '00')"
+      >
         <div class="text-center">
           <div class="text-xs sm:text-sm font-medium">Days</div>
           <div class="text-2xl sm:text-3xl md:text-4xl font-bold">
@@ -163,6 +166,9 @@
         @click="
           router.replace({
             name: 'productlist',
+            query: {
+              message: 'flashsales',
+            },
           })
         "
         aria-label="View All Flash Sale Products"
@@ -183,6 +189,7 @@ import { Navigation, Manipulation } from "swiper/modules";
 // import ProductCard from "../homepage/ProductCart.vue";
 import ProductCard from "../../components/product/ProductCard.vue";
 import { useRoute, useRouter } from "vue-router";
+import { Message } from "primevue";
 const router = useRouter();
 const route = useRoute();
 const BASE_URL = "http://localhost:3000/";
@@ -193,32 +200,39 @@ function onSwiperInit(swiper) {
 }
 
 // Countdown
-const timer = ref({ days: "03", hours: "23", minutes: "59", seconds: "56" });
 
-// const startCountdown = () => {
-//   setInterval(() => {
-//     const target = new Date();
-//     target.setHours(target.getHours() + 24);
-//     const now = new Date();
-//     const diff = target - now;
+const timer = ref({ days: "00", hours: "00", minutes: "00", seconds: "00" });
+let countdownInterval = null;
 
-//     if (diff > 0) {
-//       const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-//       const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
-//       const m = Math.floor((diff / (1000 * 60)) % 60);
-//       const s = Math.floor((diff / 1000) % 60);
+// 24 sagat soň gutarýan countdown üçin target wagty bir gezek hasapla
+const target = new Date();
+target.setHours(target.getHours() + 24, 0, 0, 0); // şu günki sagadyň soňuna çenli ýa-da 24 sagat soň
 
-//       timer.value = {
-//         days: String(d).padStart(2, "0"),
-//         hours: String(h).padStart(2, "0"),
-//         minutes: String(m).padStart(2, "0"),
-//         seconds: String(s).padStart(2, "0"),
-//       };
-//     }
-//   }, 1000);
-// };
+const startCountdown = () => {
+  countdownInterval = setInterval(() => {
+    const now = new Date();
+    const diff = target - now;
 
-// onMounted(startCountdown);
+    if (diff > 0) {
+      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const m = Math.floor((diff / (1000 * 60)) % 60);
+      const s = Math.floor((diff / 1000) % 60);
+
+      timer.value = {
+        days: String(d).padStart(2, "0"),
+        hours: String(h).padStart(2, "0"),
+        minutes: String(m).padStart(2, "0"),
+        seconds: String(s).padStart(2, "0"),
+      };
+    } else {
+      timer.value = { days: "00", hours: "00", minutes: "00", seconds: "00" };
+      clearInterval(countdownInterval);
+    }
+  }, 1000);
+};
+
+onMounted(startCountdown);
 
 // Product list
 const products = ref([

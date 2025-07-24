@@ -16,10 +16,11 @@
     </div>
 
     <div class="flex-1 flex justify-end" style="align-self: flex-end">
-      <div 
+      <div
         @click="
           router.replace({
             name: 'productlist',
+            query: { message: 'bestselling' },
           })
         "
         class="w-30 sm:w-[159px] h-[56px] flex justify-center items-center rounded bg-[#DB4444] hover:bg-red-300 cursor-pointer"
@@ -159,7 +160,6 @@ onMounted(() => {
           "fech-lenen best selling products maglumat ",
           products.value
         );
-
       } else {
         console.log("success false :res status 200");
         console.log("res : ", data);
