@@ -40,7 +40,11 @@
       <!-- Button -->
       <button
         @click="showSuccessToast"
-        class="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-3 rounded mt-4"
+        class="bg-green-500 hover:bg-green-600 transition-all duration-300 text-white font-semibold px-6 py-3 rounded mt-4 active:shadow-none active:translate-y-0"
+        style="
+          box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+          transform: translateY(-2px);
+        "
       >
         Buy Now!
       </button>

@@ -128,7 +128,12 @@
       <p class="mt-4 text-sm text-gray-600">
         I'm already a member!
         <router-link
-          :to="{ name: 'login' }"
+          :to="{
+            name: 'login',
+            query: {
+              redirectTo: route.query.redirectTo || '',
+            },
+          }"
           class="text-blue-500 hover:underline"
           style="transition: 0.3s all ease; box-sizing: border-box"
           >Sign In</router-link
@@ -263,7 +268,13 @@ const signUpFn = (username, password) => {
               useAuth().login(data.token);
               isVisiable.value = false;
               isCompleted.value = true;
-              router.go(-1);
+
+              if (route.query.redirectTo) {
+                router.push({ name: route.query.redirectTo });
+              } else {
+                router.push({ name: "home" });
+              }
+              // router.go(-1);
             } else {
               isVisiable.value = false;
               isCompleted.value = false;
@@ -276,7 +287,7 @@ const signUpFn = (username, password) => {
         ////////////////////
 
         // setTimeout(() => {
-        //   router.replace({
+        //   router.push({
         //     name: "home",
         //     // params: { genre: route.params.genre, page: route.params.page || "" },
         //     // query: {

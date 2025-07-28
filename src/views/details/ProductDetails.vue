@@ -1,48 +1,9 @@
 <template>
-  <ImageModal
-    :showLayer="showImageModal"
-    :product_images="product_images"
-    @changeShowLayerValue="
-      () => {
-        showImageModal = !showImageModal;
-      }
-    "
-  />
-  <!-- <div
-    class="w-full h-full flex items-center justify-center z-10  fixed backdrop-blur-xs "
-  >
-    <img
-      :src="IMAGE_BASE_URL + product.main_image"
-      alt="modal image"
-      class=""
-    />
-  </div> -->
-
-  <!-- <LightBox :media="[
-  { // For image
-    thumb: 'http://example.com/thumb.jpg',
-    src: 'http://example.com/image.jpg',
-    caption: 'caption to display. receive <html> <b>tag</b>', // Optional
-    srcset: '...' // Optional for displaying responsive images
-  },
-  { // For video
-    thumb: 'https://s3-us-west-1.amazonaws.com/powr/defaults/image-slider2.jpg',
-    sources: [
-      {
-        src: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        type: 'video/mp4'
-      }
-    ],
-    type: 'video',
-    caption: '<h4>Monsters Inc.</h4>',
-    width: 800, // required
-    height: 600, // required
-    autoplay: true //Optional to autoplay video when lightbox opens
-  }]"
-  ></LightBox> -->
   <div class="">
     <div class="bg-black h-px"></div>
-    <div class="container px-1 md:px-4 xl:px-7 mx-auto">
+    <div
+      class="max-w-[1170px] mx-auto px-4 sm:px-6 lg:px-8 mb-8 sm:mb-10 md:mb-12"
+    >
       <!-- header -->
       <div class="mt-20 h-5 py-px flex items-center">
         <div
@@ -53,11 +14,15 @@
         <div
           class="h-3.5 w-[1px] ml-2 sm:ml-3 bg-gray-500 rotate-[30grad]"
         ></div>
-        <div
+        <router-link
+          :to="{
+            name: 'productlist',
+            query: { page: 1, categories: product.category_name },
+          }"
           class="text-xs lg:text-sm ml-2 sm:ml-3 text-gray-500 cursor-pointer"
         >
-          Gaming
-        </div>
+          {{ product.category_name }}
+        </router-link>
         <div
           class="h-3.5 w-[1px] ml-2 sm:ml-3 bg-gray-500 rotate-[30grad]"
         ></div>
@@ -66,82 +31,12 @@
         </div>
       </div>
 
-      <div class="mt-20 mb-40 flex flex-col mx-10 md:mx-0 lg:flex-row gap-4">
-        <div class="hidden lg:flex lg:flex-col gap-4">
-          <div
-            v-for="(image, index) in product_images"
-            :key="index"
-            class="w-40 h-32.5 bg-gray-100 rounded-sm flex justify-center items-center"
-          >
-            <img
-              @click="
-                showImageModal = true;
-                console.log(
-                  'basylan iamge-in path-y ',
-                  IMAGE_BASE_URL + image.img_path
-                );
-              "
-              :src="IMAGE_BASE_URL + image.img_path"
-              alt="practising"
-              class="cursor-pointer"
-            />
-          </div>
+      <div class="mt-20 mb-40 flex flex-col mx-10 lg:flex-row gap-4">
+        <div class="">
+          <!-- images -->
+          <ProductImages :product_images="product_images" />
         </div>
-        <div
-          class="hidden lg:flex flex-1 lg:w-full bg-gray-100 items-center justify-center rounded-sm"
-        >
-          <img
-            @click="
-              showImageModal = true;
-              console.log(
-                'basylan iamge-in path-y ',
-                IMAGE_BASE_URL + product.main_image
-              );
-            "
-            :src="IMAGE_BASE_URL + product.main_image"
-            alt="practising"
-            class="mx-auto cursor-pointer"
-          />
-        </div>
-        <div class="flex gap-4">
-          <div class="flex flex-col lg:hidden gap-4">
-            <div
-              v-for="(image, index) in product_images"
-              :key="index"
-              class="w-40 h-32.5 bg-gray-100 rounded-sm flex justify-center items-center"
-            >
-              <img
-                @click="
-                  showImageModal = true;
-                  console.log(
-                    'basylan iamge-in path-y ',
-                    IMAGE_BASE_URL + image.img_path
-                  );
-                "
-                :src="IMAGE_BASE_URL + image.img_path"
-                alt="practising"
-                class="cursor-pointer"
-              />
-            </div>
-          </div>
-          <div
-            class="lg:hidden flex flex-1 lg:w-full bg-gray-100 items-center justify-center rounded-sm"
-          >
-            <img
-              @click="
-                showImageModal = true;
-                console.log(
-                  'basylan iamge-in path-y ',
-                  IMAGE_BASE_URL + product.main_image
-                );
-              "
-              :src="IMAGE_BASE_URL + product.main_image"
-              alt="practising"
-              class="mx-auto cursor-pointer"
-            />
-          </div>
-        </div>
-        <div class="flex flex-col gap-4">
+        <div class=" ">
           <div class="text-xl lg:text-2xl font-semibold">
             {{ product.name }}
           </div>
@@ -156,7 +51,9 @@
               </template>
             </div>
             <!-- review -->
-            <div class="text-xs lg:text-sm text-gray-500">(150 Reviews)</div>
+            <div class="text-xs lg:text-sm text-gray-500">
+              ({{ product.reviews || 10 }} Reviews)
+            </div>
             <!-- line -->
             <div class="h-4 w-px bg-gray-500 ml-2"></div>
             <!-- stock -->
@@ -167,14 +64,23 @@
               In Stock
             </div>
             <div v-else class="ml-2 text-xs lg:text-sm text-red-400 text-left">
-              In Stock
+              Not In Stock
             </div>
           </div>
           <div class="text-2xl">${{ product.price }}</div>
           <div class="text-xs lg:text-sm pt-2 break-normal max-w-96">
             {{ product.description }}
+            <span v-if="!expanded && hasMore">...</span>
+            <span v-if="expanded">{{ remainingText }}</span>
+            <button
+              v-if="hasMore"
+              @click="expanded = !expanded"
+              class="text-blue-500 block mt-1 underline text-xs lg:text-sm"
+            >
+              {{ expanded ? "Show less" : "Show more" }}
+            </button>
           </div>
-          <div class="w-full mt-2 h-px bg-black/90"></div>
+          <!-- <div class="w-full mt-2 h-px bg-black/90"></div> -->
           <!-- colors -->
           <div v-if="product.colors" class="flex gap-6 mt-2 items-center">
             <div class="text-lg lg:text-xl">Colours:</div>
@@ -214,15 +120,19 @@
               </div>
             </div>
           </div>
-          <div class="flex gap-4 xl:min-w-96">
+          <div class="flex gap-4 mt-4 xl:min-w-96">
             <!-- add to cart -->
             <div
-              v-if="!useCartStore.cartProducts.some((p) => p.id == product.id)"
+              v-if="!useCartStore.cartProducts.some((p) => p.id == productId)"
               @click="
                 showSuccessToast();
                 useCartStore.addProduct(product);
               "
-              class="bg-black w-full h-11 rounded text-base text-neutral-50 font-medium flex items-center justify-center py-2 cursor-pointer hover:bg-black/80 transition duration-300"
+              class="bg-black w-full h-11 rounded text-base text-neutral-50 font-medium flex items-center justify-center py-2 cursor-pointer hover:bg-black/80 transition duration-300 active:shadow-none active:translate-y-0"
+              style="
+                box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+                transform: translateY(-2px);
+              "
             >
               Add To Cart
             </div>
@@ -232,7 +142,11 @@
                 <!-- descrease -->
                 <div
                   @click="useCartStore.addProduct(product, false)"
-                  class="h-8 w-7 lg:h-11 lg:w-10 flex items-center border hover:bg-red-400 hover:text-white hover:border-red-400 cursor-pointer rounded-l-sm rounded-bl-sm justify-center"
+                  class="h-8 w-7 lg:h-11 lg:w-10 flex items-center border hover:bg-red-400 hover:text-white hover:border-red-400 cursor-pointer rounded-l-sm rounded-bl-sm justify-center active:shadow-none active:translate-y-0"
+                  style="
+                    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+                    transform: translateY(-2px);
+                  "
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -251,18 +165,26 @@
                 </div>
                 <!-- product count -->
                 <div
+                  style="
+                    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+                    transform: translateY(-2px);
+                  "
                   class="select-none h-8 w-15 lg:h-11 lg:w-20 text-lg lg:text-xl flex items-center justify-center border-y font-medium"
                 >
                   {{
                     useCartStore.cartProducts.filter(
-                      (p) => p.id === product.id
+                      (p) => p.id === productId
                     )[0]?.count
                   }}
                 </div>
                 <!-- plus button -->
                 <div
                   @click="useCartStore.addProduct(product)"
-                  class="h-8 w-7 lg:h-11 lg:w-10 flex items-center border hover:bg-red-400 hover:text-white hover:border-red-400 cursor-pointer rounded-r-sm rounded-br-sm justify-center"
+                  class="h-8 w-7 lg:h-11 lg:w-10 flex items-center border hover:bg-red-400 hover:text-white hover:border-red-400 cursor-pointer rounded-r-sm rounded-br-sm justify-center active:shadow-none active:translate-y-0"
+                  style="
+                    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+                    transform: translateY(-2px);
+                  "
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -282,13 +204,18 @@
               </div>
               <div class="flex items-center gap-4">
                 <div
-                  @click=""
-                  class="hover:bg-red-300 select-none h-8 lg:h-11 w-32 lg:w-40 flex items-center justify-center text-neutral-50 bg-red-400 rounded-sm cursor-pointer"
+                  @click="buyNow"
+                  class="hover:bg-red-400/80 select-none h-8 lg:h-11 w-32 lg:w-40 flex items-center justify-center text-neutral-50 bg-red-400 rounded-sm cursor-pointer transition-all duration-300 active:shadow-none active:translate-y-0"
+                  style="
+                    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+                    transform: translateY(-2px);
+                  "
                 >
                   Buy Now
                 </div>
               </div>
             </div>
+            <!-- heart -->
             <div
               @click="toggleLike"
               class="h-8 lg:h-11 w-7 lg:w-10 flex items-center border cursor-pointer rounded-sm justify-center focus:shadow-2xl focus:outline-none active:bg-gray-200/90"
@@ -296,17 +223,17 @@
               <!-- heart icon -->
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                fill="none"
+                :fill="!isLiked ? 'none' : 'red'"
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
-                stroke="currentColor"
+                :stroke="isLiked ? ' red' : '   currentColor  '"
                 class="size-6"
                 :class="{
                   'text-red-300': useLikedStore.likedProducts.some(
-                    (p) => p.id === product.id
+                    (p) => p.id === productId
                   ),
                   'text-black': !useLikedStore.likedProducts.some(
-                    (p) => p.id === product.id
+                    (p) => p.id === productId
                   ),
                 }"
               >
@@ -369,46 +296,67 @@
     </div>
     <!-- related item -->
     <div class="mx-9 md:mx-0 mb-10 md:mt-15">
-      <RelatedItem :products="products" />
+      <RelatedItem :products="relatedproducts" />
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, watch, onMounted, computed } from "vue";
-// import VSwatches from "vue-swatches";
-// import VSwatches from 'vue-swatches'
-
-// Import the styles too, globally
-// import 'vue-swatches/dist/vue-swatches.css'
 import { useRoute, useRouter } from "vue-router";
-// import LightBox from 'vue-image-lightbox'
 import RelatedItem from "../../components/product/RelatedItem.vue";
 import ImageModal from "../../components/modal/ImageModal.vue";
 import { useCart, useLiked, useToast } from "../../stores/stores";
+import ProductImages from "../../components/product/ProductImages.vue";
 
 const useLikedStore = useLiked();
 const toastStore = useToast();
 const useCartStore = useCart();
 
-// const color = "#1CA085";
+const expanded = ref(false);
+const limit = 90;
+
+const hasMore = computed(
+  () => (product.value.description || "").length > limit
+);
+
+const shortDescription = computed(() =>
+  expanded.value
+    ? product.value.description
+    : (product.value.description || "").slice(0, limit)
+);
+
+const remainingText = computed(() =>
+  (product.value.description || "").slice(limit)
+);
+
 const showImageModal = ref(false);
 const BASE_URL = "http://localhost:3000/";
-const IMAGE_BASE_URL = "http://localhost:3000/uploads/images/";
-const products = ref([]);
+const IMAGE_BASE_URL = "http://localhost:3000/";
+const relatedproducts = ref([]);
 const product = ref({});
 const product_images = ref([]);
-const modal_images = ref([]);
+
 const sizes = ref(["XS", "S", "M", "L", "XL"]);
 const selectedSize = ref({});
 const count = ref(1);
+const selectedImage = ref("");
 
 const route = useRoute();
 const router = useRouter();
-
+const productId = computed(() => product.value.id ?? product.value.product_id);
 const isLiked = computed(() =>
-  useLikedStore.likedProducts.some((p) => p.id === product.value.id)
+  useLikedStore.likedProducts.some((p) => p.id === productId.value)
 );
+
+const modal_images = computed(() => {
+  let images = [];
+
+  product_images.value.forEach((image) => {
+    images.push(IMAGE_BASE_URL + String(image.img_path));
+  });
+  return [IMAGE_BASE_URL + product.value.main_image, ...images];
+});
 
 const toggleLike = () => {
   if (isLiked.value) {
@@ -424,22 +372,14 @@ const showSuccessToast = () => {
     type: "success",
   });
 };
-// const addCartProduct = (prod, number = 1) => {
-//   let cartProducts = JSON.parse(localStorage.getItem("cartProducts") || "[]");
+const buyNow = () => {
+  setTimeout(() => {
+    router.push({
+      name: "checkout",
+    });
+  }, 1000);
+};
 
-//   // Bar bolsa count-y artdyr, ýok bolsa täze goş
-//   let existingProduct = cartProducts.find((p) => p.id === prod.id);
-
-//   if (existingProduct) {
-//     existingProduct.count += number;
-//   } else {
-//     prod.count = 1;
-//     cartProducts.push(prod);
-//   }
-
-//   localStorage.setItem("cartProducts", JSON.stringify(cartProducts));
-// };
-//image click  bolanda modal açylmaly onuň üçin  bolsa  adyny almaly
 const fetchProductById = (id) => {
   // product detatils fetching
   fetch(BASE_URL + "guest/api/product/" + id, {
@@ -458,41 +398,9 @@ const fetchProductById = (id) => {
       console.log(data);
       if (data.success) {
         product.value = data.details;
-        modal_images.value.push(
-          IMAGE_BASE_URL + String(product.value.main_image)
-        );
-        console.log(" img modal ucin :" + modal_images.value);
+        relatedproducts.value = data.related;
 
-        console.log("fetch-lenen  maglumat !-", product.value);
-      } else {
-        console.log("res status 200 ýöne success false");
-      }
-    })
-    .catch((error) => {
-      console.error("Error detected !!!- :", error);
-    });
-  // product images fetching
-
-  fetch(BASE_URL + "guest/api/product-images/" + id, {
-    method: "GET",
-    // headers: {
-    //   Authorization: `Bearer ${token}`,
-    // },
-  })
-    .then((response) => {
-      // if (!response.ok) {
-      //   throw new Error(`HTTP error! status: ${response.status}`);
-      // }
-      return response.json();
-    })
-    .then((data) => {
-      console.log(data);
-      if (data.success) {
-        product_images.value = data.details;
-        // her bir suraty modal üçin array-a geçir!
-        product_images.value.forEach((image) => {
-          modal_images.value.push(IMAGE_BASE_URL + String(image.img_path));
-        });
+        product_images.value = data.details.images;
       } else {
         console.log("res status 200 ýöne success false");
       }

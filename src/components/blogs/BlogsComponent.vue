@@ -122,4 +122,9 @@ import { Navigation } from "swiper/modules";
 import "swiper/css";
 
 import "swiper/css/bundle";
+
+function onSwiperInit(swiper) {
+  swiper.navigation.init();
+  swiper.navigation.update();
+}
 </script>

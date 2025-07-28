@@ -1,28 +1,33 @@
 <template>
-  <div
-    class="relative overflow-hidden w-full h-[300px] sm:h-[350px] md:h-[400px] lg:h-[344px] bg-black text-white rounded-lg"
+  <Swiper
+    :modules="[Autoplay]"
+    :loop="true"
+    :autoplay="{ delay: 3000 }"
+    grabCursor
+    class="h-[300px] sm:h-[350px] md:h-[400px] lg:h-[344px] max-w-3xl"
   >
-    <!-- Slides container -->
-    <div
-      class="flex h-full transition-transform duration-500 ease-in-out"
-      :style="{ transform: `translateX(-${currentIndex * 100}%)` }"
+    <SwiperSlide
+      v-for="(product, i) in slides"
+      :key="i"
+      @click=""
+      class="px-2 sm:px-6 md:px-10 lg:px-16 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-black py-3 md:py-0"
+      style="box-sizing: border-box"
     >
-      <!-- Slides (repeated 3 times) -->
-      <div
-        v-for="(slide, index) in slides"
-        :key="index"
-        class="w-full flex-shrink-0 flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8 lg:gap-10 px-2 sm:px-6 md:px-10 lg:px-16 bg-black py-6 md:py-0"
+      <router-link
+        class="relative"
+        :to="{ name: 'productlist', query: { categories: 'Phones' } }"
       >
         <!-- Text content -->
-        <div class="text-center md:text-left mb-6 md:mb-0 flex-1 max-w-md">
+        <div class="mb-6 md:mb-0 text-neutral-50 mt-10">
           <div class="flex items-center justify-center md:justify-start">
+            <!-- apple logo -->
             <img
-              :src="image_src_logo"
+              :src="'http://localhost:5173/' + image_src_logo"
               alt="Apple"
               class="w-8 h-10 sm:w-10 sm:h-12 mb-3 md:mb-0"
             />
-            <p class="text-gray-300 text-base sm:text-lg mb-2 ml-4 sm:ml-6">
-              iPhone 14 Series
+            <p class="text-neutral-50 text-base sm:text-lg mb-2 ml-4 sm:ml-6">
+              iPhone 16 Series
             </p>
           </div>
           <h1
@@ -33,51 +38,47 @@
           <div
             @click="showSuccessToast"
             href="#"
-            class="cursor-pointer inline-block text-white text-base sm:text-lg border-b border-white hover:opacity-70 transition-opacity"
+            class="inline-block text-neutral-50 text-base sm:text-lg transition-opacity relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-50 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 cursor-pointer"
           >
             Shop Now →
           </div>
         </div>
 
-        <!-- Image -->
-        <div class="flex-1 flex justify-center">
+        <div class="absolute top-10 right-20">
           <img
-            :src="image_src"
-            alt="iPhone 14"
-            class="w-[200px] sm:w-[300px] md:w-[350px] lg:w-[400px] xl:w-[496px] object-contain drop-shadow-2xl"
-          />
-        </div>
-      </div>
-    </div>
-
-    <!-- Navigation dots -->
-    <div
-      class="absolute bottom-4 sm:bottom-6 left-1/2 transform -translate-x-1/2 flex gap-2 sm:gap-3"
-    >
-      <button
-        v-for="(dot, index) in slides.length"
-        :key="index"
-        @click="goToSlide(index)"
-        :class="[
-          'w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-colors',
-          currentIndex === index
-            ? 'bg-[#DB4444]'
-            : 'bg-gray-500 hover:bg-gray-400',
-        ]"
-        :aria-label="'Go to slide ' + (index + 1)"
-      ></button>
-    </div>
-  </div>
+            :src="'http://localhost:5173/' + product.image"
+            alt=""
+            class="size-64 object-scale-down"
+          /></div
+      ></router-link>
+    </SwiperSlide>
+  </Swiper>
 </template>
 
 <script setup>
+import { Swiper, SwiperSlide } from "swiper/vue";
+import { Navigation, Manipulation, Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import { useToast } from "../../stores/stores";
+import ProductList from "../../views/productlist/ProductList.vue";
+import { categories } from "@vueuse/core/metadata.mjs";
 const toastStore = useToast();
 const image_src = ref("./hero_section/hero_endframe__cvklg0xk3w6e_large.png");
-const image_src_logo = ref("./hero_section/1200px-Apple_gray_logo 1.png");
+const image_src_logo = ref("/hero_section/1200px-Apple_gray_logo 1.png");
 const currentIndex = ref(0);
-const slides = ref([1, 2, 3]); // Just as placeholders
+const slides = ref([
+  {
+    image: "/hero_section/color_large_2x.png",
+  },
+  {
+    image: "/hero_section/flex_magsafe_large_2x.png",
+  },
+  {
+    image: "/hero_section/flex_applecare_large_2x.png",
+  },
+]); // Just as placeholders
 
 const goToSlide = (index) => {
   currentIndex.value = index;

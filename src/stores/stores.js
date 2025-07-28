@@ -1,61 +1,6 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
-export const useSearchedTextStore = defineStore("searchedText", {
-  state: () => ({ searchedText: "" }),
-  actions: {
-    setSearchedText(newSearchText) {
-      this.searchedText = newSearchText;
-    },
-  },
-});
-
-export const useCurrentPage = defineStore("currentPage", {
-  state: () => ({ currentPage: "" }),
-  actions: {
-    setCurrentPage(newCurrentPage) {
-      this.currentPage = newCurrentPage;
-    },
-  },
-});
-
-export const useTotaPage = defineStore("totalPages", {
-  state: () => ({
-    totalPages: 0,
-  }),
-  actions: {
-    setTotalPages(newTotal) {
-      this.totalPages = newTotal;
-    },
-  },
-});
-
-export const useSearchedMovie = defineStore("searchedMovie", {
-  state: () => ({
-    searchedMoviePage: "0",
-  }),
-  actions: {
-    setSearchedMoviePage(newTotal) {
-      this.searchedMoviePage = newTotal;
-    },
-  },
-});
-
-export const useCount = defineStore("count", {
-  state: () => ({
-    count: 0,
-  }),
-  actions: {
-    // store.js/faýlyňda
-    setCountVal(newVal) {
-      this.count = newVal;
-    },
-
-    increment() {
-      this.count++;
-    },
-  },
-});
 export const useLiked = defineStore("liked", () => {
   const likedProducts = ref(
     JSON.parse(localStorage.getItem("likedProducts") || "[]")
@@ -90,12 +35,19 @@ export const useCart = defineStore("cart", () => {
 
   const addProduct = (prod, isIncrease = true) => {
     const existing = cartProducts.value.find((p) => p.id === prod.id);
+    
     if (!existing) {
-      prod.count = 1;
-      cartProducts.value.push(prod);
+      if (prod.stock > 0) {
+        prod.count = 1;
+        cartProducts.value.push(prod);
+      }
     } else {
       if (isIncrease) {
-        existing.count += 1;
+        if (existing.count < prod.stock) {
+          existing.count += 1;
+        } else {
+          console.warn("Stock limit reached");
+        }
       } else {
         existing.count -= 1;
         if (existing.count <= 0) {
@@ -105,10 +57,11 @@ export const useCart = defineStore("cart", () => {
         }
       }
     }
+
     localStorage.setItem("cartProducts", JSON.stringify(cartProducts.value));
   };
+
   const setProducts = (newProducts) => {
-    cartProducts.value = [];
     cartProducts.value = [...newProducts];
     localStorage.setItem("cartProducts", JSON.stringify(cartProducts.value));
   };
@@ -125,6 +78,7 @@ export const useCart = defineStore("cart", () => {
     setProducts,
   };
 });
+
 
 export function parseJwt(token) {
   if (!token) {
@@ -162,25 +116,6 @@ export const useAuth = defineStore("auth", () => {
   };
 });
 
-export const useCartQuentity = defineStore("cart_quentity", {
-  state: () => ({
-    count: 0,
-  }),
-  actions: {
-    setCountVal(newVal) {
-      this.count = newVal;
-    },
-
-    increment() {
-      this.count++;
-    },
-    decreament() {
-      if (this.count === 0) return; // Prevent decrementing below zero
-      this.count--;
-    },
-  },
-});
-
 export const useToast = defineStore("toast", {
   state: () => ({
     toasts: [],
@@ -190,10 +125,6 @@ export const useToast = defineStore("toast", {
      *
      * @param {{message:string,type:'success' | 'error' | 'info' ,duration? :number}} toast
      */
-
-    // her birini goşanyňda wagtyny bellemeli
-    // 2 sekuntdan soňra ýitip gitmeli
-    // nähili edip ýerine ýetirmeli?
 
     addToast(toast) {
       const id = Date.now();

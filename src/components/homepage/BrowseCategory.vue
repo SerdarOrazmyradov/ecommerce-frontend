@@ -18,7 +18,11 @@
     <div class="flex-1 flex justify-end" style="align-self: flex-end">
       <div class="w-[100px] h-[46px] flex gap-[8px]">
         <div
-          class="w-[46px] hover:bg-gray-200 h-[46px] bg-[#F5F5F5] rounded-full flex justify-center items-center custom1-prev-button"
+          class="w-[46px] hover:bg-gray-200 cursor-pointer transition-all duration-300 h-[46px] bg-[#F5F5F5] rounded-full flex justify-center items-center custom1-prev-button active:shadow-none active:translate-y-0"
+          style="
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+          "
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -36,7 +40,11 @@
           </svg>
         </div>
         <div
-          class="hover:bg-gray-200 w-[46px] h-[46px] bg-[#F5F5F5] rounded-full flex justify-center items-center custom1-next-button"
+          class="hover:bg-gray-200 cursor-pointer transition-all duration-300 w-[46px] h-[46px] bg-[#F5F5F5] rounded-full flex justify-center items-center custom1-next-button active:shadow-none active:translate-y-0"
+          style="
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+          "
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -94,13 +102,13 @@
       }"
     >
       <SwiperSlide
-        v-for="(cat, index) in categories"
+        v-for="(category, index) in categories"
         :key="index"
         @click="selectCategory(index)"
         class="cursor-pointer"
       >
         <router-link
-          :to="{ name: 'productlist', query: { category: cat.name } }"
+          :to="{ name: 'productlist', query: { categories: category.name } }"
           :class="[
             'flex flex-col items-center justify-center max-w-[170px] h-[145px] border rounded-md transition duration-300 hover:bg-[#DB4444] hover:text-white border-gray-300',
             selectedIndex === index ? ' ' : '   ',
@@ -109,9 +117,11 @@
           <div
             class="w-[56px] h-[56px] mx-auto flex items-center justify-center mt-[25px] mb-[16px]"
           >
-            <i :class="[cat.icon, 'text-2xl leading-[1] ']"></i>
+            <i :class="[category.icon, 'text-2xl leading-[1] ']"></i>
           </div>
-          <span class="text-[16px] leading-[1] mb-[24px]">{{ cat.name }}</span>
+          <span class="text-[16px] leading-[1] mb-[24px]">{{
+            category.name
+          }}</span>
         </router-link>
       </SwiperSlide>
     </Swiper>
@@ -141,5 +151,44 @@ const selectCategory = (index) => {
   selectedIndex.value = index;
 };
 
-onMounted(() => {});
+const getCategories = (page = 1, limit = 20) => {
+  // isLoading.value = true;
+  fetch(
+    "http://localhost:3000" +
+      "/guest/api/categories" +
+      "?page=" +
+      page +
+      "&limit=" +
+      limit,
+    {
+      method: "GET",
+      // headers: {
+      //   Authorization: `Bearer ${token}`,
+      // },
+    }
+  )
+    .then((response) => {
+      // if (!response.ok) {
+      //   throw new Error(`HTTP error! status: ${response.status}`);
+      // }
+      return response.json();
+    })
+    .then((data) => {
+      // isLoading.value = false;
+      console.log("categories " + data);
+      if (data.success) {
+        categories.value = data.data;
+      } else {
+        console.log("success false :res status 200");
+        console.log("res : ", data);
+      }
+    })
+    .catch((error) => {
+      console.error("Error detected -!!! : ", error);
+    });
+};
+
+onMounted(() => {
+  getCategories();
+});
 </script>

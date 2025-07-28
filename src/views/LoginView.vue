@@ -225,12 +225,6 @@ const loginFn = (username, password) => {
     isCompleted.value = false;
     return;
   }
-  // const error = signupValidation(postData);
-  // if (error) {
-  //   console.log("error validation ", error);
-  //   error_validation.value = error;
-  //   return;
-  // }
 
   fetch(BASE_URL + "/auth/api/login", {
     method: "POST",
@@ -251,27 +245,13 @@ const loginFn = (username, password) => {
         isVisiable.value = true;
         isCompleted.value = true;
 
+        if (route.query.redirectTo) {
+          router.push({ name: route.query.redirectTo });
+        } else {
+          router.push({ name: "home" });
+        }
+
         useAuth().login(data.token);
-
-        setTimeout(() => {
-          router.replace({
-            name: "home",
-            // params: { genre: route.params.genre, page: route.params.page || "" },
-            // query: {
-            //   searchedText: route.query.searchedText || "",
-            //   page: route.query.page || "1",
-            // },
-          });
-        }, 1500);
-
-        // this.$cookie.set(data.details.name, data.token, { expires: "1Y" });
-        // setToken(data.details.name, data.token);
-        // console.log('token : ', getToken(data.details.name));
-
-        // Get a cookie
-        // const value = this.$cookie.get('myKey'); // For vue-cookie
-
-        // redirect
       } else {
         isVisiable.value = false;
         error_username.value = data.message;

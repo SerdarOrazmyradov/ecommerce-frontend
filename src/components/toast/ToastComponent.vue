@@ -1,7 +1,7 @@
 <template>
   <div>
     <transition name="toast">
-      <div class="fixed top-10 right-6 z-[21]">
+      <div class="fixed top-10 right-6 z-[1000]">
         <div
           v-for="(toast, i) in toastStore.toasts"
           :key="i"

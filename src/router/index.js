@@ -1,48 +1,31 @@
 import { createRouter, createWebHistory } from "vue-router";
-import LandingPage from "../views/LandingPage.vue";
-import TestSwiper from "../views/TestSwiper.vue";
-import NavBar from "../views/NavBar.vue";
-import SignUpView from "../views/SignUpView.vue";
-import LoginView from "../views/LoginView.vue";
-import LogoutView from "../views/LogoutView.vue";
-import HomeView from "../views/home/HomeView.vue";
 
 const routes = [
   {
-    path: "/landingpage",
-    name: "landingpage",
-    component: LandingPage,
-  },
-  {
-    path: "/test",
-    name: "test",
-    component: TestSwiper,
-  },
-  {
-    path: "/navbar",
-    name: "navbar",
-    component: NavBar,
-  },
-  {
     path: "/auth/api/signup",
     name: "signup",
-    component: SignUpView,
+    component: () => import("../views/SignUpView.vue"),
   },
   {
     path: "/auth/api/login",
     name: "login",
-    component: LoginView,
+    component: () => import("../views/LoginView.vue"),
   },
   {
     path: "/auth/api/logout",
     name: "logout",
-    component: LogoutView,
+    component: () => import("../views/LogoutView.vue"),
+  },
+  {
+    path: "/auth/api/authredirect",
+    name: "authredirect",
+    component: () => import("../views/auth/AuthRedirect.vue"),
   },
 
   {
     path: "/",
     name: "home",
-    component: HomeView,
+    component: () => import("../views/home/HomeView.vue"),
   },
   {
     path: "/myaccount",
@@ -60,6 +43,11 @@ const routes = [
     component: () => import("../views/productlist/ProductList.vue"),
   },
   {
+    path: "/categories",
+    name: "categorylist",
+    component: () => import("../views/categorylist/CategoryList.vue"),
+  },
+  {
     path: "/checkout",
     name: "checkout",
     component: () => import("../views/checkout/CheckOut.vue"),
@@ -73,6 +61,16 @@ const routes = [
     path: "/wishlist",
     name: "wishlist",
     component: () => import("../views/favorite/WishlistComponent.vue"),
+  },
+  {
+    path: "/tracing-order/:id",
+    name: "tracing-order",
+    component: () => import("../views/order/TrackingOrder.vue"),
+  },
+  {
+    path: "/my-orders",
+    name: "my-orders",
+    component: () => import("../views/order/MyOrders.vue"),
   },
 
   {

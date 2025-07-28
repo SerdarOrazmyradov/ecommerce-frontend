@@ -87,6 +87,7 @@ const isCompleted = ref(false);
 
 const handle = () => {
   // const token = getToken("serdar28");
+
   const token = localStorage.getItem("token");
   logout(token);
 };

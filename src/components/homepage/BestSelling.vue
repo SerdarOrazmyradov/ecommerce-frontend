@@ -18,12 +18,16 @@
     <div class="flex-1 flex justify-end" style="align-self: flex-end">
       <div
         @click="
-          router.replace({
+          router.push({
             name: 'productlist',
             query: { message: 'bestselling' },
           })
         "
-        class="w-30 sm:w-[159px] h-[56px] flex justify-center items-center rounded bg-[#DB4444] hover:bg-red-300 cursor-pointer"
+        class="w-30 sm:w-[159px] h-[56px] flex justify-center items-center rounded bg-[#DB4444] hover:bg-red-300 cursor-pointer transition-all duration-300 active:shadow-none active:translate-y-0"
+        style="
+          box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+          transform: translateY(-2px);
+        "
       >
         <div class="m-auto text-sm sm:text-[16px] font-medium text-[#FAFAFA]">
           View All
@@ -31,40 +35,44 @@
       </div>
     </div>
   </div>
-  <div class="px-2 sm:px-4">
+  <div class="px-2 sm:px-4 !overflow-hidden">
     <Swiper
-      :slides-per-view="1.2"
+      :slides-per-view="1"
       :space-between="10"
       :breakpoints="{
         480: {
-          slidesPerView: 1.5,
-          spaceBetween: 15,
+          // 480/220 = 2.18  2*220+15=440+15 = 455
+          slidesPerView: 2,
+          spaceBetween: 10,
         },
         640: {
+          // 640/220 = 2.9  2*220+20=440+20 = 460
+          slidesPerView: 2,
+          spaceBetween: 10,
+        },
+        768: {
+          // 768/220 = 3.49  3*220+20+20=660+60 = 720
           slidesPerView: 2,
           spaceBetween: 20,
         },
-        768: {
-          slidesPerView: 2.5,
-          spaceBetween: 20,
-        },
         1024: {
-          slidesPerView: 3.5,
+          // 1024/220 = 4.64  4*220+25+25+25
+          slidesPerView: 3,
           spaceBetween: 25,
         },
         1280: {
-          slidesPerView: 4.5,
+          slidesPerView: 4,
           spaceBetween: 30,
         },
       }"
       :modules="[Navigation, Manipulation]"
       grabCursor
-      class=""
+      class="!overflow-visible"
     >
       <SwiperSlide
         v-for="(product, i) in products"
         :key="i"
-        class=""
+        class="!overflow-visible"
         style="box-sizing: border-box"
       >
         <!-- <product-cart :product="product" /> -->
@@ -88,56 +96,12 @@ import { Navigation, Manipulation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 
-import ProductCart from "./ProductCart.vue";
 import ProductCard from "../../components/product/ProductCard.vue";
 import { useRoute, useRouter } from "vue-router";
 const router = useRouter();
 const route = useRoute();
 const BASE_URL = "http://localhost:3000/";
-const products = ref([
-  // {
-  //   title: "HAVIT HV-G92 Gamepad",
-  //   image:
-  //     "./best_selling/672462_ZAH9D_5626_002_100_0000_Light-The-North-Face-x-Gucci-coat 1.png",
-  //   price: 120,
-  //   oldprice: 160,
-  //   discount: 40,
-  //   rating: 4,
-  //   reviews: 88,
-  //   id: 1,
-  // },
-  // {
-  //   title: "AK-900 Wired Keyboard",
-  //   image:
-  //     "./best_selling/547953_9C2ST_8746_001_082_0000_Light-Gucci-Savoy-medium-duffle-bag 1.png",
-  //   price: 960,
-  //   oldprice: 1160,
-  //   discount: 35,
-  //   rating: 4,
-  //   reviews: 75,
-  //   id: 2,
-  // },
-  // {
-  //   title: "IPS LCD Gaming Monitor",
-  //   image: "./best_selling/gammaxx-l240-argb-1-500x500 1.png",
-  //   price: 370,
-  //   oldprice: 400,
-  //   discount: 30,
-  //   rating: 5,
-  //   reviews: 99,
-  //   id: 3,
-  // },
-  // {
-  //   title: "S-Series Comfort Chair",
-  //   image: "./best_selling/sam-moghadam-khamseh-L_7MQsHl_aU-unsplash 1.png",
-  //   price: 375,
-  //   oldprice: 500,
-  //   discount: 25,
-  //   rating: 4,
-  //   reviews: 99,
-  //   id: 4,
-  // },
-]);
+const products = ref([]);
 onMounted(() => {
   fetch(BASE_URL + "guest/api/best_selling", {
     method: "GET",

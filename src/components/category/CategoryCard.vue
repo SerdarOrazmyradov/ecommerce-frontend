@@ -2,82 +2,6 @@
   <div
     class="cursor-pointer max-w-2xs h-[500px] relative group ml-5 sm:ml-10 md:ml-0 shadow-md duration-500 transform transition hover:scale-105 hover:z-20 hover:shadow-xl"
   >
-    <!-- discount -->
-    <div
-      v-if="Number(product.discount || 0) > 0"
-      class="select-none absolute top-3 left-3 flex items-center justify-center bg-red-400 rounded-sm text-neutral-50 h-6 w-14 py-1 z-20"
-    >
-      -{{ product.discount }}%
-    </div>
-
-    <!-- new -->
-    <div
-      v-else-if="product.isNew"
-      class="absolute top-3 left-3 bg-[#00FF66] text-[#FAFAFA] text-xs sm:text-sm px-3 py-1 rounded-md z-20"
-    >
-      NEW
-    </div>
-
-    <!-- heart & wishlist icons -->
-
-    <!-- Action Buttons -->
-    <div class="absolute top-3 right-3 flex flex-col gap-2 z-10">
-      <!-- heart -->
-      <button
-        @click="
-          () => {
-            toggleLike();
-            console.log('salam');
-          }
-        "
-        class="w-8 h-8 sm:w-9 sm:h-9 flex justify-center items-center rounded-full bg-white hover:bg-gray-100 transition-colors duration-200 shadow-sm cursor-pointer"
-        aria-label="Add to wishlist"
-      >
-        <svg
-          ref="heart"
-          xmlns="http://www.w3.org/2000/svg"
-          :fill="isLiked ? 'red' : 'none'"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="size-5 sm:size-6"
-          :class="isLiked ? 'text-red-400' : 'text-black'"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
-          />
-        </svg>
-      </button>
-
-      <!-- eye icon -->
-      <!-- <button
-        class="w-8 h-8 sm:w-9 sm:h-9 flex justify-center items-center rounded-full bg-white hover:bg-gray-100 transition-colors duration-200 shadow-sm cursor-pointer"
-        aria-label="Quick view"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="size-5 sm:size-6"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
-          />
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-          />
-        </svg>
-      </button> -->
-    </div>
-
     <div
       class="absolute top-0 left-0 h-[200px] w-full bg-gray-100 rounded-sm"
     ></div>
@@ -230,38 +154,28 @@ import { useRoute, useRouter } from "vue-router";
 const toastStore = useToast();
 const useCartStore = useCart();
 
-// const blurredImageDiv = document.querySelector(".blurred-image");
-// const img = querySelector("blurredImageDiv >img");
-
-// if (img.complete) {
-//   loaded();
-// } else {
-//   img.addEventListener("load", loaded);
-// }
-
 const router = useRouter();
 const route = useRoute();
 const useLikedStore = useLiked();
 
 const props = defineProps({
-  product: { type: Object },
+  category: { type: Object },
 });
 
-function loaded() {
-  blurredImageDiv.classList.add("loaded");
-}
-const productId = computed(() => props.product.id ?? props.product.product_id);
-
-const isLiked = computed(() =>
-  useLikedStore.likedProducts.some((p) => p.id === productId.value)
+const categoryId = computed(
+  () => props.category.id ?? props.category.category_id
 );
-const toggleLike = () => {
-  if (isLiked.value) {
-    useLikedStore.removeProduct(props.product);
-  } else {
-    useLikedStore.addProduct(props.product);
-  }
-};
+
+// const isLiked = computed(() =>
+//   useLikedStore.likedProducts.some((p) => p.id === productId.value)
+// );
+// const toggleLike = () => {
+//   if (isLiked.value) {
+//     useLikedStore.removeProduct(props.product);
+//   } else {
+//     useLikedStore.addProduct(props.product);
+//   }
+// };
 
 const showSuccessToast = () => {
   toastStore.addToast({
@@ -271,94 +185,4 @@ const showSuccessToast = () => {
 };
 </script>
 
-<style scoped>
-.blurred-img {
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-.blurred-img::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  animation: pulse 2.5s infinite;
-  background-color: var(--text-color);
-}
-
-@keyframes pulse {
-  0% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 0.1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-
-.blurred-img.loaded::before {
-  animation: none;
-  content: none;
-}
-
-.blurred-img img {
-  opacity: 0;
-  transition: opacity 250ms ease-in-out;
-}
-
-.blurred-img.loaded img {
-  opacity: 1;
-}
-
-.br {
-  border-radius: 8px;
-}
-.w80 {
-  width: 80%;
-}
-.card {
-  border: 2px solid #fff;
-  box-shadow: 0px 0px 10px 0 #a9a9a9;
-  padding: 30px 40px;
-  width: 80%;
-  margin: 50px auto;
-}
-.profilePic {
-  height: 65px;
-  width: 65px;
-  border-radius: 50%;
-}
-.comment {
-  height: 10px;
-  background: #777;
-  margin-top: 20px;
-}
-
-.wrapper {
-  width: 0px;
-  animation: fullView 0.5s forwards linear;
-}
-
-@keyframes fullView {
-  100% {
-    width: 100%;
-  }
-}
-
-.animate {
-  animation: shimmer 2s infinite;
-  background: linear-gradient(to right, #eff1f3 4%, #e2e2e2 25%, #eff1f3 36%);
-  background-size: 1000px 100%;
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: -1000px 0;
-  }
-  100% {
-    background-position: 1000px 0;
-  }
-}
-</style>
+<style lang="scss" scoped></style>

@@ -17,7 +17,11 @@
         <div class="w-[100px] h-[46px] flex gap-[8px]">
           <!--prev button  -->
           <div
-            class="w-[46px] h-[46px] bg-[#F5F5F5] rounded-full flex justify-center items-center custom2-prev-button"
+            class="w-[46px] h-[46px] bg-[#F5F5F5] rounded-full flex justify-center items-center hover:bg-gray-200 transition-colors custom2-prev-button duration-300 active:shadow-none active:translate-y-0"
+            style="
+              box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+              transform: translateY(-2px);
+            "
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -36,7 +40,11 @@
           </div>
           <!-- next button -->
           <div
-            class="w-[46px] h-[46px] bg-[#F5F5F5] rounded-full flex justify-center items-center custom2-next-button"
+            class="w-[46px] h-[46px] bg-[#F5F5F5] rounded-full flex justify-center items-center hover:bg-gray-200 transition-colors custom2-next-button duration-300 active:shadow-none active:translate-y-0"
+            style="
+              box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+              transform: translateY(-2px);
+            "
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -56,29 +64,9 @@
         </div>
       </div>
     </div>
-    <section class="mt-[60px]">
-      <!-- <Swiper
-        :slides-per-view="4"
-        :space-between="30"
-        :breakpoints="breakpoints"
-        :navigation="{
-          nextEl: '.custom2-next-button',
-          prevEl: '.custom2-prev-button',
-        }"
-        :modules="[Navigation, Manipulation]"
-        grabCursor
-      >
-        <SwiperSlide
-          v-for="(product, i) in products"
-          :key="i"
-          class="transition duration-300"
-          style="box-sizing: border-box; width: auto"
-        >
-          <ProductCard :product="product" :discount="product.discount" />
-        </SwiperSlide>
-      </Swiper> -->
+    <section class="mt-[60px] px-2 sm:px-4 !overflow-hidden">
       <Swiper
-        :slides-per-view="1.2"
+        :slides-per-view="1"
         :space-between="10"
         :navigation="{
           nextEl: '.custom2-next-button',
@@ -88,32 +76,37 @@
         grabCursor
         :breakpoints="{
           480: {
-            slidesPerView: 1.5,
-            spaceBetween: 15,
+            // 480/220 = 2.18  2*220+15=440+15 = 455
+            slidesPerView: 2,
+            spaceBetween: 10,
           },
           640: {
+            // 640/220 = 2.9  2*220+20=440+20 = 460
+            slidesPerView: 2,
+            spaceBetween: 10,
+          },
+          768: {
+            // 768/220 = 3.49  3*220+20+20=660+60 = 720
             slidesPerView: 2,
             spaceBetween: 20,
           },
-          768: {
-            slidesPerView: 2.5,
-            spaceBetween: 20,
-          },
           1024: {
-            slidesPerView: 3.5,
+            // 1024/220 = 4.64  4*220+25+25+25
+            slidesPerView: 3,
             spaceBetween: 25,
           },
           1280: {
-            slidesPerView: 4.5,
+            slidesPerView: 4,
             spaceBetween: 30,
           },
         }"
-        class="mt-[60px]"
+        class="mt-[60px] !overflow-visible"
       >
         <SwiperSlide
           v-for="(product, i) in products1"
           :key="i"
           style="box-sizing: border-box"
+          class="!overflow-visible"
         >
           <ProductCard :product="product" />
         </SwiperSlide>
@@ -121,7 +114,7 @@
 
       <div
         @click="
-          router.replace({
+          router.push({
             name: 'productlist',
             query: { message: 'exploreourproducts' },
           })
@@ -129,7 +122,7 @@
         class="mt-[60px] text-center"
       >
         <button
-          class="bg-[#DB4444] hover:bg-red-300 cursor-pointer text-[#FAFAFA] px-[48px] py-[16px] rounded text-[16px] font-medium"
+          class="bg-[#DB4444] hover:bg-red-300 cursor-pointer transition-all duration-300 text-[#FAFAFA] px-[48px] py-[16px] rounded text-[16px] font-medium"
         >
           View All Products
         </button>
@@ -144,7 +137,6 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation, Manipulation } from "swiper/modules";
 
-// import ProductCard from "../../components/homepage/ProductCart.vue";
 import ProductCard from "../../components/product/ProductCard.vue";
 import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";

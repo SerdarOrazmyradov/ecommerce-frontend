@@ -28,7 +28,9 @@
   >
     <loading-animation text="Process" />
   </div>
-  <div class="container mx-auto lg:px-15">
+  <div
+    class="max-w-[1170px] mx-auto px-4 sm:px-6 lg:px-8 mb-8 sm:mb-10 md:mb-12"
+  >
     <!-- header -->
     <div class="flex justify-between w-full mt-20 h-5 py-px">
       <!-- header -->
@@ -52,7 +54,7 @@
     <!-- main -->
     <div class="mt-20 flex lg:gap-10 xl:gap-30 mb-36">
       <!-- left side -->
-      <div>
+      <div class="invisible">
         <!-- Manage My Account -->
         <div class="mx-2 lg:mx-3">
           <div class="text-sm lg:text-base font-medium">Manage My Account</div>
@@ -60,16 +62,18 @@
             <div class="text-sm lg:text-base cursor-pointer text-red-500">
               My Profile
             </div>
-            <div class="text-sm lg:text-base cursor-pointer text-gray-500">
+            <div
+              class="hidden text-sm lg:text-base cursor-pointer text-gray-500"
+            >
               Address Book
             </div>
-            <div class="text-sm lg:text-base cursor-pointer text-gray-500">
+            <div class="hidden text-sm lg:text-base cursor-pointer text-gray-500">
               My Payment Options
             </div>
           </div>
         </div>
         <!--My Orders  -->
-        <div class="mx-2 lg:mx-3 mt-6">
+        <div class="hidden mx-2 lg:mx-3 mt-6">
           <div class="text-sm lg:text-base font-medium">My Orders</div>
           <div class="ml-7 flex flex-col gap-2 mt-4">
             <div class="text-sm lg:text-base cursor-pointer text-gray-500">
@@ -81,7 +85,7 @@
           </div>
         </div>
         <!-- My WishList -->
-        <div class="mx-2 lg:mx-3 mt-6">
+        <div class="hidden mx-2 lg:mx-3 mt-6">
           <div class="text-sm lg:text-base font-medium">My WishList</div>
         </div>
       </div>
@@ -116,6 +120,7 @@
                   :type="toggle_password ? 'text' : 'password'"
                   id="currentpassword"
                   v-model="password"
+                  placeholder="Current Passwod"
                   class="w-full px-[0.375rem] py-[0.75rem] border-gray-300 focus:ring-1 focus:ring-blue-400 outline-none transition duration-[0.6s] h-[52px] bg-[#fff] text-gray-500 rounded-[5px] shadow-none border-[1px] border-solid-[rgba(0, 0, 0, 0.1)] tracking-[1.5] font-normal overflow-clip"
                 />
 
@@ -144,6 +149,7 @@
                   :type="toggle_newpasswod ? 'text' : 'password'"
                   id="newpassword"
                   v-model="newpassword"
+                  placeholder="New Passwod"
                   class="w-full px-[0.375rem] py-[0.75rem] border-gray-300 focus:ring-1 focus:ring-blue-400 outline-none transition duration-[0.6s] h-[52px] bg-[#fff] text-gray-500 rounded-[5px] shadow-none border-[1px] border-solid-[rgba(0, 0, 0, 0.1)] tracking-[1.5] font-normal overflow-clip"
                 />
 
@@ -174,6 +180,7 @@
                   :type="toggle_confirm_new_passwod ? 'text' : 'password'"
                   id="confirm_new_passwod"
                   v-model="confirm_new_passwod"
+                  placeholder="Confirm New Passwod"
                   class="w-full px-[0.375rem] py-[0.75rem] border-gray-300 focus:ring-1 focus:ring-blue-400 outline-none transition duration-[0.6s] h-[52px] bg-[#fff] text-gray-500 rounded-[5px] shadow-none border-[1px] border-solid-[rgba(0, 0, 0, 0.1)] tracking-[1.5] font-normal overflow-clip"
                 />
 
@@ -236,9 +243,9 @@ const toggle_confirm_new_passwod = ref(true);
 const isLoading = ref(false);
 const isError = ref(false);
 
-const confirm_new_passwod = ref("Confirm New Passwod");
-const password = ref("Current Passwod");
-const newpassword = ref("New Passwod");
+const confirm_new_passwod = ref("");
+const password = ref("");
+const newpassword = ref("");
 const name = ref(useAuthStore.user.name);
 const message = ref("");
 

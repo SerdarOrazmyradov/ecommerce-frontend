@@ -1,7 +1,9 @@
 <template>
-  <div class="container mx-auto px-3 md:px-5">
+  <div class="container mx-auto px-1 sm:px-3 md:px-5">
     <!-- header -->
-    <div class="mt-20 h-5 py-px flex items-center">
+    <div
+      class="max-w-[1170px] mx-auto px-4 sm:px-6 lg:px-8 mb-8 sm:mb-10 md:mb-12 mt-20 h-5 py-px flex items-center"
+    >
       <!-- <div class="text-xs lg:text-sm ml-2 sm:ml-3 text-gray-500 cursor-pointer">
         Home
       </div> -->
@@ -15,7 +17,9 @@
       <div class="text-xs lg:text-sm ml-3 cursor-pointer">Cart</div>
     </div>
     <!-- body -->
-    <div class="">
+    <div
+      class="max-w-[1170px] mx-auto px-4 sm:px-6 lg:px-8 mb-8 sm:mb-10 md:mb-12"
+    >
       <div
         class="overflow-x-auto max-w-6xl flex flex-col gap-8 md:gap-10 mx-auto mt-16 md:mt-20"
       >
@@ -41,7 +45,7 @@
           >
             <!-- image & title -->
             <div
-              class="items-center min-w-56 md:min-w-96 flex gap-3 md:gap-5 relative"
+              class="items-center min-w-44 md:min-w-96 flex gap-3 md:gap-5 relative"
             >
               <!-- delete -->
               <div
@@ -71,11 +75,16 @@
                 </div>
               </div>
               <img
-                :src="IMAGE_BASE_URL + product.main_image"
+                :src="BASE_URL + product.main_image"
                 alt="product"
-                class="w-11 md:w-14 h-11 md:h-14"
+                class="bg-cover size-14 md:size-16 object-scale-down"
               />
-              <div class="text-sm md:text-base">{{ product.name }}</div>
+              <div
+                :title="product.name"
+                class="text-sm md:text-base truncate w-[300px]"
+              >
+                {{ product.name }}
+              </div>
             </div>
             <!-- price -->
             <div
@@ -87,7 +96,11 @@
             <input
               v-model="product.count"
               type="number"
-              class="flex items-center justify-center w-12 sm:w-20 md:w-24 px-1 h-9 md:h-11 outline-none border rounded-sm text-sm md:text-base"
+              class="flex items-center justify-center w-12 sm:w-20 md:w-24 px-1 h-9 md:h-11 outline-none border rounded-sm text-sm md:text-base active:shadow-none active:translate-y-0"
+              style="
+                box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+                transform: translateY(-2px);
+              "
               value="1"
             />
             <!-- subtotal -->
@@ -102,19 +115,22 @@
         <div class="-mt-3 md:-mt-4 w-full flex justify-between h-11 md:h-14">
           <!-- first button -->
           <div
-            class="select-none cursor-pointer hover:bg-gray-100 text-sm md:text-base font-medium border rounded-sm px-4 sm:px-9 md:px-12 py-2 md:py-4"
+            class="invisible select-none cursor-pointer hover:bg-gray-100 text-sm md:text-base font-medium border rounded-sm px-4 sm:px-9 md:px-12 py-2 md:py-4 transition-all duration-300 active:shadow-none active:translate-y-0"
+            style="
+              box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+              transform: translateY(-2px);
+            "
           >
             Return To Shop
           </div>
           <!-- second button -->
           <div
-            @click="
-              // useCartQuentityStore.setCountVal(
-              //   products.reduce((acc, product) => acc + product.count, 0)
-              // );
-              updateCartProduct()
+            @click="updateCartProduct()"
+            class="select-none cursor-pointer hover:bg-gray-100 text-sm md:text-base font-medium border rounded-sm px-4 sm:px-9 md:px-12 py-2 md:py-4 transition-all duration-300 active:shadow-none active:translate-y-0"
+            style="
+              box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+              transform: translateY(-2px);
             "
-            class="select-none cursor-pointer hover:bg-gray-100 text-sm md:text-base font-medium border rounded-sm px-4 sm:px-9 md:px-12 py-2 md:py-4"
           >
             Update Cart
           </div>
@@ -128,7 +144,7 @@
         <div>
           <!-- coupon code -->
           <div
-            class="flex items-center max-w-lg md:w-full justify-between gap-4"
+            class="invisible flex items-center max-w-lg md:w-full justify-between gap-4"
           >
             <input
               placeholder="Coupon Code"
@@ -165,7 +181,11 @@
           <!-- checout button -->
           <div
             @click="ProceesToCheckout()"
-            class="select-none cursor-pointer mb-6 md:mb-8 mx-auto bg-red-400 rounded-sm text-neutral-50 text-sm md:text-base font-medium flex justify-center items-center py-2 hover:bg-red-300 w-44 md:w-60 md:py-4 mt-4"
+            class="select-none cursor-pointer mb-6 md:mb-8 mx-auto bg-red-400 rounded-sm text-neutral-50 text-sm md:text-base font-medium flex justify-center items-center py-2 hover:bg-red-300 w-44 md:w-60 md:py-4 mt-4 active:shadow-none active:translate-y-0 transition-all duration-300"
+            style="
+              box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+              transform: translateY(-2px);
+            "
           >
             Procees to checkout
           </div>
@@ -177,12 +197,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
-import {
-  useLiked,
-  useCart,
-  useCartQuentity,
-  useToast,
-} from "../../stores/stores";
+import { useLiked, useCart, useToast } from "../../stores/stores";
 import { useRoute, useRouter } from "vue-router";
 const router = useRouter();
 const route = useRoute();
@@ -190,7 +205,6 @@ const route = useRoute();
 const useLikedStore = useLiked();
 const useCartStore = useCart();
 const useToastStore = useToast();
-const useCartQuentityStore = useCartQuentity();
 
 const BASE_URL = "http://localhost:3000/";
 const IMAGE_BASE_URL = "http://localhost:3000/uploads/images/";
@@ -221,10 +235,6 @@ const showInfoToast = () => {
 const updateCartProduct = () => {
   useCartStore.setProducts(products.value);
   showInfoToast();
-  // localStorage.setItem(
-  //   "cartProducts",
-  //   JSON.stringify(useCartStore.cartProducts) || "[]"
-  // );
 };
 const ProceesToCheckout = () => {
   setTimeout(() => {

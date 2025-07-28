@@ -11,7 +11,7 @@
       viewBox="0 0 24 24"
       stroke-width="1.5"
       :stroke="showDropdown ? 'white' : 'black'"
-      class="size-8 cursor-pointer"
+      class="size-8 cursor-pointer transition duration-75"
       :class="{ 'bg-white/0  transition duration-75': showDropdown }"
     >
       <path
@@ -34,13 +34,13 @@
         <div
           ref="dropdownMenu"
           v-show="showDropdown"
-          class="transition duration-300 ease-in-out absolute w-72 z-20 rounded px-5 py-2 bg-linear-to-br from-gray-500 to-black top-10 right-0"
+          class="transition duration-300 ease-in-out absolute w-72 z-40 rounded px-5 py-2 bg-linear-to-br from-gray-500 to-black top-10 right-0"
         >
           <!-- my account -->
           <div
+            @click.stop="showDropdown = false"
             @click="
               () => {
-                showDropdown = false;
                 changerouter('myaccount');
               }
             "
@@ -66,6 +66,12 @@
           </div>
           <!-- my order -->
           <div
+            @click.stop="showDropdown = false"
+            @click="
+              () => {
+                changerouter('my-orders');
+              }
+            "
             class="py-2 flex gap-3 items-center cursor-pointer hover:bg-linear-to-br hover:from-gray-500/90 hover:to-black/90 rounded"
           >
             <svg
@@ -86,7 +92,8 @@
             <div class="text-sm text-neutral-50 select-none">My Order</div>
           </div>
           <!-- my cancellation -->
-          <div
+          <!-- <div
+            @click.stop="showDropdown = false"
             class="py-2 flex gap-3 items-center cursor-pointer hover:bg-linear-to-br hover:from-gray-500/90 hover:to-black/90 rounded"
           >
             <svg
@@ -107,10 +114,11 @@
             <div class="text-sm text-neutral-50 select-none">
               My Cancellations
             </div>
-          </div>
+          </div> -->
 
           <!-- my reviews -->
-          <div
+          <!-- <div
+            @click.stop="showDropdown = false"
             class="py-2 flex gap-3 items-center cursor-pointer hover:bg-linear-to-br hover:from-gray-500/90 hover:to-black/90 rounded"
           >
             <svg
@@ -129,9 +137,10 @@
             </svg>
 
             <div class="text-sm text-neutral-50 select-none">My Reviews</div>
-          </div>
+          </div> -->
           <!-- logout -->
           <div
+            @click.stop="showDropdown = false"
             @click="
               showInfoToast();
               useAuthStore.logout();
@@ -184,6 +193,7 @@ const showInfoToast = () => {
   });
 };
 onMounted(() => {
+  showDropdown.value = false;
   window.addEventListener("click", (e) => {
     if (dropdownMenu.value != null) {
       if (!dropdownMenu.value.contains(e.target) && showDropdown.value) {

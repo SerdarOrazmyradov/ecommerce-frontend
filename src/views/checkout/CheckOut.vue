@@ -30,7 +30,9 @@
     <loading-animation text="Process" />
   </div>
 
-  <div class="container px-3 md:px-5 mx-auto">
+  <div
+    class="max-w-[1170px] mx-auto px-4 sm:px-6 lg:px-8 mb-8 sm:mb-10 md:mb-12"
+  >
     <!-- <div class="bg-black h-px"></div> -->
     <!-- header -->
     <div class="mt-20 h-5 py-px flex items-center">
@@ -46,11 +48,14 @@
         Product
       </div>
       <div class="h-3.5 w-px ml-2 sm:ml-3 bg-gray-500 rotate-[30grad]"></div>
-      <div class="text-xs lg:text-sm ml-2 sm:ml-3 text-gray-500 cursor-pointer">
+      <router-link
+        to="cart"
+        class="text-xs lg:text-sm ml-2 sm:ml-3 text-gray-500 cursor-pointer"
+      >
         View Cart
-      </div>
+      </router-link>
       <div class="h-3.5 w-px ml-2 sm:ml-3 bg-gray-500 rotate-[30grad]"></div>
-      <div class="text-xs lg:text-sm ml-3 cursor-pointer">CheckOut</div>
+      <div class="text-xs lg:text-sm ml-3">CheckOut</div>
     </div>
     <!-- body -->
     <div
@@ -142,13 +147,18 @@
                 class="flex gap-6 items-center"
               >
                 <img
-                  :src="IMAGE_BASE_URL + product.main_image"
+                  :src="'http://localhost:3000/' + product.main_image"
                   alt="product"
                   class="w-14 h-14"
                 />
                 <div class="flex justify-between flex-1">
-                  <div class="text-base">{{ product.name }}</div>
-                  <div class="text-base">${{ product.price }}</div>
+                  <div
+                    :title="product.name"
+                    class="text-base truncate max-w-48"
+                  >
+                    {{ product.name }}
+                  </div>
+                  <div class="text-base ml-2">${{ product.price }}</div>
                 </div>
               </div>
               <!-- second product -->
@@ -244,7 +254,7 @@
           </div>
           <!-- coupon code -->
           <div
-            class="flex items-center max-w-lg md:w-full justify-between gap-4"
+            class="hidden items-center max-w-lg md:w-full justify-between gap-4"
           >
             <input
               placeholder="Coupon Code"
@@ -260,7 +270,7 @@
           <!-- place order -->
           <div
             @click="placeOrder()"
-            class="select-none hover:bg-red-300 cursor-pointer w-44 md:w-xs text-sm md:text-base font-medium bg-red-400 py-2 md:py-4 text-neutral-50 rounded-sm flex items-center justify-center"
+            class="mt-15 select-none hover:bg-red-300 cursor-pointer w-44 md:w-xs text-sm md:text-base font-medium bg-red-400 py-2 md:py-4 text-neutral-50 rounded-sm flex items-center justify-center"
           >
             Place Order
           </div>
@@ -299,6 +309,16 @@ const order_items = ref(
   "'{\n  'products': [\n    { 'id': 1, 'count': 2 },\n    { 'id': 2, 'count': 3 }\n  ]\n}'"
 );
 
+import confetti from "canvas-confetti";
+
+const fireConfetti = () => {
+  confetti({
+    particleCount: 150,
+    spread: 70,
+    origin: { y: 0.6 },
+  });
+};
+
 const subtotal = computed(() =>
   products.value.reduce(
     (acc, product) => acc + product.price * product.count,
@@ -335,7 +355,6 @@ const placeOrder = () => {
   //   console.log("error detecting!!! -", error);
 
   // }
-
   const token = localStorage.getItem("token");
   if (token) {
     isLoading.value = true;
@@ -372,6 +391,7 @@ const placeOrder = () => {
         isLoading.value = false;
         showMessageModal.value = true;
 
+        fireConfetti();
         console.log(data);
         if (data.success) {
           isError.value = false;
@@ -390,12 +410,14 @@ const placeOrder = () => {
     setTimeout(() => {
       router.push({
         name: "signup",
+        query: { redirectTo: route.name },
       });
     }, 1000);
   }
 };
 
 onMounted(() => {
+  window.addEventListener("scroll", handleScroll);
   setOrderItems();
   getCartProducts();
   console.log("product sany", products.value.length);
@@ -406,9 +428,25 @@ onMounted(() => {
         "px";
 
       // console.log("current height ", myDiv.value.clientHeight);
+    } else if (products.value.length == 2) {
+      myDiv.value.style.height =
+        String(myDiv.value.clientHeight + (products.value.length - 1) * 200) +
+        "px";
+    } else {
+      myDiv.value.style.height = String(myDiv.value.clientHeight) + "px";
     }
   }
 });
+
+function handleScroll() {
+  var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+  var height =
+    document.documentElement.scrollHeight -
+    document.documentElement.clientHeight;
+  var scrolled = (winScroll / height) * 100;
+
+  document.getElementById("progressBar").style.width = scrolled + "%";
+}
 </script>
 
 <style lang="scss" scoped></style>

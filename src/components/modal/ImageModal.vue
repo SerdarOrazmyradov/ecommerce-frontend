@@ -1,77 +1,68 @@
 <template>
-  <!-- Trailer Modal -->
-  <div class="trailer-modal" :class="{ active: showLayer }">
+  <div class="image-modal" :class="{ active: showLayer }">
     <div class="modal-content">
       <button @click="emit('changeShowLayerValue')" class="close-button">
         <i class="fas fa-times"></i>
       </button>
-      <div class="video-container">
-        <div class="px-2 sm:px-4">
-          <Swiper
-            :slides-per-view="1.2"
-            :space-between="10"
-            @swiper="onSwiperInit"
-            :breakpoints="{
-              480: {
-                slidesPerView: 1.5,
-                spaceBetween: 15,
-              },
-              640: {
-                slidesPerView: 2,
-                spaceBetween: 20,
-              },
-              768: {
-                slidesPerView: 2.5,
-                spaceBetween: 20,
-              },
-              1024: {
-                slidesPerView: 3.5,
-                spaceBetween: 25,
-              },
-              1280: {
-                slidesPerView: 4.5,
-                spaceBetween: 30,
-              },
-            }"
-            :modules="[Navigation]"
-          >
-            <SwiperSlide v-for="(image, i) in product_images" :key="i">
-              <img :src="image" alt="product" class="w-full h-full" />
-              <!-- <ProductCard :product="product" :discount="product.discount" /> -->
-              <!-- <ProductCard :product="product" :discount="product.discount" /> -->
-            </SwiperSlide>
-          </Swiper>
-        </div>
-       
+
+      <div
+        class="max-w-[1170px] mx-auto px-4 sm:px-6 lg:px-8 mb-8 sm:mb-10 md:mb-12"
+      >
+        <Galleria
+          :value="product_images"
+          :activeIndex="activeIndex"
+          :circular="true"
+          containerStyle="max-width: 640px"
+          :showItemNavigators="true"
+          :showThumbnails="true"
+        >
+          <template #item="slotProps">
+            <img
+              :src="slotProps.item"
+              alt="galleria image"
+              class="w-full h-auto"
+            />
+          </template>
+          <template #thumbnail="slotProps">
+            <div class="flex">
+              <img
+                :src="slotProps.item"
+                alt="galleria thumbnail"
+                class="size-20"
+              />
+            </div>
+          </template>
+        </Galleria>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { Swiper, SwiperSlide } from "swiper/vue";
-import "swiper/css";
-import "swiper/css/navigation";
-import { Navigation, Manipulation } from "swiper/modules";
-
-import { defineProps } from "vue";
-import { defineEmits } from "vue";
+import Galleria from "primevue/galleria";
+import { defineProps, defineEmits, ref, watch } from "vue";
 
 const props = defineProps({
   showLayer: { type: Boolean },
   product_images: { type: Array },
+  main_image: { type: String },
 });
 const emit = defineEmits(["changeShowLayerValue"]);
 
-function onSwiperInit(swiper) {
-  swiper.navigation.init();
-  swiper.navigation.update();
-}
+// Set the active index to the main image
+const activeIndex = ref(0);
+watch(
+  () => props.main_image,
+  (val) => {
+    activeIndex.value = props.product_images.indexOf(val);
+  },
+  { immediate: true }
+);
 </script>
 
 <style scoped>
 /* Trailer Modal */
-.trailer-modal {
+.image-modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -87,7 +78,7 @@ function onSwiperInit(swiper) {
   transition: all 0.3s ease;
 }
 
-.trailer-modal.active {
+.image-modal.active {
   opacity: 1;
   visibility: visible;
 }
@@ -95,7 +86,6 @@ function onSwiperInit(swiper) {
 .modal-content {
   position: relative;
   width: 90%;
-  max-width: 900px;
 }
 
 .close-button {
@@ -109,14 +99,14 @@ function onSwiperInit(swiper) {
   cursor: pointer;
 }
 
-.video-container {
+.image-container {
   position: relative;
   padding-bottom: 56.25%; /* 16:9 aspect ratio */
   height: 0;
   overflow: hidden;
 }
 
-.video-container iframe {
+.image-container iframe {
   position: absolute;
   top: 0;
   left: 0;

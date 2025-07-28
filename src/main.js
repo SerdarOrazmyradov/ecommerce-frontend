@@ -4,19 +4,24 @@ import App from "./App.vue";
 import router from "./router";
 import { createPinia } from "pinia";
 import PrimeVue from "primevue/config";
+// import "primevue/resources/themes/saga-blue/theme.css"; //theme
+// import "primevue/resources/primevue.min.css"; //core CSS
+import "primeicons/primeicons.css"; //icons
+
 import Aura from "@primeuix/themes/aura";
 // import Notifications from "notiwind";
-import Slider from "primevue/slider";
-
 import ClickOutsideDirective from "./directive/ClickOutsideDirective";
+import Slider from "primevue/slider";
+import Button from "primevue/button";
+import Galleria from "primevue/galleria";
 
 const app = createApp(App);
-
 const pinia = createPinia();
+app.use(PrimeVue);
 
 app.directive("click-outside", ClickOutsideDirective);
-
-app.use(PrimeVue, { unstyled: true });
+app.component("Galleria", Galleria);
+app.component("Button", Button);
 app.component("Slider", Slider);
 
 // VueCookieNext.install(app); // Şu install arkaly gurmaly

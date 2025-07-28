@@ -24,11 +24,21 @@
       <!-- Countdown Timer -->
       <div
         class="flex items-end gap-1 sm:gap-2 md:gap-4"
-        v-if="!(timer.days === '00' && timer.hours === '00' && timer.minutes === '00' && timer.seconds === '00')"
+        v-if="
+          !(
+            timer.days === '00' &&
+            timer.hours === '00' &&
+            timer.minutes === '00' &&
+            timer.seconds === '00'
+          )
+        "
       >
         <div class="text-center">
           <div class="text-xs sm:text-sm font-medium">Days</div>
-          <div class="text-2xl sm:text-3xl md:text-4xl font-bold">
+          <div
+            class="text-2xl sm:text-3xl md:text-4xl font-bold"
+            style="font-variant-numeric: tabular-nums"
+          >
             {{ timer.days }}
           </div>
         </div>
@@ -42,7 +52,10 @@
         </div>
         <div class="text-center">
           <div class="text-xs sm:text-sm font-medium">Hours</div>
-          <div class="text-2xl sm:text-3xl md:text-4xl font-bold">
+          <div
+            class="text-2xl sm:text-3xl md:text-4xl font-bold"
+            style="font-variant-numeric: tabular-nums"
+          >
             {{ timer.hours }}
           </div>
         </div>
@@ -56,7 +69,10 @@
         </div>
         <div class="text-center">
           <div class="text-xs sm:text-sm font-medium">Minutes</div>
-          <div class="text-2xl sm:text-3xl md:text-4xl font-bold">
+          <div
+            class="text-2xl sm:text-3xl md:text-4xl font-bold"
+            style="font-variant-numeric: tabular-nums"
+          >
             {{ timer.minutes }}
           </div>
         </div>
@@ -70,7 +86,10 @@
         </div>
         <div class="text-center">
           <div class="text-xs sm:text-sm font-medium">Seconds</div>
-          <div class="text-2xl sm:text-3xl md:text-4xl font-bold">
+          <div
+            class="text-2xl sm:text-3xl md:text-4xl font-bold"
+            style="font-variant-numeric: tabular-nums"
+          >
             {{ timer.seconds }}
           </div>
         </div>
@@ -80,7 +99,11 @@
       <div class="flex gap-2 sm:gap-3">
         <button
           aria-label="Previous products"
-          class="w-10 h-10 sm:w-12 sm:h-12 bg-[#F5F5F5] rounded-full flex justify-center items-center hover:bg-gray-200 transition-colors custom-prev-button"
+          class="w-10 h-10 sm:w-12 sm:h-12 bg-[#F5F5F5] rounded-full flex justify-center items-center hover:bg-gray-200 transition-colors custom-prev-button duration-300 active:shadow-none active:translate-y-0"
+          style="
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+          "
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -99,7 +122,11 @@
         </button>
         <button
           aria-label="Next products"
-          class="w-10 h-10 sm:w-12 sm:h-12 bg-[#F5F5F5] rounded-full flex justify-center items-center hover:bg-gray-200 transition-colors custom-next-button"
+          class="w-10 h-10 sm:w-12 sm:h-12 bg-[#F5F5F5] rounded-full flex justify-center items-center hover:bg-gray-200 transition-colors duration-300 custom-next-button active:shadow-none active:translate-y-0"
+          style="
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+          "
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -120,30 +147,35 @@
     </div>
 
     <!-- Products Slider -->
-    <div class="px-2 sm:px-4">
+    <div class="px-2 sm:px-4 !overflow-hidden">
       <Swiper
-        :slides-per-view="1.2"
+        class="!overflow-visible"
+        :slides-per-view="1"
         :space-between="10"
         @swiper="onSwiperInit"
         :breakpoints="{
           480: {
-            slidesPerView: 1.5,
-            spaceBetween: 15,
+            // 480/220 = 2.18  2*220+15=440+15 = 455
+            slidesPerView: 2,
+            spaceBetween: 10,
           },
           640: {
+            // 640/220 = 2.9  2*220+20=440+20 = 460
+            slidesPerView: 2,
+            spaceBetween: 10,
+          },
+          768: {
+            // 768/220 = 3.49  3*220+20+20=660+60 = 720
             slidesPerView: 2,
             spaceBetween: 20,
           },
-          768: {
-            slidesPerView: 2.5,
-            spaceBetween: 20,
-          },
           1024: {
-            slidesPerView: 3.5,
+            // 1024/220 = 4.64  4*220+25+25+25
+            slidesPerView: 3,
             spaceBetween: 25,
           },
           1280: {
-            slidesPerView: 4.5,
+            slidesPerView: 4,
             spaceBetween: 30,
           },
         }"
@@ -153,7 +185,11 @@
         }"
         :modules="[Navigation, Manipulation]"
       >
-        <SwiperSlide v-for="(product, i) in products" :key="i">
+        <SwiperSlide
+          v-for="(product, i) in products"
+          :key="i"
+          class="!overflow-visible"
+        >
           <!-- <ProductCard :product="product" :discount="product.discount" /> -->
           <ProductCard :product="product" :discount="product.discount" />
         </SwiperSlide>
@@ -164,7 +200,7 @@
     <div class="mt-10 sm:mt-12 md:mt-16 text-center">
       <button
         @click="
-          router.replace({
+          router.push({
             name: 'productlist',
             query: {
               message: 'flashsales',
@@ -172,7 +208,11 @@
           })
         "
         aria-label="View All Flash Sale Products"
-        class="bg-[#DB4444] text-white px-8 sm:px-10 py-3 sm:py-4 cursor-pointer rounded-md text-sm sm:text-base font-medium hover:bg-[#C13333] transition-colors"
+        class="bg-[#DB4444] text-white px-8 sm:px-10 py-3 sm:py-4 cursor-pointer rounded-md text-sm sm:text-base font-medium hover:bg-[#C13333] duration-300 transition-colors active:shadow-none active:translate-y-0"
+        style="
+          box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+          transform: translateY(-2px);
+        "
       >
         View All Products
       </button>
@@ -186,7 +226,6 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation, Manipulation } from "swiper/modules";
-// import ProductCard from "../homepage/ProductCart.vue";
 import ProductCard from "../../components/product/ProductCard.vue";
 import { useRoute, useRouter } from "vue-router";
 import { Message } from "primevue";

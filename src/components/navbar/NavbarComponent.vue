@@ -1,8 +1,10 @@
 <template>
-  <div class="mt-10 flex justify-around mb-4 max-w-[1170px] mx-auto">
+  <div
+    class="mt-10 flex justify-around mb-4 max-w-[1170px] mx-auto sticky top-0 z-500 bg-[#FFFFFF]"
+  >
     <div
       @click="
-        router.replace({
+        router.push({
           name: 'home',
         })
       "
@@ -12,15 +14,33 @@
     </div>
     <div class="hidden text-base lg:flex lg:gap-10 xl:gap-12 items-center">
       <router-link
-        
         :to="{ name: 'home' }"
         class="relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 cursor-pointer"
         >Home</router-link
       >
-      <div class="relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 cursor-pointer">Contact</div>
-      <div class="relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 cursor-pointer">About</div>
       <router-link
-        
+        :to="{
+          name: 'productlist',
+          query: { message: 'exploreourproducts' },
+        }"
+        class="relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 cursor-pointer"
+      >
+        Product list
+      </router-link>
+      <!-- <router-link
+        :to="{
+          name: 'categorylist',
+        }"
+        class="relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 cursor-pointer"
+      >
+        Categories
+      </router-link> -->
+      <div
+        class="relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 cursor-pointer"
+      >
+        About
+      </div>
+      <router-link
         :to="{ name: 'signup' }"
         class="relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 cursor-pointer"
         >Sign Up</router-link
@@ -31,7 +51,11 @@
         @mouseleave="showDropdown = false"
         class="relative py-3 group hidden md:block xl:hidden"
       >
-        <div class="relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 cursor-pointer">Categories</div>
+        <div
+          class="relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 cursor-pointer"
+        >
+          Categories
+        </div>
 
         <!-- Dropdown box -->
         <div
@@ -55,7 +79,7 @@
       <!-- hearth -->
       <div
         @click="
-          router.replace({
+          router.push({
             name: 'wishlist',
           })
         "
@@ -87,7 +111,7 @@
         @click="
           console.log('salam from  cart icon');
 
-          router.replace({
+          router.push({
             name: 'cart',
           });
         "

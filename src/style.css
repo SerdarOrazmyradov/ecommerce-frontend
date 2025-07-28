@@ -8,6 +8,10 @@
 } */
 
 
+* {
+  box-sizing: border-box;
+}
+
 ::-webkit-scrollbar {
     width: 10px;
 
@@ -28,7 +32,3 @@
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
-
-
-/* Removed @custom-variant rules due to unknown at-rule error. */
-/* If you need hover variants, use standard CSS or Tailwind's variant utilities. */

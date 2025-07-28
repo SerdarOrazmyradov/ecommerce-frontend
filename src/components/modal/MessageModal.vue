@@ -21,7 +21,11 @@
               <!-- close button -->
               <div
                 @click="handleCloseClick"
-                class="absolute top-0 right-10 rounded-full size-7 hover:bg-gray-200 flex items-center justify-center"
+                class="absolute top-0 right-10 rounded-full size-7 hover:bg-gray-200 flex transition-all duration-300 items-center justify-center active:shadow-none active:translate-y-0"
+                style="
+                  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+                  transform: translateY(-2px);
+                "
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -87,14 +91,22 @@
                   <div
                     @click="handleAgainClick"
                     v-if="isError"
-                    class="w-50 text-base font-medium cursor-pointer flex items-center justify-center mx-auto text-neutral-50 py-3 px-5 bg-red-400 hover:bg-red-300 rounded-sm"
+                    class="w-50 text-base font-medium cursor-pointer flex items-center justify-center mx-auto text-neutral-50 py-3 px-5 bg-red-400 hover:bg-red-300 rounded-sm active:shadow-none active:translate-y-0 transition-all duration-300"
+                    style="
+                      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+                      transform: translateY(-2px);
+                    "
                   >
                     Again
                   </div>
                   <div
                     @click="handleContinueClick"
                     v-else
-                    class="w-50 text-base font-medium cursor-pointer flex items-center justify-center mx-auto text-neutral-50 py-3 px-5 bg-green-400 hover:bg-green-300 rounded-sm"
+                    class="w-50 text-base font-medium cursor-pointer flex items-center justify-center mx-auto text-neutral-50 transition-all duration-300 py-3 px-5 bg-green-400 hover:bg-green-300 rounded-sm active:shadow-none active:translate-y-0"
+                    style="
+                      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+                      transform: translateY(-2px);
+                    "
                   >
                     Continue
                   </div>
