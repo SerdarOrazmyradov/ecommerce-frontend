@@ -18,6 +18,7 @@
     </div>
     <!-- body -->
     <div
+      v-if="useCart().cartProducts.length > 0"
       class="max-w-[1170px] mx-auto px-4 sm:px-6 lg:px-8 mb-8 sm:mb-10 md:mb-12"
     >
       <div
@@ -81,7 +82,7 @@
               />
               <div
                 :title="product.name"
-                class="text-sm md:text-base truncate w-[300px]"
+                class="text-sm md:text-base truncate w-36 md:w-[300px]"
               >
                 {{ product.name }}
               </div>
@@ -94,6 +95,9 @@
             </div>
             <!-- quantity -->
             <input
+              :min="1"
+              :max="product.stock"
+              @input="validateQuantity(product)"
               v-model="product.count"
               type="number"
               class="flex items-center justify-center w-12 sm:w-20 md:w-24 px-1 h-9 md:h-11 outline-none border rounded-sm text-sm md:text-base active:shadow-none active:translate-y-0"
@@ -105,9 +109,10 @@
             />
             <!-- subtotal -->
             <div
+              style="font-variant-numeric: tabular-nums"
               class="min-w-12 flex items-center justify-center text-sm md:text-base"
             >
-              ${{ product.count * product.price }}
+              ${{ (product.count * product.price).toFixed(2) }}
             </div>
           </div>
         </div>
@@ -166,7 +171,7 @@
 
           <div class="flex justify-between">
             <div class="text-sm md:text-base">Subtotal:</div>
-            <div class="text-sm md:text-base">${{ subtotal }}</div>
+            <div class="text-sm md:text-base">${{ subtotal.toFixed(2) }}</div>
           </div>
           <div class="w-full h-px bg-gray-300"></div>
           <div class="flex justify-between">
@@ -176,7 +181,7 @@
           <div class="w-full h-px bg-gray-300"></div>
           <div class="flex justify-between">
             <div class="text-sm md:text-base">Total:</div>
-            <div class="text-sm md:text-base">${{ subtotal }}</div>
+            <div class="text-sm md:text-base">${{ subtotal.toFixed(2) }}</div>
           </div>
           <!-- checout button -->
           <div
@@ -190,6 +195,15 @@
             Procees to checkout
           </div>
         </div>
+      </div>
+    </div>
+    <div
+      v-else
+      class="max-w-[1170px] mx-auto px-4 sm:px-6 lg:px-8 mb-8 sm:mb-10 md:mb-12"
+    >
+      <div class="text-5xl font-medium">Your Cart is empty!</div>
+      <div class="text-2xl font-normal text-blue-400">
+        add something to make me happy
       </div>
     </div>
   </div>
@@ -219,6 +233,10 @@ const subtotal = computed(() =>
     0
   )
 );
+const validateQuantity = (product) => {
+  if (product.count < 1) product.count = 1;
+  if (product.count > product.stock) product.count = product.stock;
+};
 
 const deleteCartProduct = (product) => {
   products.value = products.value.filter((element) => element.id != product.id);

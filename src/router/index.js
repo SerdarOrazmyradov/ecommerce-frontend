@@ -58,6 +58,16 @@ const routes = [
     component: () => import("../views/cart/CartComponent.vue"),
   },
   {
+    path: "/about",
+    name: "about",
+    component: () => import("../views/about/AboutComponent.vue"),
+  },
+  {
+    path: "/contact",
+    name: "contact",
+    component: () => import("../views/contact/ContactUs.vue"),
+  },
+  {
     path: "/wishlist",
     name: "wishlist",
     component: () => import("../views/favorite/WishlistComponent.vue"),
@@ -71,6 +81,11 @@ const routes = [
     path: "/my-orders",
     name: "my-orders",
     component: () => import("../views/order/MyOrders.vue"),
+  },
+  {
+    path: "/orderdetails/:id",
+    name: "orderdetails",
+    component: () => import("../views/order/OrderDetails.vue"),
   },
 
   {

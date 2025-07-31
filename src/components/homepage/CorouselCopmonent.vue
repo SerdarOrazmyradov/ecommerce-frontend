@@ -4,7 +4,7 @@
     :loop="true"
     :autoplay="{ delay: 3000 }"
     grabCursor
-    class="h-[300px] sm:h-[350px] md:h-[400px] lg:h-[344px] max-w-3xl"
+    class=" h-[300px] sm:h-[350px] md:h-[400px] lg:h-[344px] max-w-3xl"
   >
     <SwiperSlide
       v-for="(product, i) in slides"
@@ -14,17 +14,17 @@
       style="box-sizing: border-box"
     >
       <router-link
-        class="relative"
+        class="sm:relative flex flex-row-reverse justify-center sm:justify-normal sm:flex-row  gap-6 "
         :to="{ name: 'productlist', query: { categories: 'Phones' } }"
       >
         <!-- Text content -->
         <div class="mb-6 md:mb-0 text-neutral-50 mt-10">
-          <div class="flex items-center justify-center md:justify-start">
+          <div class="flex items-center justify-start">
             <!-- apple logo -->
             <img
               :src="'http://localhost:5173/' + image_src_logo"
               alt="Apple"
-              class="w-8 h-10 sm:w-10 sm:h-12 mb-3 md:mb-0"
+              class="w-6 h-8 sm:w-8  sm:h-10 md:w-10 md:h-12 mb-3 md:mb-0"
             />
             <p class="text-neutral-50 text-base sm:text-lg mb-2 ml-4 sm:ml-6">
               iPhone 16 Series
@@ -36,7 +36,6 @@
             Up to 10%<br />off Voucher
           </h1>
           <div
-            @click="showSuccessToast"
             href="#"
             class="inline-block text-neutral-50 text-base sm:text-lg transition-opacity relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-50 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 cursor-pointer"
           >
@@ -44,11 +43,11 @@
           </div>
         </div>
 
-        <div class="absolute top-10 right-20">
+        <div class="sm:absolute sm:top-10 mt-10 sm:mt-0 sm:right-20">
           <img
             :src="'http://localhost:5173/' + product.image"
             alt=""
-            class="size-64 object-scale-down"
+            class="size-48 sm:size-64 object-scale-down"
           /></div
       ></router-link>
     </SwiperSlide>

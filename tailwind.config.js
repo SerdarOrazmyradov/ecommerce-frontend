@@ -1,9 +1,10 @@
+// tailwind.config.js
+const plugin = require('tailwindcss/plugin')
+
 module.exports = {
-  theme: {
-    extend: {
-      screens: {
-        betterhover: { raw: "(hover: hover)" },
-      },
-    },
-  },
-};
+  plugins: [
+    plugin(function({ addVariant }) {
+      addVariant('notmobile', '@media (hover: hover) and (pointer: fine)')
+    }),
+  ],
+}

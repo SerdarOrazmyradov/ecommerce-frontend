@@ -20,7 +20,7 @@
         @click="
           router.push({
             name: 'productlist',
-            query: { message: 'bestselling' },
+            query: { page: 1, message: 'bestselling' },
           })
         "
         class="w-30 sm:w-[159px] h-[56px] flex justify-center items-center rounded bg-[#DB4444] hover:bg-red-300 cursor-pointer transition-all duration-300 active:shadow-none active:translate-y-0"

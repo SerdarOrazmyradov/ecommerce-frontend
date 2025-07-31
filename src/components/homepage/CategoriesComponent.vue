@@ -8,17 +8,21 @@
     >
       <!-- categories -->
       <div
-        @click="
-          router.push({
-            name: 'productlist',
-            query: { page: 1, categories: encodeURIComponent(category.name) },
-          })
-        "
         v-for="category in categories"
         :key="category"
         class="flex justify-between items-center group cursor-pointer"
       >
         <span
+          @click="
+            router.push({
+              name: 'productlist',
+              query: {
+                page: 1,
+                message: 'exploreourproducts',
+                categories: category.name,
+              },
+            })
+          "
           class="transition-colors relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 cursor-pointer"
           >{{ category.name }}</span
         >

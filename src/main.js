@@ -14,15 +14,20 @@ import ClickOutsideDirective from "./directive/ClickOutsideDirective";
 import Slider from "primevue/slider";
 import Button from "primevue/button";
 import Galleria from "primevue/galleria";
+// import VueMagnifier from "./components/product/VueMagnifier.vue";
+import VueMagnifier from "@websitebeaver/vue-magnifier";
+import LazyLoadDirective from "./directive/LazyLoadDirective";
 
 const app = createApp(App);
 const pinia = createPinia();
 app.use(PrimeVue);
 
 app.directive("click-outside", ClickOutsideDirective);
+app.directive("lazyload", LazyLoadDirective);
 app.component("Galleria", Galleria);
 app.component("Button", Button);
 app.component("Slider", Slider);
+app.component("VueMagnifier", VueMagnifier);
 
 // VueCookieNext.install(app); // Şu install arkaly gurmaly
 app

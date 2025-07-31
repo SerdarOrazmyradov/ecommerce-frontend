@@ -36,11 +36,11 @@
           <!-- images -->
           <ProductImages :product_images="product_images" />
         </div>
-        <div class=" ">
+        <div class="mt-10 ">
           <div class="text-xl lg:text-2xl font-semibold">
             {{ product.name }}
           </div>
-          <div class="flex items-center gap-2">
+          <div class="flex items-center gap-2 mt-2">
             <!-- stars -->
             <div class="flex text-yellow-500">
               <template v-for="n in 5" :key="n"
@@ -67,18 +67,9 @@
               Not In Stock
             </div>
           </div>
-          <div class="text-2xl">${{ product.price }}</div>
+          <div class="text-2xl mt-2">${{ product.price }}</div>
           <div class="text-xs lg:text-sm pt-2 break-normal max-w-96">
             {{ product.description }}
-            <span v-if="!expanded && hasMore">...</span>
-            <span v-if="expanded">{{ remainingText }}</span>
-            <button
-              v-if="hasMore"
-              @click="expanded = !expanded"
-              class="text-blue-500 block mt-1 underline text-xs lg:text-sm"
-            >
-              {{ expanded ? "Show less" : "Show more" }}
-            </button>
           </div>
           <!-- <div class="w-full mt-2 h-px bg-black/90"></div> -->
           <!-- colors -->
@@ -122,6 +113,7 @@
           </div>
           <div class="flex gap-4 mt-4 xl:min-w-96">
             <!-- add to cart -->
+             
             <div
               v-if="!useCartStore.cartProducts.some((p) => p.id == productId)"
               @click="
@@ -248,7 +240,7 @@
           <div>
             <!-- free delivery -->
             <div
-              class="mt-4 lg:mt-6 border rounded-tl-sm rounded-tr-sm h-16 md:h-20 lg:h-24 flex items-center"
+              class="mt-8 lg:mt-10 border rounded-tl-sm rounded-tr-sm h-16 md:h-20 lg:h-24 flex items-center"
             >
               <div class="h-12 ml-2 lg:ml-4 flex gap-2 lg:gap-4 items-center">
                 <img

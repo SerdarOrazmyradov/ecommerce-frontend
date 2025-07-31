@@ -37,7 +37,7 @@
     20px-xl
     24px-2xl
     28px-3xl -->
-    <ScrollToTopButton />
+ 
     <!-- <NewScrollUpButton /> -->
   </div>
 </template>
@@ -53,7 +53,6 @@ import JBLspeaker from "../../components/homepage/JBLspeaker.vue";
 import ExploreOurProducts from "../../components/homepage/ExploreOurProducts.vue";
 import NewArrival from "../../components/homepage/NewArrival.vue";
 import ServiceComponent from "../../components/homepage/ServiceComponent.vue";
-import ScrollToTopButton from "../../components/homepage/ScrollToTopButton.vue";
 import NewScrollUpButton from "../../components/homepage/NewScrollUpButton.vue";
 import { useLiked } from "../../stores/stores";
 

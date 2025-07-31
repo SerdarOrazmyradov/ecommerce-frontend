@@ -31,7 +31,7 @@
   </div>
 
   <div
-    class="max-w-[1170px] mx-auto px-4 sm:px-6 lg:px-8 mb-8 sm:mb-10 md:mb-12"
+    class="flex flex-col  max-w-[1170px] mx-auto px-4 sm:px-6 lg:px-8 mb-8 sm:mb-10 md:mb-12"
   >
     <!-- <div class="bg-black h-px"></div> -->
     <!-- header -->
@@ -60,7 +60,7 @@
     <!-- body -->
     <div
       ref="myDiv"
-      class="md:h-10/12v flex flex-col md:flex-row justify-around"
+      class="md:h-10/12v flex flex-col-reverse md:flex-row justify-around"
     >
       <div class="">
         <div class="text-3xl md:text-4xl font-medium mt-14 md:mt-20">
@@ -136,8 +136,8 @@
         </div>
       </div>
       <!-- right  side -->
-      <div class="mt-10 md:mt-0 md:px-5 md:relative">
-        <div class="flex flex-col gap-8 mb-10 md:mb-0 md:relative md:top-52">
+      <div class="mt-10 md:mt-0 md:px-5 ">
+        <div class="flex flex-col gap-8 mb-10 md:mb-0 md:mt-52">
           <div class="max-w-lg">
             <div class="max-w-md flex flex-col gap-8">
               <!-- first product -->
@@ -267,15 +267,19 @@
               Apply Coupon
             </div>
           </div>
-          <!-- place order -->
-          <div
-            @click="placeOrder()"
-            class="mt-15 select-none hover:bg-red-300 cursor-pointer w-44 md:w-xs text-sm md:text-base font-medium bg-red-400 py-2 md:py-4 text-neutral-50 rounded-sm flex items-center justify-center"
-          >
-            Place Order
-          </div>
         </div>
       </div>
+    </div>
+    <!-- place order -->
+    <div
+      @click="placeOrder()"
+      class="self-end mt-15 select-none hover:bg-red-300 cursor-pointer w-44 md:w-xs text-sm md:text-base font-medium bg-red-400 py-2 md:py-4 text-neutral-50 rounded-sm flex items-center justify-center active:shadow-none active:translate-y-0 transition-all duration-300"
+            style="
+              box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+              transform: translateY(-2px);
+            "
+    >
+      Place Order
     </div>
   </div>
 </template>
@@ -310,6 +314,7 @@ const order_items = ref(
 );
 
 import confetti from "canvas-confetti";
+import { useCart } from "../../stores/stores";
 
 const fireConfetti = () => {
   confetti({
@@ -396,7 +401,8 @@ const placeOrder = () => {
         if (data.success) {
           isError.value = false;
           message.value = data.message;
-          localStorage.removeItem("cartProducts");
+          useCart().cartProducts = [];
+          // localStorage.removeItem("cartProducts");
           // redirect
         } else {
           isError.value = true;
@@ -417,36 +423,36 @@ const placeOrder = () => {
 };
 
 onMounted(() => {
-  window.addEventListener("scroll", handleScroll);
+  // window.addEventListener("scroll", handleScroll);
   setOrderItems();
   getCartProducts();
   console.log("product sany", products.value.length);
-  if (window.innerWidth > 768) {
-    if (products.value.length > 2) {
-      myDiv.value.style.height =
-        String(myDiv.value.clientHeight + (products.value.length - 2) * 200) +
-        "px";
+  // if (window.innerWidth > 768) {
+  //   if (products.value.length > 2) {
+  //     myDiv.value.style.height =
+  //       String(myDiv.value.clientHeight + (products.value.length - 2) * 10) +
+  //       "px";
 
-      // console.log("current height ", myDiv.value.clientHeight);
-    } else if (products.value.length == 2) {
-      myDiv.value.style.height =
-        String(myDiv.value.clientHeight + (products.value.length - 1) * 200) +
-        "px";
-    } else {
-      myDiv.value.style.height = String(myDiv.value.clientHeight) + "px";
-    }
-  }
+  //     // console.log("current height ", myDiv.value.clientHeight);
+  //   } else if (products.value.length == 2) {
+  //     myDiv.value.style.height =
+  //       String(myDiv.value.clientHeight + (products.value.length - 1) * 200) +
+  //       "px";
+  //   } else {
+  //     myDiv.value.style.height = String(myDiv.value.clientHeight) + "px";
+  //   }
+  // }
 });
 
-function handleScroll() {
-  var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-  var height =
-    document.documentElement.scrollHeight -
-    document.documentElement.clientHeight;
-  var scrolled = (winScroll / height) * 100;
+// function handleScroll() {
+//   var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+//   var height =
+//     document.documentElement.scrollHeight -
+//     document.documentElement.clientHeight;
+//   var scrolled = (winScroll / height) * 100;
 
-  document.getElementById("progressBar").style.width = scrolled + "%";
-}
+//   document.getElementById("progressBar").style.width = scrolled + "%";
+// }
 </script>
 
 <style lang="scss" scoped></style>

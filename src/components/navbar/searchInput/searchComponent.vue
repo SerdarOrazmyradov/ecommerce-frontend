@@ -1,19 +1,15 @@
 <template>
   <div
-    class="hidden md:flex gap-3 bg-gray-100 py-2 rounded-sm items-center relative group focus-within:border transition-all duration-300 border border-gray-300 focus-within:border-blue-500 focus-within:shadow-md focus-within:bg-white"
+    class="hidden md:flex gap-3 z-[700] bg-gray-100 py-2 rounded-sm items-center relative group transition-all duration-300 border border-gray-300 focus-within:border-blue-500 focus-within:shadow-md focus-within:bg-white"
   >
     <input
-      @blur.stop="
-        products = [];
-        showSearchDropdown = false;
-      "
-      @focus="loadInitialDropdown"
       ref="input"
+      @focus="focusHandle"
       @input="handle"
       type="text"
       name="search"
       :placeholder="placeholderText"
-      class="group-focus-within:border-blue-500 ml-5 md:text-base outline-none text-[#7A7A7A] w-full"
+      class="ml-5 md:text-base outline-none text-[#7A7A7A] w-full"
     />
 
     <div
@@ -25,7 +21,7 @@
         viewBox="0 0 24 24"
         stroke-width="1.5"
         stroke="currentColor"
-        class="size-6"
+        class="size-6 text-gray-500"
       >
         <path
           stroke-linecap="round"
@@ -45,37 +41,33 @@
     >
       <div
         ref="dropdownMenu"
-        v-if="products.length > 0"
-        class="absolute h-72 top-15 z-[15] flex flex-col gap-2 rounded-sm bg-white w-72 px-3 py-2 overflow-y-scroll snap-y snap-mandatory"
+        v-if="showSearchDropdown"
+        class="absolute top-15 z-[15] flex flex-col rounded-sm bg-white w-80 max-h-72 overflow-y-auto shadow-lg border border-gray-200"
       >
-        <div
-          @click="
-            router.push({
-              name: 'product_details',
-              params: { id: product.id },
-            })
-          "
-          @click.stop="
-            showSearchDropdown = false;
-            products = [];
-          "
-          v-for="(product, index) in products"
-          :key="index"
-          class="flex gap-3 cursor-pointer py-2 px-3 rounded hover:bg-gray-200 snap-start snap-always"
-        >
-          <img
-            class="size-15 object-scale-down"
-            :src="'http://localhost:3000/' + product.main_image"
-            alt="searched product image"
-          />
-          <div>{{ product.name }}</div>
+        <!-- products list -->
+        <div v-if="products.length > 0">
+          <div
+            v-for="(product, index) in products"
+            :key="index"
+            @click="selectProduct(product)"
+            class="flex gap-3 cursor-pointer py-2 px-3 hover:bg-gray-100 transition"
+          >
+            <img
+              class="w-12 h-12 object-cover rounded"
+              :src="'http://localhost:3000/' + product.main_image"
+              alt="searched product image"
+            />
+            <div class="flex flex-col">
+              <span class="text-gray-800 font-medium">{{ product.name }}</span>
+              <span class="text-sm text-gray-500 truncate">
+                {{ product.description || "No description" }}
+              </span>
+            </div>
+          </div>
         </div>
-      </div>
-      <div
-        v-else-if="searchEmptyMessage"
-        class="absolute select-none top-15 z-[15] flex flex-col gap-2 rounded-sm bg-white w-72 px-3 py-2 overflow-y-auto"
-      >
-        <div
+
+        <!-- no result -->
+        <div 
           @click="
             () => {
               input.value = '';
@@ -83,7 +75,8 @@
               showSearchDropdown = false;
             }
           "
-          class="flex items-center gap-3 cursor-pointer py-2 px-3 rounded hover:bg-gray-100"
+          v-else
+          class="cursor-pointer hover:bg-gray-100 rounded flex flex-col items-center justify-center py-6 text-gray-500"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -91,36 +84,17 @@
             viewBox="0 0 24 24"
             stroke-width="1.5"
             stroke="currentColor"
-            class="size-6 text-red-400"
+            class="w-10 h-10 mb-2 text-red-400"
           >
             <path
               stroke-linecap="round"
               stroke-linejoin="round"
-              d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+              d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 
+                 9 9 0 0 1 18 0Z"
             />
           </svg>
-
-          <div class="text-red-400">Product tapylmady</div>
+          <span class="font-medium">No results found</span>
         </div>
-        <!-- <div
-          @click="
-            products = [];
-            router.push({
-              name: 'product_details',
-              params: { id: product.id },
-            });
-          "
-          v-for="(product, index) in products"
-          :key="index"
-          class="flex gap-3 cursor-pointer py-2 px-3 rounded hover:bg-gray-200"
-        >
-          <img
-            class="size-10"
-            :src="IMAGE_BASE_URL + product.main_image"
-            alt="searched product image"
-          />
-          <div>{{ product.name }}</div>
-        </div> -->
       </div>
     </transition>
   </div>
@@ -128,9 +102,7 @@
 
 <script setup>
 import { useDebounceFn } from "@vueuse/core";
-import { onUnmounted } from "vue";
-import { onMounted } from "vue";
-import { computed, ref, watch } from "vue";
+import { onUnmounted, onMounted, ref, watch, onBeforeUnmount } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 const router = useRouter();
@@ -142,125 +114,103 @@ const showSearchDropdown = ref(false);
 const dropdownMenu = ref(null);
 
 const placeholderText = ref("");
-
-const scrollContainer = document.querySelector(".snap-y");
 const typingText = ref("What are you looking for?");
 let typingIndex = 0;
 let typingInterval = null;
-const searchEmptyMessage = computed(() => {
-  return (
-    showSearchDropdown.value &&
-    products.value.length === 0 &&
-    input.value?.value !== ""
-  );
-});
 
-const loadInitialDropdown = () => {
-  if (products.value.length > 0) {
-    showSearchDropdown.value = true;
+const BASE_URL = "http://localhost:3000";
+
+const debounceFn = useDebounceFn((event) => {
+  const query = event.target.value;
+
+  if (!query.trim()) {
+    products.value = [];
+    showSearchDropdown.value = false; // açyk bolsun
     return;
   }
 
-  const query = "";
-
   fetch(BASE_URL + "/guest/api/get-products?name=" + encodeURIComponent(query))
-    .then((res) => res.json())
+    .then((response) => response.json())
     .then((data) => {
-      if (data.success) {
-        showSearchDropdown.value = true;
-        products.value = data.data;
-      } else {
-        products.value = [];
-      }
+      showSearchDropdown.value = true;
+      products.value = data.success ? data.data : [];
     })
-    .catch((err) => {
-      console.error("Dropdown açylanda ýalňyşlyk: ", err);
+    .catch((error) => {
+      console.error("Search error: ", error);
+      products.value = [];
     });
+}, 300);
+
+onMounted(() => {
+  document.addEventListener("click", handleClickOutside);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener("click", handleClickOutside);
+});
+
+const focusHandle = (event) => {
+  if (event.target.value) {
+    showSearchDropdown.value = true;
+
+  }
 };
+
+const handleClickOutside = (event) => {
+  if (input.value && !input.value.contains(event.target)) {
+    showSearchDropdown.value = false;
+  }
+};
+const blurHandle = () => {
+  console.log("Input lost focus!");
+
+  // products = [];
+  showSearchDropdown = false;
+  // }, 200);
+};
+
+const handle = (event) => {
+  debounceFn(event);
+};
+
+const selectProduct = (product) => {
+  showSearchDropdown.value = false;
+  // products.value = [];
+  // input.value.value = "";
+  router.push({
+    name: "product_details",
+    params: { id: product.id },
+  });
+};
+
+watch(
+  () => route.name,
+  () => {
+    showSearchDropdown.value = false;
+    products.value = [];
+  },
+  { immediate: true }
+);
 
 const startTypingEffect = () => {
   typingIndex = 0;
   placeholderText.value = "";
-
   typingInterval = setInterval(() => {
     if (typingIndex < typingText.value.length) {
-      placeholderText.value += typingText.value[typingIndex];
-      typingIndex++;
+      placeholderText.value += typingText.value[typingIndex++];
     } else {
       clearInterval(typingInterval);
       setTimeout(() => {
         placeholderText.value = "";
         typingIndex = 0;
-        startTypingEffect(); // Re-run to loop effect
+        startTypingEffect();
       }, 1000);
     }
-  }, 100); // Typing speed
+  }, 100);
 };
-
-const BASE_URL = "http://localhost:3000";
-const IMAGE_BASE_URL = "http://localhost:3000/uploads/images/";
-
-const debounceFn = useDebounceFn((event) => {
-  const query = event.target.value;
-  if (!query.trim()) {
-    // showSearchDropdown
-    products.value = [];
-    return;
-  }
-  fetch(
-    BASE_URL + "/guest/api/get-products" + "?name=" + encodeURIComponent(query),
-    {
-      method: "GET",
-      // headers: {
-      //   Authorization: `Bearer ${token}`,
-      // },
-    }
-  )
-    .then((response) => {
-      // if (!response.ok) {
-      //   throw new Error(`HTTP error! status: ${response.status}`);
-      // }
-      return response.json();
-    })
-    .then((data) => {
-      console.log(data);
-      if (data.success) {
-        showSearchDropdown.value = true;
-        products.value = data.data;
-      } else {
-        console.log("success false :res status 200");
-        console.log("res : ", data);
-      }
-    })
-    .catch((error) => {
-      console.error("Error detected -!!! : ", error);
-    });
-}, 300);
-const handle = (event) => {
-  debounceFn(event);
-  console.log("event.target.value", event.target.value);
-};
-
-watch(
-  () => route.name,
-  (newVal) => {
-    showSearchDropdown.value = false;
-    products.value = [];
-    // if (newVal === "product_details") input.value.focus();
-  },
-  { immediate: true }
-);
 
 onMounted(() => {
   startTypingEffect();
-
-  window.addEventListener("click", (e) => {
-    if (dropdownMenu.value != null) {
-      if (!dropdownMenu.value.contains(e.target) && showSearchDropdown.value) {
-        showSearchDropdown.value = false;
-      }
-    }
-  });
 });
 
 onUnmounted(() => {
@@ -268,4 +218,16 @@ onUnmounted(() => {
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+/* scrollbar stilini hakyky e-commerce ýaly etmek */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e0;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #a0aec0;
+}
+</style>

@@ -116,7 +116,7 @@
         @click="
           router.push({
             name: 'productlist',
-            query: { message: 'exploreourproducts' },
+            query: { page: 1, message: 'exploreourproducts' },
           })
         "
         class="mt-[60px] text-center"

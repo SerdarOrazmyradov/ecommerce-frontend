@@ -203,6 +203,7 @@
           router.push({
             name: 'productlist',
             query: {
+              page: 1,
               message: 'flashsales',
             },
           })

@@ -1,6 +1,4 @@
 <template>
-  <pre>{{ selectedCategories }}</pre>
-  <pre>{{ messageCategory }}</pre>
   <div
     v-if="isLoading"
     class="fixed h-svh top-0 flex items-center justify-center w-full bg-gray-300/30 z-[41]"
@@ -93,19 +91,6 @@
             {{ category.name }}</label
           >
         </div>
-        <!-- <div class="text-base font-medium my-4">Price</div> -->
-        <!-- <div class="flex flex-col gap-2">
-          <label
-            v-for="(price, index) in prices"
-            :key="index"
-            class="text-sm font-medium"
-            ><input type="checkbox" class="accent-blue-400" />
-            {{ price }}</label
-          >
-        </div> -->
-        <!-- <Slider v-m odel="value" :min="20" :max="80" range class="w-56" /> -->
-
-        <!-- <Slider v-model="value" range class="w-56" /> -->
       </div>
 
       <!-- divider -->
@@ -165,29 +150,7 @@
                     <!-- <div class="flex w-full justify-end">
                       <div class=""></div>
                     </div> -->
-                    <div class="text-base font-medium my-4">Pick Color</div>
-                    <div class="flex gap-3">
-                      <!--  colors -->
 
-                      <div
-                        @click="
-                          selectedColor[color] = !selectedColor[color];
-                          console.log('salam ', selectedColor[color]);
-                        "
-                        v-for="(color, index) in colors"
-                        :key="index"
-                        class="rounded-full cursor-pointer w-5 h-5 flex items-center justify-center"
-                        :class="[
-                          'bg-' + color,
-                          { 'border border-white': selectedColor[color] },
-                        ]"
-                      >
-                        <i
-                          v-if="selectedColor[color]"
-                          class="fa-solid fa-check text-white text-xs"
-                        ></i>
-                      </div>
-                    </div>
                     <div class="text-base font-medium my-4">Categories</div>
                     <div class="flex flex-col gap-2">
                       <label
@@ -202,18 +165,11 @@
                         {{ category.name }}</label
                       >
                     </div>
-                    <div class="text-base font-medium my-4">Price</div>
-                    <div class="flex flex-col gap-2">
-                      <!-- <label
-                        v-for="(price, index) in prices"
-                        :key="index"
-                        class="text-sm font-medium"
-                        ><input type="checkbox" class="accent-blue-400" />
-                        {{ price }}</label
-                      > -->
-                      <Slider range v-model="value" class="w-44" />
+                    <!-- <div class="text-base font-medium my-4">Price</div> -->
+                    <div class="flex hidden flex-col gap-2">
+                      <Slider range v-model="value" class="w-44 bg-red-400" />
                     </div>
-                    <div class="flex w-full justify-end">
+                    <div class="flex mt-4 w-full justify-end">
                       <div
                         @click="mFilterToggle = false"
                         class="py-2 px-2 rounded-sm bg-blue-400 text-neutral-50 hover:bg-blue-300 cursor-pointer"
@@ -231,7 +187,7 @@
         </div>
         <!--products list  -->
         <div
-          class="px-auto md:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 mt-10 gap-10"
+          class="md:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 mt-10 gap-10"
         >
           <ProductCard
             v-for="(product, index) in sortedProducts"
@@ -240,9 +196,26 @@
           />
 
           <!-- <ProductCard :product="products[1]" />
-          <ProductCard :product="products[2]" /> -->
+            <ProductCard :product="products[2]" /> -->
         </div>
 
+        <!-- <router-link
+          v-for="page in visiblePages"
+          :key="page"
+          :to="{
+            name: route.name,
+            query: {
+              ...route.query,
+              page: page,
+            },
+          }"
+          :class="[
+            'px-5 py-3 min-w-10 text-center bg-gray-300 text-neutral-50  rounded-sm  transition-all duration-200  hover:bg-gray-200',
+            { 'bg-gray-200 ': Number(route.query.page || 1) === page },
+          ]"
+        >
+          {{ page }}
+        </router-link> -->
         <!-- pagination -->
         <div
           v-if="products.length > 0 && total_pages > 0"
@@ -253,6 +226,7 @@
             :to="{
               name: route.name,
               query: {
+                ...route.query,
                 page: Number(route.query.page) - 1,
               },
             }"
@@ -263,22 +237,7 @@
           </router-link>
 
           <div class="flex gap-2 order-1 w-full justify-center mx-2 my-0">
-            <!-- <router-link
-              v-for="page in visiblePages"
-              :key="page"
-              :to="{
-                name: route.name,
-                query: {
-                  page: page,
-                },
-              }"
-              :class="[
-                'px-5 py-3 min-w-10 text-center bg-gray-300 text-neutral-50  rounded-sm  transition-all duration-200  hover:bg-gray-200',
-                { 'bg-gray-200 ': Number(route.query.page || 1) === page },
-              ]"
-            >
-              {{ page }}
-            </router-link> -->
+            <!-- Sahypa sanawlary -->
           </div>
 
           <router-link
@@ -286,10 +245,15 @@
             :to="{
               name: route.name,
               query: {
+                ...route.query,
                 page: Number(route.query.page || 1) + 1,
               },
             }"
-            class="px-5 py-3 bg-gray-300 text-neutral-50 rounded-sm flex items-center gap-2 transition-all duration-200 hover:bg-gray-200 next"
+            class="px-5 py-3 bg-gray-500 text-neutral-50 rounded-sm flex items-center gap-2 hover:bg-gray-400 next duration-300 transition-colors active:shadow-none active:translate-y-0"
+            style="
+              box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+              transform: translateY(-2px);
+            "
           >
             Next
             <i class="fas fa-chevron-right"></i>
@@ -301,7 +265,7 @@
 </template>
 
 <script setup>
-import { nextTick, onMounted, ref, watch, computed } from "vue";
+import { nextTick, onMounted, ref, watch, computed, watchEffect } from "vue";
 import ProductCard from "../../components/product/ProductCard.vue";
 import { useRoute, useRouter } from "vue-router";
 
@@ -319,7 +283,6 @@ const mFilterToggle = ref(false);
 const isLoading = ref(false);
 const total_pages = ref(0);
 const total_results = ref(0);
-// const sort_by = ref("low_to_high");
 const sort_by = ref("");
 const messageCategory = computed(() => {
   const answer = route.query.message || "exploreourproducts";
@@ -328,33 +291,26 @@ const messageCategory = computed(() => {
 const router = useRouter();
 const route = useRoute();
 
-// const divider = ref(null);
-
-const colors = ref([
-  "pink-300",
-  "orange-500",
-  "indigo-900",
-  "red-400",
-  "green-400",
-]);
 const categories = ref([]);
-// const prices = ref(["50-100", "100-150", "150-200", "200-250", "250-300"]);
 const value = ref([0, 80]);
 const products = ref([]);
-
+const visiblePages = computed(() => {
+  const pages = [];
+  for (let i = 1; i <= total_pages.value; i++) {
+    pages.push(i);
+  }
+  return pages;
+});
 const sortedProducts = computed(() => {
   if (sort_by.value == "") return [...products.value];
   switch (sort_by.value) {
     case "low_to_high":
-      total_results.value = products.value.length;
       return [...products.value].sort((a, b) => a.price - b.price);
 
     case "high_to_low":
-      total_results.value = products.value.length;
       return products.value.sort((a, b) => b.price - a.price);
 
     case "newest":
-      total_results.value = products.value.length;
       return [...products.value].sort((a, b) => {
         const dateA = new Date(a.created_at);
         const dateB = new Date(b.created_at);
@@ -362,31 +318,13 @@ const sortedProducts = computed(() => {
       });
 
     case "user_rating":
-      total_results.value = products.value.length;
       return [...products.value].sort((a, b) => b.rating - a.rating);
 
     default:
       return products.value;
   }
 });
-
-// watch(
-//   selectedCategories,
-//   (newVal) => {
-//     const sel_cat = Object.keys(newVal).filter((c) => newVal[c]);
-
-//     router.push({
-//       name: route.name,
-//       query: {
-//         ...route.query,
-//         categories: sel_cat.join(","),
-//         page: 1,
-//       },
-//     });
-//   },
-//   { immediate: true, deep: true }
-// );
-
+// category-ny string edip bermeli!--
 const getProducts = (page = 1, limit = 10, categories) => {
   if (messageCategory.value) {
     switch (messageCategory.value) {
@@ -599,70 +537,68 @@ const getFlashSalesProducts = (page = 1, limit = 10, categories = "") => {
     });
 };
 
-onMounted(async () => {
+watch(sort_by, (newVal) => {
+  router.push({
+    name: route.name,
+    query: {
+      ...route.query,
+      sort_by: newVal,
+    },
+  });
+});
+watch(
+  selectedCategories,
+  (newVal) => {
+    if (Object.keys(newVal).length > 0) {
+      const sel_cat = Object.keys(newVal).filter((c) => newVal[c]);
+
+      router.push({
+        name: route.name,
+        query: {
+          ...route.query,
+          categories: sel_cat.join(","),
+          page: 1,
+        },
+      });
+    }
+  },
+  { deep: true }
+);
+watchEffect(async () => {
   await getCategories();
+  const selected = route.query.categories;
+  console.log("route.query.categories", route.query.categories);
 
-  const page = route.query.page || 1;
-  const categoriesParam =
-    route.query.categories ||
-    categories.value.reduce((acc, c) => acc + c.name + ",", "").slice(0, -1);
-
-  if (categoriesParam) {
-    categoriesParam.split(",").forEach((cat) => {
-      selectedCategories.value[cat] = true;
+  if (selected) {
+    // Reset selected categories
+    selectedCategories.value = {};
+    categories.value.forEach((cat) => {
+      selectedCategories.value[cat.name] = selected.includes(cat.name);
     });
   }
+  console.log("men watcheffect sebabli!");
 
-  getProducts(page, 10, categoriesParam);
-
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  getProducts(route.query.page || 1, 10, route.query.categories || "");
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
 });
+watch(
+  () => [route.query.categories, route.query.page],
+  async ([categoriesQuery, pageQuery]) => {
+    // await getCategories();
 
-// watch(
-//
-// );
+    console.log("men watch sebabli!");
 
-//   () => {
-//
-//   },
-//   { immediate: true, deep: true }
-// watch(
-//   () => [route.query.categories, route.query.page, selectedCategories.value],
-//   async ([categoriesQuery, pageQuery, selectedCategoriesNewValue]) => {
-
-//     isLoading.value = true;
-
-//     let url = `${BASE_URL}/guest/api/get-products?page=${pageQuery}`;
-
-//     if (categoriesQuery) {
-//       const selected = Object.keys(selectedCategories.value).filter(
-//         (c) => selectedCategories.value[c]
-//       );
-
-//       if (selected.length > 0) {
-//         url += `&categories=${selected.join(",")}`;
-//       }
-//     }
-
-//     try {
-//       const response = await fetch(url);
-//       const data = await response.json();
-
-//       if (data.success) {
-//         products.value = data.data;
-//       } else {
-//         console.warn("Server responded with success: false", data);
-//       }
-//     } catch (error) {
-//       console.error("Fetch error: ", error);
-//     } finally {
-//       isLoading.value = false;
-//     }
-
-//     getCategories();
-//   },
-//   { immediate: true, deep: true }
-// );
+    getProducts(pageQuery, 10, categoriesQuery);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  },
+  { immediate: true }
+);
 </script>
 
 <style scoped>

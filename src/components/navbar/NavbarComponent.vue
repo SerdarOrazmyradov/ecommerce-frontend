@@ -1,6 +1,6 @@
 <template>
   <div
-    class="mt-10 flex justify-around mb-4 max-w-[1170px] mx-auto sticky top-0 z-500 bg-[#FFFFFF]"
+    class="mt-10 flex justify-around mb-4 max-w-[1170px] mx-auto md:sticky md:top-0 md:z-500 md:bg-[#FFFFFF]"
   >
     <div
       @click="
@@ -8,7 +8,12 @@
           name: 'home',
         })
       "
-      class="cursor-pointer select-none text-2xl font-bold flex items-center"
+      style="
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+      "
+      class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 cursor-pointer select-none text-2xl font-bold flex items-center"
     >
       Exclusive
     </div>
@@ -20,12 +25,12 @@
       >
       <router-link
         :to="{
-          name: 'productlist',
+          name: 'contact',
           query: { message: 'exploreourproducts' },
         }"
         class="relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 cursor-pointer"
       >
-        Product list
+        Contact Us
       </router-link>
       <!-- <router-link
         :to="{
@@ -35,11 +40,12 @@
       >
         Categories
       </router-link> -->
-      <div
+      <router-link
+        :to="{ name: 'about' }"
         class="relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 cursor-pointer"
       >
         About
-      </div>
+      </router-link>
       <router-link
         :to="{ name: 'signup' }"
         class="relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 cursor-pointer"
@@ -49,7 +55,7 @@
       <div
         @mouseenter="showDropdown = true"
         @mouseleave="showDropdown = false"
-        class="relative py-3 group hidden md:block xl:hidden"
+        class=" relative py-3 group hidden  xl:hidden"
       >
         <div
           class="relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 cursor-pointer"
@@ -67,7 +73,7 @@
             :key="category"
             class="py-1 px-2 hover:bg-gray-100 hover:text-[#DB4444] transition-colors cursor-pointer"
           >
-            {{ category }}
+            {{ category.name }}
           </div>
         </div>
       </div>
@@ -171,164 +177,204 @@
     </div>
   </div>
 
-  <transition name="fade">
+  <transition name="slide-fade">
     <div
       v-if="showMobileNavbar"
-      class="block lg:hidden fixed top-12 w-screen h-screen bg-white z-40 overflow-y-auto"
+      class="block lg:hidden fixed inset-0 w-full h-full bg-white z-[600] overflow-y-auto"
     >
-      <!-- close button -->
-      <div
-        @click="toggleMobileNavbar"
-        class="flex justify-end mt-8 mr-8 lg:hidden cursor-pointer"
-      >
+      <!-- Header with close button -->
+      <div class="sticky top-0 bg-white z-10 shadow-sm">
         <div
-          class="flex flex-col justify-center items-center w-10 h-8 cursor-pointer space-y-2"
+          class="container mx-auto px-4 py-4 flex justify-between items-center"
         >
-          <span
-            :class="[
-              'w-8 h-[2px] bg-black rounded transition duration-300',
-              showMobileNavbar ? '  rotate-45 translate-y-3 bg-black' : '',
-            ]"
-          ></span>
-          <span
-            :class="[
-              'w-8 h-[2px] bg-black rounded transition-all duration-300',
-              showMobileNavbar ? 'opacity-0 bg-black' : '',
-            ]"
-          ></span>
-          <span
-            :class="[
-              'w-8 h-[2px] bg-black rounded transition-transform duration-300',
-              showMobileNavbar ? '-rotate-45 -translate-y-2 bg-black' : '',
-            ]"
-          ></span>
+          <div class="text-xl font-bold text-gray-900">Menu</div>
+          <button
+            @click="toggleMobileNavbar"
+            class="p-2 rounded-full hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300"
+            aria-label="Close menu"
+          >
+            <div class="w-6 h-6 relative">
+              <span
+                class="block absolute top-1/2 left-1/2 w-6 h-0.5 bg-gray-800 rounded-full transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300"
+                :class="{ 'rotate-45': showMobileNavbar }"
+              ></span>
+              <span
+                class="block absolute top-1/2 left-1/2 w-6 h-0.5 bg-gray-800 rounded-full transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300"
+                :class="{ 'opacity-0': showMobileNavbar }"
+              ></span>
+              <span
+                class="block absolute top-1/2 left-1/2 w-6 h-0.5 bg-gray-800 rounded-full transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300"
+                :class="{ '-rotate-45': showMobileNavbar }"
+              ></span>
+            </div>
+          </button>
         </div>
       </div>
-      <!-- main body -->
-      <div class="text-[27px] text-black flex flex-col gap-4 px-4 mt-5 py-4">
-        <!-- search -->
-        <div class="flex gap-3 bg-gray-100 py-1 rounded-sm items-center">
-          <input
-            type="text"
-            name="search"
-            placeholder="What are you looking for?"
-            class="w-full placeholder:text-sm text-sm md:text-base outline-none text-[#7A7A7A]"
-          />
 
-          <div>
+      <!-- Main content -->
+      <div class="container mx-auto px-4 py-6">
+        <!-- Search bar -->
+        <div class="relative mb-8">
+          <input
+            @focus="loadInitialDropdown"
+            @blur.stop="
+              setTimeout(() => {
+                products = [];
+                showMobileNavbar = false;
+              }, 200)
+            "
+            :placeholder="placeholderText"
+            type="text"
+            placeholder="Search products..."
+            class="w-full py-3 px-4 pr-12 rounded-lg border border-gray-300 -500 transition-all placeholder-gray-400 text-gray-700 focus:ring-1 focus:ring-blue-400 outline-none duration-[0.6s]"
+          />
+          <button
+            class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-primary-600"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
               fill="none"
               viewBox="0 0 24 24"
-              stroke-width="1.5"
               stroke="currentColor"
-              class="size-6 md:ml-[34px] md:mr-3"
             >
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+                stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
               />
             </svg>
+          </button>
+        </div>
+
+        <!-- Main navigation links -->
+        <nav class="mb-8">
+          <ul class="space-y-4">
+            <li>
+              <router-link
+                :to="{ name: 'home' }"
+                class="block py-3 px-2 text-lg font-medium text-gray-900 hover:text-primary-600 transition-colors border-b border-gray-100"
+                active-class="text-primary-600 font-semibold"
+                @click.native="toggleMobileNavbar"
+              >
+                Home
+              </router-link>
+            </li>
+            <li>
+              <router-link
+                :to="{ name: 'contact' }"
+                class="block py-3 px-2 text-lg font-medium text-gray-900 hover:text-primary-600 transition-colors border-b border-gray-100"
+                active-class="text-primary-600 font-semibold"
+                @click.native="toggleMobileNavbar"
+              >
+                Contact
+              </router-link>
+            </li>
+            <li>
+              <router-link
+                :to="{ name: 'about' }"
+                class="block py-3 px-2 text-lg font-medium text-gray-900 hover:text-primary-600 transition-colors border-b border-gray-100"
+                active-class="text-primary-600 font-semibold"
+                @click.native="toggleMobileNavbar"
+              >
+                About
+              </router-link>
+            </li>
+            <li>
+              <router-link
+                :to="{ name: 'signup' }"
+                class="block py-3 px-2 text-lg font-medium text-gray-900 hover:text-primary-600 transition-colors border-b border-gray-100"
+                active-class="text-primary-600 font-semibold"
+                @click.native="toggleMobileNavbar"
+              >
+                Sign Up
+              </router-link>
+            </li>
+          </ul>
+        </nav>
+
+        <!-- Categories section -->
+        <div class="mb-8">
+          <h3
+            class="text-lg font-bold text-gray-900 mb-4 pb-2 border-b border-gray-200"
+          >
+            Categories
+          </h3>
+          <ul class="grid grid-cols-2 gap-3">
+            <li
+              v-for="category in categories"
+              :key="category.id"
+              @click.native="selectCategory(category)"
+            >
+              <a
+                class="block p-3 rounded-lg bg-gray-50 hover:bg-primary-50 transition-colors group"
+                
+              >
+                <span
+                  class="font-medium text-gray-800 group-hover:text-primary-600 transition-colors"
+                >
+                  {{ category.name }}
+                </span>
+                <span
+                  v-if="category.count"
+                  class="block text-xs text-gray-500 group-hover:text-primary-500 mt-1"
+                >
+                  {{ category.count }} products
+                </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- User actions (if logged in) -->
+        <!-- <div class="mt-8 pt-6 border-t border-gray-200">
+          <div class="flex items-center space-x-4 mb-4">
+            <div
+              class="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center"
+            >
+              <span class="text-primary-600 font-medium">{{
+                userInitials
+              }}</span>
+            </div>
+            <div>
+              <p class="font-medium text-gray-900">{{ userName }}</p>
+              <p class="text-sm text-gray-500">{{ userEmail }}</p>
+            </div>
           </div>
-        </div>
-        <router-link
-          :to="{ name: 'home' }"
-          class="cursor-pointer relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 text-base md:text-lg font-bold"
-          >Home</router-link
-        >
-        <div
-          class="cursor-pointer relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 text-base md:text-lg font-bold"
-        >
-          Contact
-        </div>
-        <div
-          class="cursor-pointer relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 text-base md:text-lg font-bold"
-        >
-          About
-        </div>
-        <!-- <div class="cursor-pointer relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100">Sign Up</div> -->
-        <router-link
-          :to="{ name: 'signup' }"
-          class="cursor-pointer relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 text-base md:text-lg font-bold"
-          >Sign Up</router-link
-        >
-
-        <!--=========== salam kategoriya  ===========-->
-        <div>
-          <div class="h-px w-full bg-black"></div>
-          <div class="text-base md:text-lg font-bold">Categories</div>
-        </div>
-        <!-- Woman's Fashion -->
-        <div class="flex justify-between items-center group cursor-pointer">
-          <span class="group-hover:text-[#DB4444] transition-colors text-xs"
-            >Woman's Fashion</span
+          <button
+            @click="logout"
+            class="w-full py-2 px-4 text-center text-red-600 font-medium rounded-lg border border-red-200 hover:bg-red-50 transition-colors"
           >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-5 h-5 group-hover:text-[#DB4444] transition-colors"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="m8.25 4.5 7.5 7.5-7.5 7.5"
-            />
-          </svg>
-        </div>
-
-        <!-- Man's Fashion -->
-        <div class="flex justify-between items-center group cursor-pointer">
-          <span class="group-hover:text-[#DB4444] transition-colors text-xs"
-            >Man's Fashion</span
-          >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-5 h-5 group-hover:text-[#DB4444] transition-colors"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="m8.25 4.5 7.5 7.5-7.5 7.5"
-            />
-          </svg>
-        </div>
-
-        <!-- Other Categories -->
-        <div
-          v-for="category in categories"
-          :key="category"
-          class="mb-2 sm:mb-3 md:mb-4 flex justify-between items-center group cursor-pointer text-xs"
-        >
-          <span class="group-hover:text-[#DB4444] transition-colors">{{
-            category
-          }}</span>
-        </div>
+            Sign Out
+          </button>
+        </div> -->
       </div>
-    </div></transition
-  >
+    </div>
+  </transition>
 
   <div class="bg-[#7a7a7a] h-px"></div>
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed, onMounted, onUnmounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useLiked, useCart } from "../../stores/stores";
 import SearchComponent from "./searchInput/searchComponent.vue";
 import NavbarProfile from "./profile/NavbarProfile.vue";
 
+const BASE_URL = "http://localhost:3000";
+const get_categories_api = "/guest/api/categories";
+const categories = ref([]);
 const router = useRouter();
 const route = useRoute();
 const showMobileNavbar = ref(false);
 const showDropdown = ref(false);
+
+const placeholderText = ref("");
+let typingIndex = 0;
+let typingInterval = null;
+const typingText = ref("What are you looking for?");
 
 const useLikedStore = useLiked();
 const useCartStore = useCart();
@@ -342,16 +388,75 @@ const cartProductsCount = computed(() =>
 const toggleMobileNavbar = () => {
   showMobileNavbar.value = !showMobileNavbar.value;
 };
+const selectCategory = (category) => {
+  showMobileNavbar.value = false;
+  router.push({
+    name: "productlist",
+    query: { page: 1, categories: encodeURIComponent(category.name) },
+  });
+};
+const startTypingEffect = () => {
+  typingIndex = 0;
+  placeholderText.value = "";
+  typingInterval = setInterval(() => {
+    if (typingIndex < typingText.value.length) {
+      placeholderText.value += typingText.value[typingIndex++];
+    } else {
+      clearInterval(typingInterval);
+      setTimeout(() => {
+        placeholderText.value = "";
+        typingIndex = 0;
+        startTypingEffect();
+      }, 1000);
+    }
+  }, 100);
+};
 
-const categories = [
-  "Electronics",
-  "Home & Lifestyle",
-  "Medicine",
-  "Sports & Outdoor",
-  "Baby's & Toys",
-  "Groceries & Pets",
-  "Health & Beauty",
-];
+onMounted(() => {
+  showMobileNavbar.value = false;
+  startTypingEffect();
+});
+
+onUnmounted(() => {
+  clearInterval(typingInterval);
+});
+
+const fetchCategories = async () => {
+  try {
+    const response = await fetch(`${BASE_URL}${get_categories_api}`);
+    const data = await response.json();
+    if (data.success) {
+      categories.value = data.data; // API-dan gelen kategoriýalar
+    } else {
+      // API işlemeýän ýagdaýy üçin yedek kategoriýalar
+      categories.value = [
+        { name: "Electronics" },
+        { name: "Home & Lifestyle" },
+        { name: "Medicine" },
+        { name: "Sports & Outdoor" },
+        { name: "Baby's & Toys" },
+        { name: "Groceries & Pets" },
+        { name: "Health & Beauty" },
+      ];
+    }
+  } catch (error) {
+    console.error("Kategoriýalar çekilende ýalňyşlyk:", error);
+    // API ýok bolsa, yedek kategoriýalar
+    categories.value = [
+      { name: "Electronics" },
+      { name: "Home & Lifestyle" },
+      { name: "Medicine" },
+      { name: "Sports & Outdoor" },
+      { name: "Baby's & Toys" },
+      { name: "Groceries & Pets" },
+      { name: "Health & Beauty" },
+    ];
+  }
+};
+
+onMounted(() => {
+  fetchCategories();
+});
 </script>
 
 <style scoped>
@@ -366,5 +471,17 @@ const categories = [
 .fade-enter-to,
 .fade-leave-from {
   opacity: 1;
+}
+
+.slide-fade-enter-active {
+  transition: all 0.3s ease-out;
+}
+.slide-fade-leave-active {
+  transition: all 0.2s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(-20px);
+  opacity: 0;
 }
 </style>

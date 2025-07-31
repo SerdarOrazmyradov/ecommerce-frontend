@@ -108,7 +108,14 @@
         class="cursor-pointer"
       >
         <router-link
-          :to="{ name: 'productlist', query: { categories: category.name } }"
+          :to="{
+            name: 'productlist',
+            query: {
+              page: 1,
+              message: 'exploreourproducts',
+              categories: category.name,
+            },
+          }"
           :class="[
             'flex flex-col items-center justify-center max-w-[170px] h-[145px] border rounded-md transition duration-300 hover:bg-[#DB4444] hover:text-white border-gray-300',
             selectedIndex === index ? ' ' : '   ',
@@ -133,6 +140,7 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 import { Navigation, Manipulation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
+import { Message } from "primevue";
 
 const categories = ref([
   { name: "Phones", icon: "fas fa-mobile-alt" },

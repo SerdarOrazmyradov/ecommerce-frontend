@@ -1,148 +1,104 @@
 <template>
-  <div
-    class="max-w-[1170px] mx-auto px-4 sm:px-6 lg:px-8 mb-8 sm:mb-10 md:mb-12"
-  >
-    <div>
-      <div class="text-xl font-medium mt-20">My Orders</div>
-      <div
-        class="flex justify-around border border-gray-100 py-2 rounded mt-10"
-      >
-        <div
-          class="flex items-center bg-green-200 rounded py-2 px-7 gap-3 cursor-pointer"
-        >
-          <div class="text-base py-2">On Shipping</div>
-          <div
-            class="rounded-full bg-black text-neutral-50 size-5 flex items-center justify-center"
-          >
-            {{ onShipping.length }}
-          </div>
+  <section class="bg-white py-8 antialiased md:py-16">
+    <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
+      <div class="mx-auto max-w-5xl">
+        <div class="gap-4 sm:flex sm:items-center sm:justify-between">
+          <h2 class="text-xl font-semibold text-gray-900 sm:text-2xl">
+            My orders
+          </h2>
         </div>
-        <div
-          class="flex items-center rounded py-2 px-7 gap-3 cursor-pointer text-gray-300"
-        >
-          <div class="text-base">Arrived</div>
-          <div class="rounded-full size-5 flex items-center justify-center">
-            {{ arrived.length }}
-          </div>
-        </div>
-        <div
-          class="flex items-center rounded py-2 px-7 gap-3 cursor-pointer text-gray-300"
-        >
-          <div class="text-base">Cancelled</div>
-          <div
-            class="hidden rounded-full size-5 flex items-center justify-center"
-          >
-            3
-          </div>
-        </div>
-      </div>
-
-      <!-- first order -->
-
-      <div class="m-10" v-for="(order, index) in orders.orders" :key="index">
-        <!-- order id with status -->
-        <div class="flex w-full justify-between">
-          <div class="flex gap-4 items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="size-8"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
-              />
-            </svg>
-            <div>Order id: {{ order.id }}</div>
-          </div>
-          <div class="flex py-2 px-4 gap-4 items-center rounded bg-orange-300">
-            <div class="size-5 rounded-full bg-orange-600"></div>
-            <div class="">
-              {{ order.status }}
-            </div>
-          </div>
-        </div>
-        <!-- tracing -->
-        <div>
-          <div class="flex gap-4 mt-5 items-center">
-            <!-- delivered icon -->
+        <div class="mt-6 flow-root sm:mt-8">
+          <div class="divide-y divide-gray-200">
             <div
-              class="flex truncate max-w-28 px-3 py-2 gap-3 justify-center items-center"
+              class="flex flex-wrap items-center gap-y-4 py-6"
+              v-for="order in orders.orders"
             >
-              <i class="fas fa-truck"></i>
-              <div>Asgabat</div>
-            </div>
-            <!-- track start-->
-            <div class="flex items-center">
-              <div class="size-3 rounded-full bg-black"></div>
-              <div class="flex gap-1">
-                <div class="w-2 bg-black h-px"></div>
-                <div class="w-2 bg-black h-px"></div>
-                <div class="w-2 bg-black h-px"></div>
-                <div class="w-2 bg-black h-px"></div>
-                <div class="w-2 bg-black h-px"></div>
+              <dl class="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1">
+                <dt class="text-base font-medium text-gray-500">Order ID:</dt>
+                <dd class="mt-1.5 text-base font-semibold text-gray-900">
+                  <a href="#" class="hover:underline">#{{ order.id }}</a>
+                </dd>
+              </dl>
+
+              <dl class="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1">
+                <dt class="text-base font-medium text-gray-500">Date:</dt>
+                <dd class="mt-1.5 text-base font-semibold text-gray-900">
+                  {{
+                    new Date(order.created_at).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })
+                  }}
+                </dd>
+              </dl>
+
+              <dl class="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1">
+                <dt class="text-base font-medium text-gray-500">Price:</dt>
+                <dd class="mt-1.5 text-base font-semibold text-gray-900">
+                  ${{ order.total_price }}
+                </dd>
+              </dl>
+
+              <dl class="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1">
+                <dt class="text-base font-medium text-gray-500">Status:</dt>
+
+                <dd
+                  v-if="order.ispaid"
+                  class="me-2 mt-1.5 inline-flex items-center rounded bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800"
+                >
+                  <svg
+                    class="me-1 h-3 w-3"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M5 11.917 9.724 16.5 19 7.5"
+                    />
+                  </svg>
+                  Paid
+                </dd>
+                <dd
+                  v-else
+                  class="me-2 mt-1.5 inline-flex items-center rounded bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800"
+                >
+                  <i class="fa-solid fa-xmark mr-1"></i>
+                  Unpaid
+                </dd>
+              </dl>
+
+              <div
+                class="w-full grid sm:grid-cols-2 lg:flex lg:w-64 lg:items-center lg:justify-end gap-4"
+              >
+                <RouterLink
+                  :to="{ name: 'productlist' }"
+                  type="button"
+                  class="w-full inline-flex justify-center rounded-lg bg-green-400 px-3 py-2 text-sm font-medium text-neutral-50 hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 lg:w-auto"
+                >
+                  Order again
+                </RouterLink>
+                <router-link
+                  :to="{ name: 'orderdetails', params: { id: order.id } }"
+                  type="button"
+                  class="w-full inline-flex justify-center rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-green-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 lg:w-auto"
+                >
+                  View details
+                </router-link>
               </div>
-            </div>
-            <!-- garaşylýan güni -->
-            <div class="truncate max-w-64">Estimated arrival: 28 May 2024</div>
-            <!-- track end -->
-            <div class="flex items-center">
-              <div class="flex gap-1">
-                <div class="w-2 bg-black h-px"></div>
-                <div class="w-2 bg-black h-px"></div>
-                <div class="w-2 bg-black h-px"></div>
-                <div class="w-2 bg-black h-px"></div>
-                <div class="w-2 bg-black h-px"></div>
-              </div>
-              <div class="triangle-right"></div>
             </div>
           </div>
         </div>
       </div>
     </div>
-
-    <!-- ähli order maglumatlary -->
-
-    <div class="m-10" v-for="(order, index) in orders.orders" :key="index">
-      <div class="flex gap-3">
-        <div v-for="(product, i) in order.products">
-          <img
-            class="size-10 object-scale-down"
-            :src="'http://localhost:3000/' + product.main_image"
-            alt="orderes main_image"
-          />
-        </div>
-      </div>
-    </div>
-
-    <!-- Saýlanan order statusyny görkezmek üçin -->
-    <!-- <div v-if="selectedOrderId" class="mt-4">
-        <h3 class="text-lg font-semibold">
-          Order Status (ID: {{ selectedOrderId }})
-        </h3>
-        <pre>{{ orderStatus }}</pre>
-      </div> -->
-
-    <!-- Button bilen order status fetch etmek -->
-    <!-- <div class="mt-4">
-        <input
-          v-model="selectedOrderId"
-          type="number"
-          placeholder="Order ID giriz"
-          class="border p-2"
-        />
-        <button
-          @click="fetchOrderStatus"
-          class="ml-2 px-4 py-2 bg-blue-600 text-white rounded"
-        >
-          Track Status
-        </button>
-      </div> -->
-  </div>
+  </section>
 </template>
 
 <script setup>
@@ -201,10 +157,10 @@ onMounted(() => {
 
 <style scoped>
 .triangle-right {
-	width: 0;
-	height: 0;
-	border-top: 25px solid transparent;
-	border-left: 50px solid #555;
-	border-bottom: 25px solid transparent;
+  width: 0;
+  height: 0;
+  border-top: 25px solid transparent;
+  border-left: 50px solid #555;
+  border-bottom: 25px solid transparent;
 }
 </style>

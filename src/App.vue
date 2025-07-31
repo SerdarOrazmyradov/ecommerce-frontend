@@ -1,8 +1,8 @@
 <template>
   <toast-component />
-  <promotional_message
+  <!-- <promotional_message
     v-if="route.name !== 'admin' && route.name !== 'UserProfile'"
-  />
+  /> -->
   <navbar-component
     v-if="route.name !== 'admin' && route.name !== 'UserProfile'"
   />
@@ -10,6 +10,7 @@
   <footer-comonent
     v-if="route.name !== 'admin' && route.name !== 'UserProfile'"
   />
+     <ScrollToTopButton />
 </template>
 
 <script setup>
@@ -21,6 +22,7 @@ import { useRoute, useRouter } from "vue-router";
 import { onMounted, onUnmounted } from "vue";
 import { useLiked } from "./stores/stores";
 import { Button, Galleria } from "primevue";
+import ScrollToTopButton from './components/homepage/ScrollToTopButton.vue'
 // import { defineComponent } from "vue";
 const router = useRouter();
 const route = useRoute();
