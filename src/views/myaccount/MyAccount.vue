@@ -39,13 +39,15 @@
           :to="{ name: 'home' }"
           class="text-xs lg:text-sm ml-2 sm:ml-3 text-gray-500 cursor-pointer"
         >
-          Home
+          {{ t("home") }}
         </router-link>
         <div class="h-3.5 w-px ml-2 sm:ml-3 bg-gray-500 rotate-[30grad]"></div>
-        <div class="text-xs lg:text-sm ml-3 cursor-pointer">My Account</div>
+        <div class="text-xs lg:text-sm ml-3 cursor-pointer">
+          {{ t("myAccount") }}
+        </div>
       </div>
       <div class="mr-2 sm:mr-3 flex items-center gap-1">
-        <div class="text-xs lg:text-sm">Welcome</div>
+        <div class="text-xs lg:text-sm">{{ t("welcomeUser") }}</div>
         <div class="text-xs lg:text-sm text-red-400">
           {{ useAuthStore.user.name }}
         </div>
@@ -54,7 +56,7 @@
     <!-- main -->
     <div class="mt-20 flex lg:gap-10 xl:gap-30 mb-36">
       <!-- left side -->
-      <div class="invisible">
+      <div class="">
         <!-- Manage My Account -->
         <div class="mx-2 lg:mx-3">
           <div class="text-sm lg:text-base font-medium">Manage My Account</div>
@@ -67,25 +69,35 @@
             >
               Address Book
             </div>
-            <div class="hidden text-sm lg:text-base cursor-pointer text-gray-500">
+            <div
+              class="hidden text-sm lg:text-base cursor-pointer text-gray-500"
+            >
               My Payment Options
             </div>
           </div>
         </div>
         <!--My Orders  -->
-        <div class="hidden mx-2 lg:mx-3 mt-6">
-          <div class="text-sm lg:text-base font-medium">My Orders</div>
+        <div class="mx-2 lg:mx-3 mt-6">
+          <router-link
+            :to="{ name: 'wishlist' }"
+            class="text-sm lg:text-base font-medium"
+            >My Orders</router-link
+          >
           <div class="ml-7 flex flex-col gap-2 mt-4">
-            <div class="text-sm lg:text-base cursor-pointer text-gray-500">
+            <div
+              class="hidden text-sm lg:text-base cursor-pointer text-gray-500"
+            >
               My Returns
             </div>
-            <div class="text-sm lg:text-base cursor-pointer text-gray-500">
+            <div
+              class="hidden text-sm lg:text-base cursor-pointer text-gray-500"
+            >
               My Cancellations
             </div>
           </div>
         </div>
         <!-- My WishList -->
-        <div class="hidden mx-2 lg:mx-3 mt-6">
+        <div class="mx-2 lg:mx-3 mt-6">
           <div class="text-sm lg:text-base font-medium">My WishList</div>
         </div>
       </div>
@@ -93,12 +105,12 @@
       <div class="mx-2 lg:mx-3 mt-8">
         <!-- Edit Your Profile -->
         <div class="text-red-500 text-xl font-medium ml-6">
-          Edit Your Profile
+          {{ t("editYourProfile") }}
         </div>
         <div>
           <div>
             <div class="ml-6 flex flex-col gap-2 mt-4">
-              <div class="text-sm lg:text-base">USERNAME</div>
+              <div class="text-sm lg:text-base">{{ t("usernameLabel") }}</div>
               <input
                 v-model="name"
                 type="text"
@@ -107,7 +119,7 @@
               />
             </div>
             <div class="ml-6 flex flex-col gap-2 mt-4">
-              <div class="text-sm lg:text-base">Password Changes</div>
+              <div class="text-sm lg:text-base">{{ t("passwordChanges") }}</div>
               <!-- <input
                 type="text"
                 id="currentpassword"
@@ -120,7 +132,7 @@
                   :type="toggle_password ? 'text' : 'password'"
                   id="currentpassword"
                   v-model="password"
-                  placeholder="Current Passwod"
+                  :placeholder="t('currentPasswordPlaceholder')"
                   class="w-full px-[0.375rem] py-[0.75rem] border-gray-300 focus:ring-1 focus:ring-blue-400 outline-none transition duration-[0.6s] h-[52px] bg-[#fff] text-gray-500 rounded-[5px] shadow-none border-[1px] border-solid-[rgba(0, 0, 0, 0.1)] tracking-[1.5] font-normal overflow-clip"
                 />
 
@@ -149,7 +161,7 @@
                   :type="toggle_newpasswod ? 'text' : 'password'"
                   id="newpassword"
                   v-model="newpassword"
-                  placeholder="New Passwod"
+                  :placeholder="t('newPasswordPlaceholder')"
                   class="w-full px-[0.375rem] py-[0.75rem] border-gray-300 focus:ring-1 focus:ring-blue-400 outline-none transition duration-[0.6s] h-[52px] bg-[#fff] text-gray-500 rounded-[5px] shadow-none border-[1px] border-solid-[rgba(0, 0, 0, 0.1)] tracking-[1.5] font-normal overflow-clip"
                 />
 
@@ -180,7 +192,7 @@
                   :type="toggle_confirm_new_passwod ? 'text' : 'password'"
                   id="confirm_new_passwod"
                   v-model="confirm_new_passwod"
-                  placeholder="Confirm New Passwod"
+                  :placeholder="t('confirmNewPasswordPlaceholder')"
                   class="w-full px-[0.375rem] py-[0.75rem] border-gray-300 focus:ring-1 focus:ring-blue-400 outline-none transition duration-[0.6s] h-[52px] bg-[#fff] text-gray-500 rounded-[5px] shadow-none border-[1px] border-solid-[rgba(0, 0, 0, 0.1)] tracking-[1.5] font-normal overflow-clip"
                 />
 
@@ -203,15 +215,15 @@
             <div class="ml-6 mt-4 sm:w-sm md:w-lg lg:w-xl xl:w-2xl flex">
               <div class="flex w-full justify-end">
                 <div
-                  class="text-sm lg:text-base py-3 px-5 cursor-pointer bg-gray-100 rounded"
+                  class="invisible text-sm lg:text-base py-3 px-5 cursor-pointer bg-gray-100 rounded"
                 >
-                  Cancel
+                  {{ t("cancelButton") }}
                 </div>
                 <div
                   @click="saveChange()"
                   class="bg-red-400 text-sm lg:text-base text-neutral-50 hover:bg-red-300 cursor-pointer rounded py-3 px-5"
                 >
-                  Save Changes
+                  {{ t("saveChangesButton") }}
                 </div>
               </div>
             </div>
@@ -230,6 +242,10 @@ import LoadingAnimation from "../../components/loader/LoadingAnimation.vue";
 import { useAuth } from "../../stores/stores.js";
 import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
+
+import { useI18n } from "vue-i18n";
+
+const { t, locale, availableLocales } = useI18n({ useScope: "global" });
 
 const router = useRouter();
 const route = useRoute();

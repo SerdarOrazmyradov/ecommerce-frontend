@@ -63,6 +63,11 @@ const routes = [
     component: () => import("../views/about/AboutComponent.vue"),
   },
   {
+    path: "/500",
+    name: "500",
+    component: () => import("../views/error/500.vue"),
+  },
+  {
     path: "/contact",
     name: "contact",
     component: () => import("../views/contact/ContactUs.vue"),

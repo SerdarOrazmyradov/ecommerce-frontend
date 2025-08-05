@@ -66,7 +66,7 @@
     </div>
 
     <loader-and-checkmark
-      v-show="isVisiable"
+      v-show="isVisibleLogoutLoader"
       :isCompleted="isCompleted"
       class="fixed inset-0 z-50 flex items-center justify-center bg-white/70 backdrop-blur-sm"
     />
@@ -82,7 +82,7 @@ import { getCookie, getToken } from "../compasable/cookie/vue-cookie-next";
 const BASE_URL = "http://localhost:3000/";
 
 const toggle_password = ref(false);
-const isVisiable = ref(false);
+const isVisibleLogoutLoader = ref(false);
 const isCompleted = ref(false);
 
 const handle = () => {
@@ -93,7 +93,7 @@ const handle = () => {
 };
 
 const logout = (token) => {
-  isVisiable.value = true;
+  isVisibleLogoutLoader.value = true;
 
   isCompleted.value = false;
 
@@ -113,10 +113,10 @@ const logout = (token) => {
       console.log(data);
       if (data.success) {
         // redirect
-        isVisiable.value = true;
+        isVisibleLogoutLoader.value = true;
         isCompleted.value = true;
       } else {
-        isVisiable.value = false;
+        isVisibleLogoutLoader.value = false;
       }
     })
     .catch((error) => {

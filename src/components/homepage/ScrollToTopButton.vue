@@ -1,13 +1,16 @@
 <template>
   <div
-    v-show="isVisible"
-    :class="['scroll-to-top', isOverFooter ? 'relative bottom-0' : 'fixed bottom-[32px]']"
+    v-show="scrollToTopBtnIsVisible"
+    :class="[
+      'scroll-to-top',
+      isOverFooter ? 'relative bottom-0' : 'fixed bottom-[32px]',
+    ]"
     @click="scrollToTop"
-    class="w-[46px] h-[46px] flex items-center justify-center rounded-full bg-[#F5F5F5] right-[10%] shadow-lg z-50 transition-opacity duration-300 hover:bg-[#e0e0e0] duration-300 transition-colors active:shadow-none active:translate-y-0"
-        style="
-          box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-          transform: translateY(-2px);
-        "
+    class="w-[46px] h-[46px] flex group items-center justify-center rounded-full bg-[#F5F5F5] right-[10%] shadow-lg z-50 transition-opacity duration-300 hover:bg-[#e0e0e0] duration-300 transition-colors active:shadow-none active:translate-y-0"
+    style="
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+      transform: translateY(-2px);
+    "
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -15,7 +18,7 @@
       viewBox="0 0 24 24"
       stroke-width="1.5"
       stroke="currentColor"
-      class="size-6"
+      class="size-6 group-hover:-translate-y-0.5 duration-300 transition-transform active:translate-y-0"
     >
       <path
         stroke-linecap="round"
@@ -31,7 +34,7 @@ export default {
   name: "ScrollToTop",
   data() {
     return {
-      isVisible: false,
+      scrollToTopBtnIsVisible: false,
       isOverFooter: false,
     };
   },
@@ -46,7 +49,7 @@ export default {
       window.scrollTo({ top: 0, behavior: "smooth" });
     },
     handleScroll() {
-      this.isVisible = window.scrollY > 300;
+      this.scrollToTopBtnIsVisible = window.scrollY > 300;
 
       const footer = document.getElementById("footer");
       if (footer) {

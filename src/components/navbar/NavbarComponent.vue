@@ -1,6 +1,6 @@
 <template>
   <div
-    class="mt-10 flex justify-around mb-4 max-w-[1170px] mx-auto md:sticky md:top-0 md:z-500 md:bg-[#FFFFFF]"
+    class="mt-10 py-1 flex justify-around mb-4 max-w-[1170px] mx-auto md:sticky md:top-0 md:z-500 md:bg-[#FFFFFF]"
   >
     <div
       @click="
@@ -17,12 +17,29 @@
     >
       Exclusive
     </div>
-    <div class="hidden text-base lg:flex lg:gap-10 xl:gap-12 items-center">
+    <div
+      class="hidden text-base lg:flex items-center"
+      :class="{
+        'lg:gap-2 xl:gap-8': locale == 'ru',
+        'lg:gap-3 xl:gap-8': locale == 'tk',
+        'lg:gap-5 xl:gap-8': locale == 'en',
+      }"
+    >
       <router-link
         :to="{ name: 'home' }"
         class="relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 cursor-pointer"
-        >Home</router-link
       >
+        {{ t("home") }}
+      </router-link>
+      <router-link
+        :to="{
+          name: 'productlist',
+          query: { page: 1, message: 'exploreourproducts' },
+        }"
+        class="relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 cursor-pointer"
+      >
+        {{ t("productList") }}
+      </router-link>
       <router-link
         :to="{
           name: 'contact',
@@ -30,32 +47,33 @@
         }"
         class="relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 cursor-pointer"
       >
-        Contact Us
+        {{ t("contactUs") }}
       </router-link>
       <!-- <router-link
-        :to="{
-          name: 'categorylist',
+      :to="{
+        name: 'categorylist',
         }"
         class="relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 cursor-pointer"
       >
-        Categories
+      Categories
       </router-link> -->
       <router-link
         :to="{ name: 'about' }"
-        class="relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 cursor-pointer"
+        class="hidden relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 cursor-pointer"
       >
         About
       </router-link>
       <router-link
         :to="{ name: 'signup' }"
         class="relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 cursor-pointer"
-        >Sign Up</router-link
       >
+        {{ t("signUp") }}
+      </router-link>
       <!-- Categories with dropdown -->
       <div
         @mouseenter="showDropdown = true"
         @mouseleave="showDropdown = false"
-        class=" relative py-3 group hidden  xl:hidden"
+        class="relative py-3 group hidden xl:hidden"
       >
         <div
           class="relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 cursor-pointer"
@@ -73,7 +91,7 @@
             :key="category"
             class="py-1 px-2 hover:bg-gray-100 hover:text-[#DB4444] transition-colors cursor-pointer"
           >
-            {{ category.name }}
+            {{ JSON.parse(category.name)[locale] }}
           </div>
         </div>
       </div>
@@ -273,12 +291,12 @@
             </li>
             <li>
               <router-link
-                :to="{ name: 'about' }"
+                :to="{ name: 'productlist' }"
                 class="block py-3 px-2 text-lg font-medium text-gray-900 hover:text-primary-600 transition-colors border-b border-gray-100"
                 active-class="text-primary-600 font-semibold"
                 @click.native="toggleMobileNavbar"
               >
-                About
+                {{ t("productList") }}
               </router-link>
             </li>
             <li>
@@ -308,13 +326,12 @@
               @click.native="selectCategory(category)"
             >
               <a
-                class="block p-3 rounded-lg bg-gray-50 hover:bg-primary-50 transition-colors group"
-                
+                class="block p-3 rounded-lg bg-gray-50 hover:bg-primary-50 transition-colors group cursor-pointer"
               >
                 <span
                   class="font-medium text-gray-800 group-hover:text-primary-600 transition-colors"
                 >
-                  {{ category.name }}
+                  {{ JSON.parse(category.name)[locale] }}
                 </span>
                 <span
                   v-if="category.count"
@@ -363,6 +380,9 @@ import { useLiked, useCart } from "../../stores/stores";
 import SearchComponent from "./searchInput/searchComponent.vue";
 import NavbarProfile from "./profile/NavbarProfile.vue";
 
+import { useI18n } from "vue-i18n";
+const { t, locale } = useI18n({ useScope: "global" });
+
 const BASE_URL = "http://localhost:3000";
 const get_categories_api = "/guest/api/categories";
 const categories = ref([]);
@@ -392,7 +412,10 @@ const selectCategory = (category) => {
   showMobileNavbar.value = false;
   router.push({
     name: "productlist",
-    query: { page: 1, categories: encodeURIComponent(category.name) },
+    query: {
+      page: 1,
+      categories: encodeURIComponent(String(JSON.parse(category.name)).en),
+    },
   });
 };
 const startTypingEffect = () => {

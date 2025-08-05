@@ -11,14 +11,14 @@
         <div class="flex items-center mb-4 sm:mb-6">
           <div class="bg-[#DB4444] w-4 sm:w-5 h-8 sm:h-10 rounded-md"></div>
           <div class="text-[#DB4444] text-sm sm:text-base ml-3 sm:ml-4">
-            Today's
+            {{ t("todays") }}
           </div>
         </div>
-        <h2
+        <div
           class="text-2xl sm:text-3xl md:text-4xl font-semibold leading-tight"
         >
-          Flash Sales
-        </h2>
+          {{ t("flashSales") }}
+        </div>
       </div>
 
       <!-- Countdown Timer -->
@@ -34,7 +34,7 @@
         "
       >
         <div class="text-center">
-          <div class="text-xs sm:text-sm font-medium">Days</div>
+          <div class="text-xs sm:text-sm font-medium">{{ t("days") }}</div>
           <div
             class="text-2xl sm:text-3xl md:text-4xl font-bold"
             style="font-variant-numeric: tabular-nums"
@@ -51,7 +51,7 @@
           ></div>
         </div>
         <div class="text-center">
-          <div class="text-xs sm:text-sm font-medium">Hours</div>
+          <div class="text-xs sm:text-sm font-medium">{{ t("hours") }}</div>
           <div
             class="text-2xl sm:text-3xl md:text-4xl font-bold"
             style="font-variant-numeric: tabular-nums"
@@ -68,7 +68,7 @@
           ></div>
         </div>
         <div class="text-center">
-          <div class="text-xs sm:text-sm font-medium">Minutes</div>
+          <div class="text-xs sm:text-sm font-medium">{{ t("minutes") }}</div>
           <div
             class="text-2xl sm:text-3xl md:text-4xl font-bold"
             style="font-variant-numeric: tabular-nums"
@@ -85,7 +85,7 @@
           ></div>
         </div>
         <div class="text-center">
-          <div class="text-xs sm:text-sm font-medium">Seconds</div>
+          <div class="text-xs sm:text-sm font-medium">{{ t("seconds") }}</div>
           <div
             class="text-2xl sm:text-3xl md:text-4xl font-bold"
             style="font-variant-numeric: tabular-nums"
@@ -99,7 +99,7 @@
       <div class="flex gap-2 sm:gap-3">
         <button
           aria-label="Previous products"
-          class="w-10 h-10 sm:w-12 sm:h-12 bg-[#F5F5F5] rounded-full flex justify-center items-center hover:bg-gray-200 transition-colors custom-prev-button duration-300 active:shadow-none active:translate-y-0"
+          class="w-10 h-10 sm:w-12 sm:h-12 group bg-[#F5F5F5] rounded-full flex justify-center items-center hover:bg-gray-200 transition-colors custom-prev-button duration-300 active:shadow-none active:translate-y-0"
           style="
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
             transform: translateY(-2px);
@@ -111,7 +111,7 @@
             viewBox="0 0 24 24"
             stroke-width="1.5"
             stroke="currentColor"
-            class="w-5 h-5 sm:w-6 sm:h-6"
+            class="w-5 h-5 sm:w-6 sm:h-6 active:scale-105 group-hover:-translate-x-0.5 active:translate-y-0.5 duration-300 transition-transform active:translate-x-0"
           >
             <path
               stroke-linecap="round"
@@ -122,7 +122,7 @@
         </button>
         <button
           aria-label="Next products"
-          class="w-10 h-10 sm:w-12 sm:h-12 bg-[#F5F5F5] rounded-full flex justify-center items-center hover:bg-gray-200 transition-colors duration-300 custom-next-button active:shadow-none active:translate-y-0"
+          class="w-10 h-10 sm:w-12 sm:h-12 group bg-[#F5F5F5] rounded-full flex justify-center items-center hover:bg-gray-200 transition-colors duration-300 custom-next-button active:shadow-none active:translate-y-0"
           style="
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
             transform: translateY(-2px);
@@ -134,7 +134,7 @@
             viewBox="0 0 24 24"
             stroke-width="1.5"
             stroke="currentColor"
-            class="w-5 h-5 sm:w-6 sm:h-6"
+            class="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-105 active:scale-105 group-hover:translate-x-0.5 active:translate-y-0.5 duration-300 transition-transform active:translate-x-0"
           >
             <path
               stroke-linecap="round"
@@ -215,7 +215,7 @@
           transform: translateY(-2px);
         "
       >
-        View All Products
+        {{ t("exploreOurProducts") }}
       </button>
     </div>
   </div>
@@ -230,6 +230,9 @@ import { Navigation, Manipulation } from "swiper/modules";
 import ProductCard from "../../components/product/ProductCard.vue";
 import { useRoute, useRouter } from "vue-router";
 import { Message } from "primevue";
+import { useI18n } from "vue-i18n";
+const { t, locale } = useI18n({ useScope: "global" });
+
 const router = useRouter();
 const route = useRoute();
 const BASE_URL = "http://localhost:3000/";
@@ -275,60 +278,7 @@ const startCountdown = () => {
 onMounted(startCountdown);
 
 // Product list
-const products = ref([
-  {
-    title: "HAVIT HV-G92 Gamepad",
-    image: "./flash_sales_images/g92-2-500x500 1.png",
-    price: 120,
-    oldprice: 160,
-    discount: 40,
-    rating: 4,
-    reviews: 88,
-    id: 1,
-  },
-  {
-    title: "AK-900 Wired Keyboard",
-    image: "./flash_sales_images/Frame 612.png",
-    price: 960,
-    oldprice: 1160,
-    discount: 35,
-    rating: 4,
-    reviews: 75,
-    id: 1,
-  },
-  {
-    title: "IPS LCD Gaming Monitor",
-    image: "./flash_sales_images/g27cq4-500x500 1.png",
-    price: 370,
-    oldprice: 400,
-    discount: 30,
-    rating: 5,
-    reviews: 99,
-    id: 1,
-  },
-  {
-    title: "S-Series Comfort Chair",
-    image:
-      "./flash_sales_images/sam-moghadam-khamseh-kvmdsTrGOBM-unsplash 1.png",
-    price: 375,
-    oldprice: 500,
-    discount: 25,
-    rating: 4,
-    reviews: 99,
-    id: 1,
-  },
-  {
-    title: "Another Product",
-    image:
-      "./flash_sales_images/sam-moghadam-khamseh-kvmdsTrGOBM-unsplash 1.png",
-    price: 500,
-    oldprice: 700,
-    discount: 28,
-    rating: 4,
-    reviews: 60,
-    id: 1,
-  },
-]);
+const products = ref([]);
 onMounted(() => {
   fetch(BASE_URL + "guest/api/get-products", {
     method: "GET",

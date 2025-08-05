@@ -17,7 +17,7 @@
           class="absolute top-0 z-[12] bg-neutral-50 rounded-sm w-96 h-[500px]"
         ></div> -->
 
-            <div class="flex z-[13] flex-col gap-20 relative">
+            <div class="flex z-[800] flex-col gap-20 relative">
               <!-- close button -->
               <div
                 @click="handleCloseClick"

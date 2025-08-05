@@ -1,6 +1,6 @@
 <template>
   <div class="flex items-center gap-4">
-    <div class="text-xs font-light">Sort by</div>
+    <div class="text-xs font-light">{{ t("sortBy") }}</div>
     <select
       :value="sort_by"
       @change="$emit('update:sort_by', $event.target.value)"
@@ -9,18 +9,20 @@
       id=""
     >
       <option value="" class="text-xs font-light" hidden disabled selected>
-        Select
+        {{ t("select") }}
       </option>
 
       <option class="text-xs font-light" value="low_to_high">
-        Low to High
+        {{ t("lowToHigh") }}
       </option>
       <option class="text-xs font-light" value="high_to_low">
-        High to Low
+        {{ t("highToLow") }}
       </option>
-      <option class="text-xs font-light" value="newest">newest</option>
+      <option class="text-xs font-light" value="newest">
+        {{ t("newest") }}
+      </option>
       <option class="text-xs font-light" value="user_rating">
-        user rating
+        {{ t("userRating") }}
       </option>
       <!-- <option class="text-xs font-light" value="best-selling">
                   best-selling
@@ -30,6 +32,10 @@
 </template>
 
 <script setup>
+import { useI18n } from "vue-i18n";
+
+const { t, locale, availableLocales } = useI18n({ useScope: "global" });
+
 defineProps({
   sort_by: {
     type: String,

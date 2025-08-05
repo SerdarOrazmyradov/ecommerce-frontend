@@ -35,7 +35,7 @@ export const useCart = defineStore("cart", () => {
 
   const addProduct = (prod, isIncrease = true) => {
     const existing = cartProducts.value.find((p) => p.id === prod.id);
-    
+
     if (!existing) {
       if (prod.stock > 0) {
         prod.count = 1;
@@ -62,6 +62,8 @@ export const useCart = defineStore("cart", () => {
   };
 
   const setProducts = (newProducts) => {
+    console.log("salam cart store pinia :test edyas nace gezek isleyanini");
+
     cartProducts.value = [...newProducts];
     localStorage.setItem("cartProducts", JSON.stringify(cartProducts.value));
   };
@@ -78,7 +80,6 @@ export const useCart = defineStore("cart", () => {
     setProducts,
   };
 });
-
 
 export function parseJwt(token) {
   if (!token) {

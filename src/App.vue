@@ -1,8 +1,8 @@
 <template>
   <toast-component />
-  <!-- <promotional_message
+  <promotional_message
     v-if="route.name !== 'admin' && route.name !== 'UserProfile'"
-  /> -->
+  />
   <navbar-component
     v-if="route.name !== 'admin' && route.name !== 'UserProfile'"
   />
@@ -10,7 +10,7 @@
   <footer-comonent
     v-if="route.name !== 'admin' && route.name !== 'UserProfile'"
   />
-     <ScrollToTopButton />
+  <ScrollToTopButton />
 </template>
 
 <script setup>
@@ -22,11 +22,15 @@ import { useRoute, useRouter } from "vue-router";
 import { onMounted, onUnmounted } from "vue";
 import { useLiked } from "./stores/stores";
 import { Button, Galleria } from "primevue";
-import ScrollToTopButton from './components/homepage/ScrollToTopButton.vue'
+import ScrollToTopButton from "./components/homepage/ScrollToTopButton.vue";
 // import { defineComponent } from "vue";
+import { useI18n } from "vue-i18n";
+import { watch } from "vue";
 const router = useRouter();
 const route = useRoute();
 
+const { t, locale } = useI18n({ useScope: "global" });
+// const { t, locale, avaiableLocales } = VueI18n();
 const startLoading = () => {
   document.body.classList.add("page-loading");
 };
@@ -55,6 +59,16 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener("beforeunload", startLoading);
 });
+
+watch(
+  () => route.path,
+  () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }
+);
 </script>
 
 <style>
@@ -82,6 +96,7 @@ onUnmounted(() => {
 }
 
 * {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 </style>

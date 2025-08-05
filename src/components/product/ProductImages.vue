@@ -2,7 +2,7 @@
   <div class="relative">
     <!--prev button  -->
     <div
-      class="w-[46px] h-[46px] absolute top-36 left-0 bg-[#F5F5F5] rounded-full flex justify-center items-center hover:bg-gray-200 transition-colors custom4-prev-button duration-300 active:shadow-none active:translate-y-0"
+      class="w-[46px] h-[46px] absolute top-36 left-5 bg-[#F5F5F5] rounded-full flex justify-center items-center hover:bg-gray-200 transition-colors custom4-prev-button duration-300 active:shadow-none active:translate-y-0"
       style="
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
         transform: translateY(-2px);
@@ -25,7 +25,7 @@
     </div>
     <!-- next button -->
     <div
-      class="w-[46px] h-[46px] absolute top-36 right-0 bg-[#F5F5F5] rounded-full flex justify-center items-center hover:bg-gray-200 transition-colors custom4-next-button duration-300 active:shadow-none active:translate-y-0"
+      class="w-[46px] h-[46px] absolute top-36 right-5 bg-[#F5F5F5] rounded-full flex justify-center items-center hover:bg-gray-200 transition-colors custom4-next-button duration-300 active:shadow-none active:translate-y-0"
       style="
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
         transform: translateY(-2px);
@@ -116,6 +116,7 @@ import "swiper/css/thumbs";
 import VueMagnifier from "@websitebeaver/vue-magnifier";
 import "@websitebeaver/vue-magnifier/styles.css";
 import ImageItem from "./ImageItem.vue";
+
 defineProps({
   product_images: {
     type: Array,

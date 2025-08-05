@@ -1,13 +1,13 @@
 <template>
   <div
-    class="cursor-pointer max-w-2xs h-[500px] relative group ml-5 sm:ml-10 md:ml-0 shadow-md duration-500 transform transition hover:scale-105 hover:z-20 hover:shadow-xl"
+    class="cursor-pointer max-w-2xs h-[480px] flex justify-center relative group ml-5 sm:ml-10 md:ml-0 shadow-md duration-500 transform transition hover:scale-105 hover:z-20 hover:shadow-xl"
   >
     <!-- discount -->
     <div
       v-if="Number(product.discount || 0) > 0"
       class="select-none absolute top-3 left-3 flex items-center justify-center bg-red-400 rounded-sm text-neutral-50 h-6 w-14 py-1 z-20"
     >
-      -{{ product.discount }}%
+      -{{ Number(product.discount) }}%
     </div>
 
     <!-- new -->
@@ -31,7 +31,11 @@
             console.log('salam');
           }
         "
-        class="w-8 h-8 sm:w-9 sm:h-9 flex justify-center items-center rounded-full bg-white hover:bg-gray-100 transition-colors duration-200 shadow-sm cursor-pointer"
+        class="w-8 h-8 sm:w-9 sm:h-9 flex justify-center items-center rounded-full bg-white hover:bg-gray-100 transition-colors shadow-sm cursor-pointer duration-300 active:shadow-none active:translate-y-0"
+        style="
+          box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+          transform: translateY(-2px);
+        "
         aria-label="Add to wishlist"
       >
         <svg
@@ -51,6 +55,15 @@
           />
         </svg>
       </button>
+      <!-- <HeartAnim2
+        @toggle="
+          (e) => {
+            toggleLike();
+            console.log(e);
+          }
+        "
+        :isliked="isLiked"
+      /> -->
       <!-- <HeartAnim :product="product" @toggle-like="(id) => toggleLike()" /> -->
       <!-- <ToggleFavorite /> -->
     </div>
@@ -73,7 +86,6 @@
         "
         :data-url="'http://localhost:3000/' + product.main_image"
         alt="product image "
-        loading="lazy"
         class="h-60 mt-9 mx-auto object-scale-down transition-opacity opacity-100 duration-200 ease-in-out"
       />
       <img
@@ -86,16 +98,12 @@
         "
         :data-url="'http://localhost:3000/uploads/images' + product.image"
         alt="product image "
-        loading="lazy"
-        class="w-42 h-36 mt-9 mx-auto object-scale-down transition-opacity opacity-100 duration-200 ease-in-out"
+        class="h-60 mt-9 mx-auto object-scale-down transition-opacity opacity-100 duration-200 ease-in-out"
       />
       <!-- add to cart button -->
       <div
         v-if="!useCartStore.cartProducts.some((p) => p.id == productId)"
-        @click="
-          showSuccessToast();
-          useCartStore.addProduct(product);
-        "
+        @click="handleAddToCart"
         :class="supportsHover() ? 'opacity-0 group-hover:opacity-100' : ''"
         class="bg-black w-full h-10 rounded-bl-sm rounded-br-sm text-base text-neutral-50 font-medium flex items-center justify-center mt-3 py-px cursor-pointer hover:bg-black/80 transition duration-300 active:shadow-none active:translate-y-0"
         style="
@@ -166,13 +174,13 @@
       </div>
       <!-- title & price & review-->
       <div class="mt-4 flex flex-col gap-2">
-        <div v-if="product.name" class="text-base font-medium">
+        <div v-if="product.name" class="text-base px-2 font-medium">
           {{ product.name }}
         </div>
-        <div v-else class="text-base font-medium">
+        <div v-else class="text-base px-2 font-medium">
           {{ product.title }}
         </div>
-        <div class="flex gap-2 md:gap-3">
+        <div class="flex px-2 gap-2 md:gap-3">
           <div class="text-base text-red-400 font-medium">
             ${{ product.price }}
           </div>
@@ -183,7 +191,7 @@
             ${{ product.oldprice }}
           </div>
         </div>
-        <div class="flex items-center gap-2">
+        <div class="flex px-2 items-center gap-2">
           <div v-if="product.rating" class="flex gap-1">
             <i
               v-for="(n, index) in 5"
@@ -208,11 +216,14 @@
 import { computed, defineProps, onMounted, ref, watch } from "vue";
 import { useLiked, useCart, useToast } from "../../stores/stores";
 import { useRoute, useRouter } from "vue-router";
-import HeartAnim from "../../views/favorite/HeartAnim.vue";
+// import HeartAnim from "../../views/favorite/HeartAnim.vue";
 import FavoriteIcon from "../../views/favorite/FavoriteIcon.vue";
 import ToggleFavorite from "../../views/favorite/ToggleFavorite.vue";
 import { supportsHover } from "../../compasable/hover";
+// import HeartAnim2 from "../../views/favorite/HeartAnim2.vue";
+import { useI18n } from "vue-i18n";
 
+const { t, locale, availableLocales } = useI18n({ useScope: "global" });
 const toastStore = useToast();
 const useCartStore = useCart();
 const useLikedStore = useLiked();
@@ -223,6 +234,26 @@ const route = useRoute();
 const props = defineProps({
   product: { type: Object },
 });
+
+const messages = {
+  tk: {
+    success: "Üstünlikli ýerine ýetirildi!",
+    outOfStock: "Bagyşlaň, stock-da ýok!",
+    addToCart: "Sebede goş",
+  },
+  ru: {
+    success: "Успешно выполнено!",
+    outOfStock: "Извините, нет в наличии!",
+    addToCart: "Добавить в корзину",
+  },
+  en: {
+    success: "Added successfully!",
+    outOfStock: "Sorry, out of stock!",
+    addToCart: "Add To Cart",
+  },
+};
+
+const toast = (key) => messages[locale.value][key];
 
 const productId = computed(() => props.product.id ?? props.product.product_id);
 
@@ -238,11 +269,30 @@ const toggleLike = () => {
   }
 };
 
+// toast success
 const showSuccessToast = () => {
   toastStore.addToast({
-    message: "Üstünlikli ýerine ýetirildi!",
+    message: toast("success"),
     type: "success",
   });
+};
+
+// toast out of stock
+const showOutOfStockToast = () => {
+  toastStore.addToast({
+    message: toast("outOfStock"),
+    type: "info",
+  });
+};
+
+// add to cart funksiýasy
+const handleAddToCart = () => {
+  if (!props.product.stock || props.product.stock <= 0) {
+    showOutOfStockToast();
+    return;
+  }
+  showSuccessToast();
+  useCartStore.addProduct(props.product);
 };
 </script>
 

@@ -64,9 +64,7 @@
 </template>
 <script setup>
 import { ref, onBeforeMount, computed } from "vue";
-// import { getTrackingApi } from "@/services/order.service";
 import { useRoute, useRouter } from "vue-router";
-import AButton from "../../components/commons/atoms/AButton.vue";
 const route = useRoute();
 const router = useRouter();
 const tracking = ref([

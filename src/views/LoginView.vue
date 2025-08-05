@@ -24,7 +24,7 @@
       <h3
         class="text-center font-light mb-[1.5rem] text-[1.75rem] leading-[1.5] font-['Lato', Arial, sans-serif]"
       >
-        Have an account?
+        {{ t("loginTitle") }}
       </h3>
 
       <form @submit.prevent="handle" class="space-y-5">
@@ -34,13 +34,13 @@
           <label
             class="block text-gray-700 uppercase font-bold text-[12px] tracking-[1px] mb-[0.5rem]"
             for="name"
-            >Username</label
+            >{{ t("usernameLabel") }}</label
           >
           <input
             v-model="username"
             type="text"
             id="name"
-            placeholder="John Doe"
+            :placeholder="t('usernamePlaceholder')"
             class="w-full px-[0.375rem] py-[0.75rem] border-gray-300 focus:ring-1 focus:ring-blue-400 outline-none transition duration-[0.6s] h-[52px] bg-[#fff] text-[#000] rounded-[5px] shadow-none border-[1px] border-solid-[rgba(0, 0, 0, 0.1)] tracking-[1.5] font-normal overflow-clip"
           />
         </div>
@@ -68,13 +68,13 @@
           <label
             class="block text-gray-700 uppercase font-bold text-[12px] tracking-[1px] mb-[0.5rem]"
             for="password"
-            >Password</label
+            >{{ t("passwordLabel") }}</label
           >
           <input
             v-model="password"
             :type="toggle_password ? 'text' : 'password'"
             id="password-field"
-            placeholder="Password"
+            :placeholder="t('passwordPlaceholder')"
             class="w-full px-[0.375rem] py-[0.75rem] border-gray-300 focus:ring-1 focus:ring-blue-400 outline-none transition duration-[0.6s] h-[52px] bg-[#fff] text-[#000] rounded-[5px] shadow-none border-[1px] border-solid-[rgba(0, 0, 0, 0.1)] tracking-[1.5] font-normal overflow-clip"
           />
           <span
@@ -109,13 +109,12 @@
             <label
               for="terms"
               class="text-sm text-gray-600 cursor-pointer mb-[12px]"
-            >
-              Remember me
+              >{{ t("rememberMe") }}
             </label>
           </div>
           <div class="flex items-start">
             <label class="text-sm text-gray-600 cursor-pointer mb-[12px]">
-              Forgot Password
+              {{ t("forgotPassword") }}
             </label>
           </div>
         </div>
@@ -127,7 +126,7 @@
             type="submit"
             class="w-full bg-blue-500 hover:bg-blue-600 text-white p-[] !px-[1rem] !rounded-[0.25rem] cursor-pointer shadow-none !h-[52px] text-[15px] font-normal text-center tracking-[1.5]"
           >
-            Login
+            {{ t("loginButton") }}
           </button>
         </div>
       </form>
@@ -144,9 +143,9 @@
     </div>
 
     <loader-and-checkmark
-      v-show="isVisiable"
+      v-if="isVisibleLoginLoader"
       :isCompleted="isCompleted"
-      class="fixed inset-0 z-50 flex items-center justify-center bg-white/70 backdrop-blur-sm"
+      class="fixed w-full h-full z-50 flex items-center justify-center bg-white/70 backdrop-blur-sm"
     />
   </section>
 </template>
@@ -158,12 +157,17 @@ import LoaderAndCheckmark from "../components/loader/LoaderAndCheckmark.vue";
 import { getToken, setToken } from "../compasable/cookie/vue-cookie-next";
 import { useAuth } from "../stores/stores";
 import { useRoute, useRouter } from "vue-router";
+
+import { useI18n } from "vue-i18n";
+
+const { t, locale, availableLocales } = useI18n({ useScope: "global" });
+
 const BASE_URL = "http://localhost:3000";
 
 const username = ref("");
 const password = ref("");
 const toggle_password = ref(false);
-const isVisiable = ref(false);
+const isVisibleLoginLoader = ref(false);
 const isCompleted = ref(false);
 const error_username = ref("");
 const error_password = ref("");
@@ -175,7 +179,6 @@ const handle = () => {
   loginFn(username.value, password.value);
 };
 const loginFn = (username, password) => {
-  isVisiable.value = true;
   error_username.value = "";
   error_password.value = "";
 
@@ -216,12 +219,13 @@ const loginFn = (username, password) => {
     }
   }
 
+  isVisibleLoginLoader.value = true;
   const postData = {
     username: username,
     password: password,
   };
   if (hasError) {
-    isVisiable.value = false;
+    isVisibleLoginLoader.value = false;
     isCompleted.value = false;
     return;
   }
@@ -242,7 +246,7 @@ const loginFn = (username, password) => {
     .then((data) => {
       console.log(data);
       if (data.success) {
-        isVisiable.value = true;
+        isVisibleLoginLoader.value = true;
         isCompleted.value = true;
 
         if (route.query.redirectTo) {
@@ -253,7 +257,7 @@ const loginFn = (username, password) => {
 
         useAuth().login(data.token);
       } else {
-        isVisiable.value = false;
+        isVisibleLoginLoader.value = false;
         error_username.value = data.message;
       }
     })

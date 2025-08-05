@@ -4,7 +4,7 @@
       <div class="mx-auto max-w-5xl">
         <div class="gap-4 sm:flex sm:items-center sm:justify-between">
           <h2 class="text-xl font-semibold text-gray-900 sm:text-2xl">
-            My orders
+            {{ t("myOrdersTitle") }}
           </h2>
         </div>
         <div class="mt-6 flow-root sm:mt-8">
@@ -14,34 +14,45 @@
               v-for="order in orders.orders"
             >
               <dl class="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1">
-                <dt class="text-base font-medium text-gray-500">Order ID:</dt>
+                <dt class="text-base font-medium text-gray-500">
+                  {{ t("orderID") }}
+                </dt>
                 <dd class="mt-1.5 text-base font-semibold text-gray-900">
                   <a href="#" class="hover:underline">#{{ order.id }}</a>
                 </dd>
               </dl>
 
               <dl class="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1">
-                <dt class="text-base font-medium text-gray-500">Date:</dt>
+                <dt class="text-base font-medium text-gray-500">
+                  {{ t("date") }}:
+                </dt>
                 <dd class="mt-1.5 text-base font-semibold text-gray-900">
                   {{
-                    new Date(order.created_at).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })
+                    new Date(order.created_at).toLocaleDateString(
+                      $i18n.locale,
+                      {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      }
+                    )
                   }}
                 </dd>
               </dl>
 
               <dl class="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1">
-                <dt class="text-base font-medium text-gray-500">Price:</dt>
+                <dt class="text-base font-medium text-gray-500">
+                  {{ t("price") }}:
+                </dt>
                 <dd class="mt-1.5 text-base font-semibold text-gray-900">
                   ${{ order.total_price }}
                 </dd>
               </dl>
 
               <dl class="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1">
-                <dt class="text-base font-medium text-gray-500">Status:</dt>
+                <dt class="text-base font-medium text-gray-500">
+                  {{ t("status") }}
+                </dt>
 
                 <dd
                   v-if="order.ispaid"
@@ -64,14 +75,14 @@
                       d="M5 11.917 9.724 16.5 19 7.5"
                     />
                   </svg>
-                  Paid
+                  {{ t("paid") }}
                 </dd>
                 <dd
                   v-else
                   class="me-2 mt-1.5 inline-flex items-center rounded bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800"
                 >
                   <i class="fa-solid fa-xmark mr-1"></i>
-                  Unpaid
+                  {{ t("unpaid") }}
                 </dd>
               </dl>
 
@@ -83,14 +94,14 @@
                   type="button"
                   class="w-full inline-flex justify-center rounded-lg bg-green-400 px-3 py-2 text-sm font-medium text-neutral-50 hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 lg:w-auto"
                 >
-                  Order again
+                  {{ t("orderAgainButton") }}
                 </RouterLink>
                 <router-link
                   :to="{ name: 'orderdetails', params: { id: order.id } }"
                   type="button"
                   class="w-full inline-flex justify-center rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-green-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 lg:w-auto"
                 >
-                  View details
+                  {{ t("viewDetailsButton") }}
                 </router-link>
               </div>
             </div>
@@ -104,6 +115,10 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
 import { useAuth } from "../../stores/stores";
+import { useI18n } from "vue-i18n";
+
+const { t, locale } = useI18n({ useScope: "global" });
+
 const auth = useAuth();
 const token = auth.token; // Pinia-dan token alyp goýýarys
 

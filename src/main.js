@@ -17,11 +17,31 @@ import Galleria from "primevue/galleria";
 // import VueMagnifier from "./components/product/VueMagnifier.vue";
 import VueMagnifier from "@websitebeaver/vue-magnifier";
 import LazyLoadDirective from "./directive/LazyLoadDirective";
+import { createI18n } from "vue-i18n";
+
+import en from "./locales/en.json";
+import ru from "./locales/ru.json";
+import tk from "./locales/tk.json";
 
 const app = createApp(App);
 const pinia = createPinia();
-app.use(PrimeVue);
 
+const messages = {
+  tk: tk,
+  ru: ru,
+  en: en,
+};
+const i18n = createI18n({
+  legacy: false,
+  locale: "tk",
+  fallbackLocale: "tk",
+
+  messages,
+  returnObjects: true,
+});
+
+app.use(PrimeVue);
+app.use(i18n);
 app.directive("click-outside", ClickOutsideDirective);
 app.directive("lazyload", LazyLoadDirective);
 app.component("Galleria", Galleria);

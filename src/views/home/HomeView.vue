@@ -1,29 +1,28 @@
 <template>
-  
   <div>
     <CategoriesComponent />
 
-    <div class="p-3">
+    <div class="">
       <FlashSales />
     </div>
-    <!-- <ProductList /> -->
-    <div class="p-3">
+    <ProductList />
+    <div class="">
       <browse-category />
     </div>
 
     <div class="max-w-[1170px] h-[1px] bg-[#B3B3B3] mx-auto my-[70px]"></div>
-    <div class="p-3 max-w-6xl mx-auto">
+    <div class="max-w-6xl mx-auto">
       <BestSelling />
     </div>
 
     <div class="max-w-[1170px] h-auto mx-auto mt-[140px]">
       <JBLspeaker />
     </div>
-    <div class="p-3">
+    <div class="">
       <ExploreOurProducts />
     </div>
 
-    <div class="p-3">
+    <div class="">
       <NewArrival />
     </div>
     <div class="mb-[140px]">
@@ -37,7 +36,7 @@
     20px-xl
     24px-2xl
     28px-3xl -->
- 
+
     <!-- <NewScrollUpButton /> -->
   </div>
 </template>

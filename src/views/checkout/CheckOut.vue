@@ -27,35 +27,46 @@
     v-if="isLoading"
     class="fixed top-0 bg-gray-100/90 w-full h-full flex items-center justify-center"
   >
-    <loading-animation text="Process" />
+    <loading-animation :text="t('process')" />
   </div>
 
   <div
-    class="flex flex-col  max-w-[1170px] mx-auto px-4 sm:px-6 lg:px-8 mb-8 sm:mb-10 md:mb-12"
+    class="flex flex-col max-w-[1170px] mx-auto px-4 sm:px-6 lg:px-8 mb-8 sm:mb-10 md:mb-12"
   >
     <!-- <div class="bg-black h-px"></div> -->
     <!-- header -->
-    <div class="mt-20 h-5 py-px flex items-center">
-      <div class="text-xs lg:text-sm ml-2 sm:ml-3 text-gray-500 cursor-pointer">
-        Account
-      </div>
+    <div
+      class="mt-20 h-5 py-px flex items-center justify-center sm:justify-normal"
+    >
+      <router-link
+        to="myaccount"
+        class="text-xs lg:text-sm ml-2 sm:ml-3 text-gray-500 cursor-pointer"
+      >
+        {{ t("account") }}
+      </router-link>
       <div class="h-3.5 w-px ml-2 sm:ml-3 bg-gray-500 rotate-[30grad]"></div>
-      <div class="text-xs lg:text-sm ml-2 sm:ml-3 text-gray-500 cursor-pointer">
-        My Account
-      </div>
+      <router-link
+        to="myaccount"
+        class="text-xs lg:text-sm ml-2 sm:ml-3 text-gray-500 cursor-pointer"
+      >
+        {{ t("myAccount") }}
+      </router-link>
       <div class="h-3.5 w-px ml-2 sm:ml-3 bg-gray-500 rotate-[30grad]"></div>
-      <div class="text-xs lg:text-sm ml-2 sm:ml-3 text-gray-500 cursor-pointer">
-        Product
-      </div>
+      <router-link
+        to="productlist"
+        class="text-xs lg:text-sm ml-2 sm:ml-3 text-gray-500 cursor-pointer"
+      >
+        {{ t("product") }}
+      </router-link>
       <div class="h-3.5 w-px ml-2 sm:ml-3 bg-gray-500 rotate-[30grad]"></div>
       <router-link
         to="cart"
         class="text-xs lg:text-sm ml-2 sm:ml-3 text-gray-500 cursor-pointer"
       >
-        View Cart
+        {{ t("viewCart") }}
       </router-link>
       <div class="h-3.5 w-px ml-2 sm:ml-3 bg-gray-500 rotate-[30grad]"></div>
-      <div class="text-xs lg:text-sm ml-3">CheckOut</div>
+      <div class="text-xs lg:text-sm ml-3">{{ t("checkout") }}</div>
     </div>
     <!-- body -->
     <div
@@ -63,16 +74,18 @@
       class="md:h-10/12v flex flex-col-reverse md:flex-row justify-around"
     >
       <div class="">
-        <div class="text-3xl md:text-4xl font-medium mt-14 md:mt-20">
-          Billing Details
+        <div
+          class="text-3xl md:text-4xl text-center sm:text-start font-medium mt-14 md:mt-20"
+        >
+          {{ t("billingDetails") }}
         </div>
         <!-- form -->
         <div
-          class="flex flex-col gap-6 md:gap-8 mt-10 md:mt-12 mb-2 md:mb-36 max-w-xl"
+          class="flex flex-col items-center sm:items-start gap-6 md:gap-8 mt-10 md:mt-12 mb-2 md:mb-36 max-w-xl"
         >
           <div class="">
             <div class="text-base text-gray-500">
-              First Name <span class="text-red-400">*</span>
+              {{ t("firstName") }} <span class="text-red-400">*</span>
             </div>
             <input
               v-model="name"
@@ -84,7 +97,7 @@
 
           <div class="">
             <div class="text-base text-gray-500">
-              Street Address <span class="text-red-400">*</span>
+              {{ t("streetAddress") }} <span class="text-red-400">*</span>
             </div>
             <input
               v-model="adress"
@@ -103,7 +116,7 @@
           </div> -->
           <div class="">
             <div class="text-base text-gray-500">
-              Phone Number <span class="text-red-400">*</span>
+              {{ t("phoneNumber") }} <span class="text-red-400">*</span>
             </div>
             <input
               v-model="phone_number"
@@ -113,7 +126,7 @@
           </div>
           <div class="">
             <div class="text-base text-gray-500">
-              Note
+              {{ t("note") }}
               <!-- <span class="text-red-400">*</span> -->
             </div>
             <input
@@ -122,43 +135,46 @@
               type="text"
             />
           </div>
-          <div class="flex gap-4 items-center">
+          <div class="hidden flex gap-4 items-center">
             <input
               type="checkbox"
               name="fast_checkout"
               id="fast_checkout"
               class="w-6 h-6"
             />
-            <label class="text-base cursor-pointer" for="fast_checkout"
-              >Save this information for faster check-out next time</label
-            >
+            <label class="text-base cursor-pointer" for="fast_checkout">{{
+              t("saveInfo")
+            }}</label>
           </div>
         </div>
       </div>
       <!-- right  side -->
-      <div class="mt-10 md:mt-0 md:px-5 ">
-        <div class="flex flex-col gap-8 mb-10 md:mb-0 md:mt-52">
+      <div class="mt-10 md:mt-0 md:px-5">
+        <div
+          class="flex flex-col items-center sm:items-start gap-8 mb-10 md:mb-0 md:mt-52"
+        >
           <div class="max-w-lg">
-            <div class="max-w-md flex flex-col gap-8">
+            <div class="max-w-md flex flex-col gap-8 shrink">
               <!-- first product -->
               <div
                 v-for="(product, index) in products"
                 :key="index"
-                class="flex gap-6 items-center"
+                v-lazyload
+                class="flex gap-10 sm:gap-6 items-center"
               >
                 <img
-                  :src="'http://localhost:3000/' + product.main_image"
+                  :data-url="'http://localhost:3000/' + product.main_image"
                   alt="product"
-                  class="w-14 h-14"
+                  class="w-16 h-16 object-scale-down shrink"
                 />
-                <div class="flex justify-between flex-1">
+                <div class="flex justify-between flex-1 shrink">
                   <div
                     :title="product.name"
-                    class="text-base truncate max-w-48"
+                    class="text-base truncate max-w-48 shrink"
                   >
                     {{ product.name }}
                   </div>
-                  <div class="text-base ml-2">${{ product.price }}</div>
+                  <div class="text-base ml-2 shrink">${{ product.price }}</div>
                 </div>
               </div>
               <!-- second product -->
@@ -176,7 +192,7 @@
               <!-- subtotal -->
               <div class="flex flex-col gap-4">
                 <div class="flex justify-between flex-1">
-                  <div class="text-base">Subtotal:</div>
+                  <div class="text-base">{{ t("subtotal") }}:</div>
                   <div class="text-base">${{ subtotal }}</div>
                 </div>
                 <div class="h-px w-full bg-gray-500"></div>
@@ -184,8 +200,8 @@
               <!-- shopping -->
               <div class="flex flex-col gap-4">
                 <div class="flex justify-between flex-1">
-                  <div class="text-base">Shipping:</div>
-                  <div class="text-base">Free</div>
+                  <div class="text-base">{{ t("shipping") }}:</div>
+                  <div class="text-base">{{ t("free") }}</div>
                 </div>
                 <div class="h-px w-full bg-gray-500"></div>
               </div>
@@ -193,7 +209,7 @@
               <!-- tool -->
               <div class="flex flex-col gap-4">
                 <div class="flex justify-between flex-1">
-                  <div class="text-base">Total:</div>
+                  <div class="text-base">{{ t("total") }}:</div>
                   <div class="text-base">${{ subtotal }}</div>
                 </div>
               </div>
@@ -208,7 +224,9 @@
                     type="radio"
                     class="w-6 h-6 accent-black"
                   />
-                  <label class="cursor-pointer" for="bank">Bank</label>
+                  <label class="cursor-pointer" for="bank">{{
+                    t("bank")
+                  }}</label>
                 </div>
                 <!-- bank images -->
                 <div class="flex gap-2 h-10 items-center">
@@ -245,9 +263,9 @@
                     type="radio"
                     class="w-6 h-6 accent-black"
                   />
-                  <label class="cursor-pointer" for="cash_on_delivary"
-                    >Cash on delivery</label
-                  >
+                  <label class="cursor-pointer" for="cash_on_delivary">{{
+                    t("cashOnDelivery")
+                  }}</label>
                 </div>
               </div>
             </div>
@@ -257,14 +275,14 @@
             class="hidden items-center max-w-lg md:w-full justify-between gap-4"
           >
             <input
-              placeholder="Coupon Code"
+              :placeholder="t('couponCode')"
               type="text"
               class="text-sm md:text-base py-2 md:py-4 focus:ring-1 duration-500 transition outline-none border rounded-sm pl-4 md:pl-6"
             />
             <div
               class="select-none hover:bg-red-300 cursor-pointer text-sm md:text-base py-2 md:py-4 bg-red-400 rounded-sm flex items-center justify-center w-40 md:w-44 text-neutral-50"
             >
-              Apply Coupon
+              {{ t("applyCoupon") }}
             </div>
           </div>
         </div>
@@ -274,12 +292,12 @@
     <div
       @click="placeOrder()"
       class="self-end mt-15 select-none hover:bg-red-300 cursor-pointer w-44 md:w-xs text-sm md:text-base font-medium bg-red-400 py-2 md:py-4 text-neutral-50 rounded-sm flex items-center justify-center active:shadow-none active:translate-y-0 transition-all duration-300"
-            style="
-              box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-              transform: translateY(-2px);
-            "
+      style="
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        transform: translateY(-2px);
+      "
     >
-      Place Order
+      {{ t("placeOrder") }}
     </div>
   </div>
 </template>
@@ -289,6 +307,9 @@ import { computed, onMounted, ref } from "vue";
 import LoadingAnimation from "../../components/loader/LoadingAnimation.vue";
 import MessageModal from "../../components/modal/MessageModal.vue";
 import { useRoute, useRouter } from "vue-router";
+import { useI18n } from "vue-i18n";
+
+const { t, locale, availableLocales } = useI18n({ useScope: "global" });
 
 const showMessageModal = ref(false);
 const message = ref("");
@@ -354,12 +375,7 @@ const setOrderItems = () => {
 };
 
 const placeOrder = () => {
-  // try {
-
-  // } catch (error) {
-  //   console.log("error detecting!!! -", error);
-
-  // }
+  if (products.value == 0) return;
   const token = localStorage.getItem("token");
   if (token) {
     isLoading.value = true;
@@ -396,14 +412,17 @@ const placeOrder = () => {
         isLoading.value = false;
         showMessageModal.value = true;
 
-        fireConfetti();
         console.log(data);
         if (data.success) {
+          fireConfetti();
           isError.value = false;
           message.value = data.message;
           useCart().cartProducts = [];
           // localStorage.removeItem("cartProducts");
           // redirect
+          setTimeout(() => {
+            products.value = [];
+          }, 200);
         } else {
           isError.value = true;
           message.value = data.message;

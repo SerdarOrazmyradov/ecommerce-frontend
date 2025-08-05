@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="useAuth().isAuthenticated"
-    class="w-8 ml-4 rounded-full relative"
+    class="w-8 ml-4 rounded-full relative "
     :class="{ 'bg-red-400': showDropdown }"
   >
     <svg
@@ -61,7 +61,7 @@
               />
             </svg>
             <div class="text-sm text-neutral-50 select-none">
-              Manage My Account
+              {{ t("manageMyAccount") }}
             </div>
           </div>
           <!-- my order -->
@@ -89,7 +89,9 @@
               />
             </svg>
 
-            <div class="text-sm text-neutral-50 select-none">My Order</div>
+            <div class="text-sm text-neutral-50 select-none">
+              {{ t("myOrder") }}
+            </div>
           </div>
           <!-- my cancellation -->
           <!-- <div
@@ -162,7 +164,9 @@
               />
             </svg>
 
-            <div class="text-sm text-neutral-50 select-none">Logout</div>
+            <div class="text-sm text-neutral-50 select-none">
+              {{ t("logout") }}
+            </div>
           </div>
         </div>
       </div></transition
@@ -175,6 +179,9 @@ import { onMounted, ref } from "vue";
 import { useAuth, useToast } from "../../../stores/stores";
 import { useRoute, useRouter } from "vue-router";
 import OutsideClick from "../outsideClick/OutsideClick.vue";
+import { useI18n } from "vue-i18n";
+
+const { t, locale, availableLocales } = useI18n({ useScope: "global" });
 const router = useRouter();
 const route = useRoute();
 const useAuthStore = useAuth();

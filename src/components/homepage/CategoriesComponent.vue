@@ -1,10 +1,10 @@
-<template>
+<template> 
   <div
-    class="flex flex-col xl:flex-row mb-10 lg:mb-[140px] max-w-[1170px] mx-auto px-4 lg:px-6 xl:px-8"
+    class="flex flex-col lg:flex-row mb-10 lg:mb-[140px] max-w-[1170px] mx-auto px-4 lg:px-6 xl:px-8"
   >
     <!-- Categories Sidebar -->
     <div
-      class="w-full xl:w-[217px] xl:h-[344px] overflow-y-scroll text-base mt-5 lg:mt-10 space-y-3.5 hidden xl:block"
+      class="w-full lg:w-[217px] xl:h-[344px] overflow-y-scroll text-base mt-5 lg:mt-10 space-y-3.5 hidden lg:block"
     >
       <!-- categories -->
       <div
@@ -19,12 +19,14 @@
               query: {
                 page: 1,
                 message: 'exploreourproducts',
-                categories: category.name,
+                categories: String(JSON.parse(category.name).en),
               },
             })
           "
           class="transition-colors relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 cursor-pointer"
-          >{{ category.name }}</span
+          >
+          {{ JSON.parse(category.name)[locale] }}
+          </span
         >
         <svg
           v-if="category.subcategory"
@@ -46,7 +48,7 @@
 
     <!-- Vertical Divider (Desktop only) -->
     <div
-      class="hidden xl:block h-[384px] w-px mx-4 bg-[#7A7A7A] opacity-50"
+      class="hidden lg:block h-[384px] w-px mx-4 bg-[#7A7A7A] opacity-50"
     ></div>
 
     <!-- Carousel Section -->
@@ -57,26 +59,21 @@
 </template>
 
 <script setup>
-import { onMounted, ref, watch } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import CorouselComponent from "./CorouselCopmonent.vue";
 import { useRoute, useRouter } from "vue-router";
+import { useI18n } from "vue-i18n";
+const { t, locale } = useI18n({ useScope: "global" });
+
 const router = useRouter();
 const route = useRoute();
 const BASE_URL = "http://localhost:3000";
 const get_categories_api = "/guest/api/categories";
 
 const selectedCategories = ref({});
-const categories = ref([
-  "Woman's Fashion",
-  "Man's Fashion",
-  "Electronics",
-  "Home & Lifestyle",
-  "Medicine",
-  "Sports & Outdoor",
-  "Baby's & Toys",
-  "Groceries & Pets",
-  "Health & Beauty",
-]);
+const categories = ref([]);
+const localeOrder = ["tk", "ru", "en"];
+const localeIndex = computed(() => localeOrder.indexOf(locale.value));
 
 const getCategories = (page = 1, limit = 20) => {
   // isLoading.value = true;
@@ -94,7 +91,7 @@ const getCategories = (page = 1, limit = 20) => {
     })
     .then((data) => {
       // isLoading.value = false;
-      console.log("categories " + data);
+      console.log("categories " , data);
       if (data.success) {
         categories.value = data.data;
         categories.value.forEach((element) => {

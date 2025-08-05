@@ -6,11 +6,15 @@
     <div class="flex flex-col">
       <div class="flex items-center mb-[24px]">
         <div class="bg-[#DB4444] w-[20px] h-[40px] rounded-[4px]"></div>
-        <div class="text-[#DB4444] text-[16px] ml-[16px]">This Month</div>
+        <div class="text-[#DB4444] text-sm sm:text-base ml-[16px]">
+          {{ t("thisMonth") }}
+        </div>
       </div>
       <div class="flex">
-        <div class="text-[36px] font-semibold leading-[1]">
-          Best Selling Products
+        <div
+          class="text-2xl sm:text-3xl text-[36px] font-semibold leading-tight"
+        >
+          {{ t("bestSellingProducts") }}
         </div>
       </div>
     </div>
@@ -30,7 +34,7 @@
         "
       >
         <div class="m-auto text-sm sm:text-[16px] font-medium text-[#FAFAFA]">
-          View All
+          {{ t("viewAll") }}
         </div>
       </div>
     </div>
@@ -98,6 +102,10 @@ import "swiper/css/navigation";
 
 import ProductCard from "../../components/product/ProductCard.vue";
 import { useRoute, useRouter } from "vue-router";
+
+import { useI18n } from "vue-i18n";
+const { t, locale } = useI18n({ useScope: "global" });
+
 const router = useRouter();
 const route = useRoute();
 const BASE_URL = "http://localhost:3000/";

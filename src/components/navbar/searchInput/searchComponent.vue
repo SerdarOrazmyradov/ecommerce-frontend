@@ -1,6 +1,6 @@
 <template>
   <div
-    class="hidden md:flex gap-3 z-[700] bg-gray-100 py-2 rounded-sm items-center relative group transition-all duration-300 border border-gray-300 focus-within:border-blue-500 focus-within:shadow-md focus-within:bg-white"
+    class="hidden md:flex gap-3 z-[700] py-1 rounded-sm items-center relative group transition-all duration-300 border border-gray-300 focus-within:border-blue-500 focus-within:shadow-md focus-within:bg-white"
   >
     <input
       ref="input"
@@ -60,14 +60,23 @@
             <div class="flex flex-col">
               <span class="text-gray-800 font-medium">{{ product.name }}</span>
               <span class="text-sm text-gray-500 truncate">
-                {{ product.description || "No description" }}
+                {{
+                  product.description
+                    .replaceAll("'tk':", "")
+                    .replaceAll("'ru':", "~")
+                    .replaceAll("'en':", "~")
+                    .replaceAll("{", "")
+                    .replaceAll("}", "")
+                    .split(",~")
+                    [availableLocales.indexOf(locale)].replaceAll("'", "")
+                }}
               </span>
             </div>
           </div>
         </div>
 
         <!-- no result -->
-        <div 
+        <div
           @click="
             () => {
               input.value = '';
@@ -101,9 +110,18 @@
 </template>
 
 <script setup>
-import { useDebounceFn } from "@vueuse/core";
-import { onUnmounted, onMounted, ref, watch, onBeforeUnmount } from "vue";
+import { useDebounceFn, useInterval, useIntervalFn } from "@vueuse/core";
+import {
+  onUnmounted,
+  onMounted,
+  ref,
+  watch,
+  onBeforeUnmount,
+  computed,
+} from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { useI18n } from "vue-i18n";
+const { t, locale, availableLocales } = useI18n({ useScope: "global" });
 
 const router = useRouter();
 const route = useRoute();
@@ -114,11 +132,29 @@ const showSearchDropdown = ref(false);
 const dropdownMenu = ref(null);
 
 const placeholderText = ref("");
-const typingText = ref("What are you looking for?");
+const typingText = computed(() => t("searchPlaceholder"));
+
 let typingIndex = 0;
 let typingInterval = null;
 
 const BASE_URL = "http://localhost:3000";
+
+const { pause, resume } = useIntervalFn(
+  () => {
+    if (typingIndex < typingText.value.length) {
+      placeholderText.value += typingText.value[typingIndex++];
+    } else {
+      pause();
+      setTimeout(() => {
+        placeholderText.value = "";
+        typingIndex = 0;
+        resume();
+      }, 1000);
+    }
+  },
+  100,
+  { immediate: true }
+);
 
 const debounceFn = useDebounceFn((event) => {
   const query = event.target.value;
@@ -152,7 +188,6 @@ onBeforeUnmount(() => {
 const focusHandle = (event) => {
   if (event.target.value) {
     showSearchDropdown.value = true;
-
   }
 };
 
@@ -209,9 +244,19 @@ const startTypingEffect = () => {
   }, 100);
 };
 
-onMounted(() => {
-  startTypingEffect();
-});
+watch(
+  typingText,
+  () => {
+    placeholderText.value = "";
+    typingIndex = 0;
+    resume();
+    // clearInterval(typingInterval);
+    // startTypingEffect();
+  },
+  { deep: true, immediate: true }
+);
+
+onMounted(() => {});
 
 onUnmounted(() => {
   clearInterval(typingInterval);

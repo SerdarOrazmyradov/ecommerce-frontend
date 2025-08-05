@@ -2,15 +2,19 @@
   <div
     class="mt-[60px] max-w-[1170px] mx-auto h-[1px] bg-[#B3B3B3] mb-[80px]"
   ></div>
-  <div class="flex max-w-[1170px] mx-auto mb-[60px]">
+  <div class="flex max-w-[1170px] mx-auto mb-[60px] px-4 sm:px-6 lg:px-8">
     <div class="flex flex-col">
       <div class="flex items-center mb-[24px]">
         <div class="bg-[#DB4444] w-[20px] h-[40px] rounded-[4px]"></div>
-        <div class="text-[#DB4444] text-[16px] ml-[16px]">Categories</div>
+        <div class="text-[#DB4444] ml-[16px] text-sm sm:text-base">
+          {{ t("categories") }}
+        </div>
       </div>
       <div class="flex">
-        <div class="text-[36px] font-semibold leading-[1]">
-          Browse By Category
+        <div
+          class="text-2xl sm:text-3xl text-[36px] font-semibold leading-tight"
+        >
+          {{ t("browseByCategory") }}
         </div>
       </div>
     </div>
@@ -65,7 +69,7 @@
     </div>
   </div>
   <!-- Swiper -->
-  <div class="max-w-[1170px] mx-auto">
+  <div class="max-w-[1170px] mx-auto px-4 sm:px-6 lg:px-8">
     <Swiper
       :modules="[Navigation]"
       :slides-per-view="5"
@@ -113,7 +117,7 @@
             query: {
               page: 1,
               message: 'exploreourproducts',
-              categories: category.name,
+              categories: String(JSON.parse(category.name).en),
             },
           }"
           :class="[
@@ -124,10 +128,10 @@
           <div
             class="w-[56px] h-[56px] mx-auto flex items-center justify-center mt-[25px] mb-[16px]"
           >
-            <i :class="[category.icon, 'text-2xl leading-[1] ']"></i>
+            <i :class="[category.icon, 'text-2xl leading-tight ']"></i>
           </div>
-          <span class="text-[16px] leading-[1] mb-[24px]">{{
-            category.name
+          <span class="text-[16px] leading-tight mb-[24px]">{{
+            JSON.parse(category.name)[locale]
           }}</span>
         </router-link>
       </SwiperSlide>
@@ -141,15 +145,10 @@ import { Navigation, Manipulation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Message } from "primevue";
+import { useI18n } from "vue-i18n";
+const { t, locale } = useI18n({ useScope: "global" });
 
-const categories = ref([
-  { name: "Phones", icon: "fas fa-mobile-alt" },
-  { name: "Computers", icon: "fas fa-desktop" },
-  { name: "SmartWatch", icon: "fas fa-clock" },
-  { name: "Camera", icon: "fas fa-camera" },
-  { name: "HeadPhones", icon: "fas fa-headphones" },
-  { name: "Gaming", icon: "fas fa-gamepad" },
-]);
+const categories = ref([]);
 
 const selectedIndex = ref(3);
 const prevRef = ref(null);
@@ -183,7 +182,7 @@ const getCategories = (page = 1, limit = 20) => {
     })
     .then((data) => {
       // isLoading.value = false;
-      console.log("categories " + data);
+      console.log("categories ", data);
       if (data.success) {
         categories.value = data.data;
       } else {

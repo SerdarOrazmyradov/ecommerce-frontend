@@ -24,7 +24,7 @@
       <h3
         class="text-center font-light mb-[1.5rem] text-[1.75rem] leading-[1.5] font-['Lato', Arial, sans-serif]"
       >
-        Create Your Account
+        {{ t("createAccountTitle") }}
       </h3>
 
       <form @submit.prevent="handle" class="space-y-5">
@@ -34,13 +34,13 @@
           <label
             class="block text-gray-700 uppercase font-bold text-[12px] tracking-[1px] mb-[0.5rem]"
             for="name"
-            >Username</label
+            >{{ t("usernameLabel") }}</label
           >
           <input
             v-model="username"
             type="text"
             id="name"
-            placeholder="John Doe"
+            :placeholder="t('usernamePlaceholder')"
             class="w-full px-[0.375rem] py-[0.75rem] border-gray-300 focus:ring-1 focus:ring-blue-400 outline-none transition duration-[0.6s] h-[52px] bg-[#fff] text-[#000] rounded-[5px] shadow-none border-[1px] border-solid-[rgba(0, 0, 0, 0.1)] tracking-[1.5] font-normal overflow-clip"
           />
         </div>
@@ -68,13 +68,13 @@
           <label
             class="block text-gray-700 uppercase font-bold text-[12px] tracking-[1px] mb-[0.5rem]"
             for="password"
-            >Password</label
+            >{{ t("passwordLabel") }}</label
           >
           <input
             v-model="password"
             :type="toggle_password ? 'text' : 'password'"
             id="password-field"
-            placeholder="Password"
+            :placeholder="t('passwordPlaceholder')"
             class="w-full px-[0.375rem] py-[0.75rem] border-gray-300 focus:ring-1 focus:ring-blue-400 outline-none transition duration-[0.6s] h-[52px] bg-[#fff] text-[#000] rounded-[5px] shadow-none border-[1px] border-solid-[rgba(0, 0, 0, 0.1)] tracking-[1.5] font-normal overflow-clip"
           />
           <span
@@ -109,7 +109,7 @@
             for="terms"
             class="text-sm text-gray-600 cursor-pointer mb-[12px]"
           >
-            I agree all statements in terms of service
+            {{ t("termsOfService") }}
           </label>
         </div>
 
@@ -120,13 +120,13 @@
             type="submit"
             class="w-full bg-blue-500 hover:bg-blue-600 text-white p-[] !px-[1rem] !rounded-[0.25rem] cursor-pointer shadow-none !h-[52px] text-[15px] font-normal text-center tracking-[1.5]"
           >
-            Sign Up
+            {{ t("signUpButton") }}
           </button>
         </div>
       </form>
 
       <p class="mt-4 text-sm text-gray-600">
-        I'm already a member!
+        {{ t("alreadyMember") }}
         <router-link
           :to="{
             name: 'login',
@@ -136,13 +136,13 @@
           }"
           class="text-blue-500 hover:underline"
           style="transition: 0.3s all ease; box-sizing: border-box"
-          >Sign In</router-link
+          >{{ t("signInLink") }}</router-link
         >
       </p>
     </div>
 
     <loader-and-checkmark
-      v-show="isVisiable"
+      v-show="isVisibleSignupLoader"
       :isCompleted="isCompleted"
       class="fixed inset-0 z-50 flex items-center justify-center bg-white/70 backdrop-blur-sm"
     />
@@ -155,16 +155,17 @@ import { signupValidation } from "../../validation/validations";
 import LoaderAndCheckmark from "../components/loader/LoaderAndCheckmark.vue";
 import { useRoute, useRouter } from "vue-router";
 import { useAuth } from "../stores/stores";
+import { useI18n } from "vue-i18n";
+const { t, locale } = useI18n({ useScope: "global" });
 
 const router = useRouter();
 const route = useRoute();
-
 const BASE_URL = "http://localhost:3000/";
 
 const username = ref("");
 const password = ref("");
 const toggle_password = ref(false);
-const isVisiable = ref(false);
+const isVisibleSignupLoader = ref(false);
 const isCompleted = ref(false);
 const error_username = ref("");
 const error_password = ref("");
@@ -172,7 +173,7 @@ const handle = () => {
   signUpFn(username.value, password.value);
 };
 const signUpFn = (username, password) => {
-  isVisiable.value = true;
+  isVisibleSignupLoader.value = true;
   error_username.value = "";
   error_password.value = "";
 
@@ -218,7 +219,7 @@ const signUpFn = (username, password) => {
     password: password,
   };
   if (hasError) {
-    isVisiable.value = false;
+    isVisibleSignupLoader.value = false;
     isCompleted.value = false;
     return;
   }
@@ -246,7 +247,7 @@ const signUpFn = (username, password) => {
       console.log(data);
       if (data.success) {
         // redirect
-        isVisiable.value = true;
+        isVisibleSignupLoader.value = true;
         isCompleted.value = true;
 
         fetch("http://localhost:3000/auth/api/login", {
@@ -266,7 +267,7 @@ const signUpFn = (username, password) => {
             console.log(data);
             if (data.success) {
               useAuth().login(data.token);
-              isVisiable.value = false;
+              isVisibleSignupLoader.value = false;
               isCompleted.value = true;
 
               if (route.query.redirectTo) {
@@ -276,7 +277,7 @@ const signUpFn = (username, password) => {
               }
               // router.go(-1);
             } else {
-              isVisiable.value = false;
+              isVisibleSignupLoader.value = false;
               isCompleted.value = false;
               error_username.value = data.message;
             }
@@ -297,7 +298,7 @@ const signUpFn = (username, password) => {
         //   });
         // }, 1500);
       } else {
-        isVisiable.value = false;
+        isVisibleSignupLoader.value = false;
 
         error_username.value = data.message;
       }

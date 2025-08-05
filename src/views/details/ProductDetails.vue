@@ -17,11 +17,14 @@
         <router-link
           :to="{
             name: 'productlist',
-            query: { page: 1, categories: product.category_name },
+            query: {
+              page: 1,
+              categories: String(JSON.parse(product.category_name).en),
+            },
           }"
           class="text-xs lg:text-sm ml-2 sm:ml-3 text-gray-500 cursor-pointer"
         >
-          {{ product.category_name }}
+          {{ String(JSON.parse(product.category_name)[locale]) }}
         </router-link>
         <div
           class="h-3.5 w-[1px] ml-2 sm:ml-3 bg-gray-500 rotate-[30grad]"
@@ -36,7 +39,7 @@
           <!-- images -->
           <ProductImages :product_images="product_images" />
         </div>
-        <div class="mt-10 ">
+        <div class="mt-10">
           <div class="text-xl lg:text-2xl font-semibold">
             {{ product.name }}
           </div>
@@ -69,7 +72,20 @@
           </div>
           <div class="text-2xl mt-2">${{ product.price }}</div>
           <div class="text-xs lg:text-sm pt-2 break-normal max-w-96">
-            {{ product.description }}
+            {{
+              product.description
+                .replaceAll("'tk':", "")
+                .replaceAll("'ru':", "~")
+                .replaceAll("'en':", "~")
+                .replaceAll("{", "")
+                .replaceAll("}", "")
+                .split(",~")
+                [localeIndex].replaceAll("'", "")
+            }}
+
+            <!-- {{ product.description.split(/(tr|ru|en)/)[0] }}
+            {{ product.description.split(/(tr|ru|en)/)[2] }}
+            {{ product.description.split(/(tr|ru|en)/)[4] }} -->
           </div>
           <!-- <div class="w-full mt-2 h-px bg-black/90"></div> -->
           <!-- colors -->
@@ -113,7 +129,7 @@
           </div>
           <div class="flex gap-4 mt-4 xl:min-w-96">
             <!-- add to cart -->
-             
+
             <div
               v-if="!useCartStore.cartProducts.some((p) => p.id == productId)"
               @click="
@@ -194,7 +210,7 @@
                   </svg>
                 </div>
               </div>
-              <div class="flex items-center gap-4">
+              <div class="flex items-center gap-4 relative">
                 <div
                   @click="buyNow"
                   class="hover:bg-red-400/80 select-none h-8 lg:h-11 w-32 lg:w-40 flex items-center justify-center text-neutral-50 bg-red-400 rounded-sm cursor-pointer transition-all duration-300 active:shadow-none active:translate-y-0"
@@ -203,8 +219,16 @@
                     transform: translateY(-2px);
                   "
                 >
-                  Buy Now
+                  {{ t("buyNow") }}
                 </div>
+                <!-- <VueSpinner
+                  height="20"
+                  width="20"
+
+                  color="white"
+                  v-if="true"
+                  class="absolute  left-2.5 top-2.5"
+                ></VueSpinner> -->
               </div>
             </div>
             <!-- heart -->
@@ -250,12 +274,12 @@
                 />
                 <div class="flex flex-col gap-2">
                   <div class="select-none text-sm lg:text-base font-medium">
-                    Free Delivery
+                    {{ t("freeDeliveryTitle") }}
                   </div>
                   <div
                     class="select-none underline text-xs/4 lg:text-xs font-medium cursor-pointer"
                   >
-                    Enter your postal code for Delivery Availability
+                    {{ t("freeDeliveryDetails") }}
                   </div>
                 </div>
               </div>
@@ -271,13 +295,14 @@
                 />
                 <div class="flex flex-col gap-2">
                   <div class="select-none text-sm lg:text-base font-medium">
-                    Return Delivery
+                    {{ t("returnDeliveryTitle") }}
                   </div>
                   <div class="select-none text-xs/4 lg:text-xs font-medium">
-                    Free 30 Days Delivery Returns.
+                    {{ t("returnDeliveryDetails") }}
+                    <!-- Free 30 Days Delivery Returns.
                     <span class="underline text-xs font-medium cursor-pointer">
                       Details</span
-                    >
+                    > -->
                   </div>
                 </div>
               </div>
@@ -300,6 +325,14 @@ import RelatedItem from "../../components/product/RelatedItem.vue";
 import ImageModal from "../../components/modal/ImageModal.vue";
 import { useCart, useLiked, useToast } from "../../stores/stores";
 import ProductImages from "../../components/product/ProductImages.vue";
+import {
+  VueSpinner,
+  // ...
+} from "vue3-spinners";
+
+import { useI18n } from "vue-i18n";
+
+const { t, locale, availableLocales } = useI18n({ useScope: "global" });
 
 const useLikedStore = useLiked();
 const toastStore = useToast();
@@ -307,6 +340,9 @@ const useCartStore = useCart();
 
 const expanded = ref(false);
 const limit = 90;
+
+const localeOrder = ["tk", "ru", "en"];
+const localeIndex = computed(() => localeOrder.indexOf(locale.value));
 
 const hasMore = computed(
   () => (product.value.description || "").length > limit
@@ -333,6 +369,7 @@ const sizes = ref(["XS", "S", "M", "L", "XL"]);
 const selectedSize = ref({});
 const count = ref(1);
 const selectedImage = ref("");
+const startLoading = ref(false);
 
 const route = useRoute();
 const router = useRouter();
@@ -365,7 +402,9 @@ const showSuccessToast = () => {
   });
 };
 const buyNow = () => {
+  startLoading.value = true;
   setTimeout(() => {
+    startLoading.value = false;
     router.push({
       name: "checkout",
     });
