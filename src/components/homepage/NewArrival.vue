@@ -27,7 +27,7 @@
         class="w-full lg:w-[58%] h-auto lg:h-[600px] bg-black relative rounded overflow-hidden"
       >
         <img
-          data-url="http://localhost:5173/new_arrival/ps5-slim-goedkope-playstation_large%201.png"
+          data-url="https://ecommerce-frontend-bx39.onrender.com/new_arrival/ps5-slim-goedkope-playstation_large%201.png"
           alt="playstation_large"
           class="w-full h-auto lg:w-[90%] lg:h-[85%] object-contain absolute bottom-0 left-1/2 transform -translate-x-1/2"
         />
@@ -60,7 +60,7 @@
           class="bg-[#0D0D0D] w-full h-48 sm:h-56 md:h-64 lg:h-[284px] relative rounded overflow-hidden"
         >
           <img
-            data-url="http://localhost:5173/new_arrival/attractive-woman-wearing-hat-posing-black-background 1.png"
+            data-url="https://ecommerce-frontend-bx39.onrender.com/new_arrival/attractive-woman-wearing-hat-posing-black-background 1.png"
             alt="women_collection"
             class="w-[70%] h-full object-cover absolute right-0"
           />
@@ -91,7 +91,7 @@
             class="bg-[#0D0D0D] w-full sm:w-1/2 h-48 sm:h-56 md:h-64 lg:h-[284px] relative rounded overflow-hidden"
           >
             <img
-              data-url="http://localhost:5173/new_arrival/69-694768_amazon-echo-png-clipart-transparent-amazon-echo-png 1.png"
+              data-url="https://ecommerce-frontend-bx39.onrender.com/new_arrival/69-694768_amazon-echo-png-clipart-transparent-amazon-echo-png 1.png"
               alt="speakers"
               class="w-[60%] h-auto object-contain absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2"
             />
@@ -119,7 +119,7 @@
             class="bg-[#0D0D0D] w-full sm:w-1/2 h-48 sm:h-56 md:h-64 lg:h-[284px] relative rounded overflow-hidden"
           >
             <img
-              data-url="http://localhost:5173/new_arrival/652e82cd70aa6522dd785109a455904c.png"
+              data-url="https://ecommerce-frontend-bx39.onrender.com/new_arrival/652e82cd70aa6522dd785109a455904c.png"
               alt="perfume"
               class="w-[50%] h-auto object-contain absolute bottom-4 sm:bottom-8 right-4 sm:right-8"
             />

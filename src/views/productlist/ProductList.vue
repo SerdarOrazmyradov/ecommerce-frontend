@@ -183,7 +183,7 @@
                     </div>
                     <!-- <div class="text-base font-medium my-4">Price</div> -->
                     <div class="flex hidden flex-col gap-2">
-                      <Slider range v-model="value" class="w-44 bg-red-400" />
+                      <!-- <Slider range v-model="value" class="w-44 bg-red-400" /> -->
                     </div>
                     <div class="flex mt-4 w-full justify-end">
                       <div
@@ -300,7 +300,7 @@ import ProductCard from "../../components/product/ProductCard.vue";
 import { useRoute, useRouter } from "vue-router";
 
 import LoadingAnimation from "../../components/loader/LoadingAnimation.vue";
-import Slider from "primevue/slider";
+// import Slider from "primevue/slider";
 import SortBy from "../../components/select/SortBy.vue";
 import { useI18n } from "vue-i18n";
 

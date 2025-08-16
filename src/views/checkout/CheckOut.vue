@@ -233,22 +233,22 @@
                   <img
                     src="../../../public/bcash/image 30.png"
                     class=""
-                    alt=""
+                    alt="practice"
                   />
                   <img
                     src="../../../public/bcash/image 31.png"
                     class=""
-                    alt=""
+                    alt="practice"
                   />
                   <img
                     src="../../../public/bcash/image 32.png"
                     class=""
-                    alt=""
+                    alt="practice"
                   />
                   <img
                     src="../../../public/bcash/image 33.png"
                     class=""
-                    alt=""
+                    alt="practice"
                   />
                 </div>
               </div>

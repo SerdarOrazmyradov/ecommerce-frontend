@@ -29,6 +29,7 @@
     <loading-animation text="Process" />
   </div>
   <div
+    v-if="name"
     class="max-w-[1170px] mx-auto px-4 sm:px-6 lg:px-8 mb-8 sm:mb-10 md:mb-12"
   >
     <!-- header -->
@@ -49,7 +50,7 @@
       <div class="mr-2 sm:mr-3 flex items-center gap-1">
         <div class="text-xs lg:text-sm">{{ t("welcomeUser") }}</div>
         <div class="text-xs lg:text-sm text-red-400">
-          {{ useAuthStore.user.name }}
+          {{ useAuthStore.user?.name ?? "" }}
         </div>
       </div>
     </div>
@@ -79,7 +80,7 @@
         <!--My Orders  -->
         <div class="mx-2 lg:mx-3 mt-6">
           <router-link
-            :to="{ name: 'wishlist' }"
+            :to="{ name: 'my-orders' }"
             class="text-sm lg:text-base font-medium"
             >My Orders</router-link
           >
@@ -97,9 +98,9 @@
           </div>
         </div>
         <!-- My WishList -->
-        <div class="mx-2 lg:mx-3 mt-6">
+        <router-link :to="{ name: 'wishlist' }" class="mx-2 lg:mx-3 mt-6">
           <div class="text-sm lg:text-base font-medium">My WishList</div>
-        </div>
+        </router-link>
       </div>
       <!-- right side -->
       <div class="mx-2 lg:mx-3 mt-8">
@@ -232,6 +233,12 @@
       </div>
     </div>
   </div>
+  <div
+    v-else
+    class="text-2xl max-w-[1170px] mt-5 mx-auto flex justify-center font-medium"
+  >
+    ⚠️ Bagyşlaň siz login/register bolmansyňyz
+  </div>
 </template>
 
 <script setup>
@@ -262,7 +269,7 @@ const isError = ref(false);
 const confirm_new_passwod = ref("");
 const password = ref("");
 const newpassword = ref("");
-const name = ref(useAuthStore.user.name);
+const name = ref(useAuthStore.user?.name ?? "");
 const message = ref("");
 
 const BASE_URL = "http://localhost:3000/";

@@ -144,7 +144,6 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 import { Navigation, Manipulation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
-import { Message } from "primevue";
 import { useI18n } from "vue-i18n";
 const { t, locale } = useI18n({ useScope: "global" });
 

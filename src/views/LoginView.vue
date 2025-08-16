@@ -154,7 +154,7 @@
 import { ref } from "vue";
 import { signupValidation } from "../../validation/validations";
 import LoaderAndCheckmark from "../components/loader/LoaderAndCheckmark.vue";
-import { getToken, setToken } from "../compasable/cookie/vue-cookie-next";
+// import { getToken, setToken } from "../compasable/cookie/vue-cookie-next";
 import { useAuth } from "../stores/stores";
 import { useRoute, useRouter } from "vue-router";
 

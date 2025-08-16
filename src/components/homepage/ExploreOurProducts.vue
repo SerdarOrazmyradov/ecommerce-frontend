@@ -146,7 +146,6 @@ import { Navigation, Manipulation } from "swiper/modules";
 import ProductCard from "../../components/product/ProductCard.vue";
 import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { Message } from "primevue";
 import { useI18n } from "vue-i18n";
 const { t, locale } = useI18n({ useScope: "global" });
 
@@ -157,7 +156,7 @@ const BASE_URL = "http://localhost:3000";
 const products = ref([
   {
     title: "HAVIT HV-G92 Gamepad",
-    image: "http://localhost:5173/our_products/71RdoeXxtrL 1.png",
+    image: "https://ecommerce-frontend-bx39.onrender.com/our_products/71RdoeXxtrL 1.png",
     price: 120,
     oldprice: 160,
     discount: 40,
@@ -167,7 +166,7 @@ const products = ref([
   },
   {
     title: "AK-900 Wired Keyboard",
-    image: "http://localhost:5173/our_products/eos-250d-03-500x500 1.png",
+    image: "https://ecommerce-frontend-bx39.onrender.com/our_products/eos-250d-03-500x500 1.png",
     price: 960,
     oldprice: 1160,
     discount: 35,
@@ -178,7 +177,7 @@ const products = ref([
   {
     title: "IPS LCD Gaming Monitor",
     image:
-      "http://localhost:5173/our_products/ideapad-gaming-3i-01-500x500 1.png",
+      "https://ecommerce-frontend-bx39.onrender.com/our_products/ideapad-gaming-3i-01-500x500 1.png",
     price: 370,
     oldprice: 400,
     discount: 30,
@@ -189,7 +188,7 @@ const products = ref([
   {
     title: "S-Series Comfort Chair",
     image:
-      "http://localhost:5173/flash_sales_images/sam-moghadam-khamseh-kvmdsTrGOBM-unsplash 1.png",
+      "https://ecommerce-frontend-bx39.onrender.com/flash_sales_images/sam-moghadam-khamseh-kvmdsTrGOBM-unsplash 1.png",
     price: 375,
     oldprice: 500,
     discount: 25,
@@ -198,54 +197,7 @@ const products = ref([
     id: 8,
   },
 ]);
-const products1 = ref([
-  {
-    isNew: true,
-    title: "HAVIT HV-G92 Gamepad",
-    image:
-      "http://localhost:5173/our_products/New-Mercedes-Benz-Gtr-Licensed-Ride-on-Car-Kids-Electric-Toy-Car 1.png",
-    price: 120,
-    oldprice: 160,
-    discount: 40,
-    rating: 4,
-    reviews: 88,
-    id: 9,
-  },
-  {
-    isNew: false,
-    title: "AK-900 Wired Keyboard",
-    image: "http://localhost:5173/our_products/Copa_Sense 1.png",
-    price: 960,
-    oldprice: 1160,
-    discount: 35,
-    rating: 4,
-    reviews: 75,
-    id: 10,
-  },
-  {
-    isNew: true,
-    title: "IPS LCD Gaming Monitor",
-    image: "http://localhost:5173/our_products/GP11_PRD3 1.png",
-    price: 370,
-    oldprice: 400,
-    discount: 30,
-    rating: 5,
-    reviews: 99,
-    id: 11,
-  },
-  {
-    isNew: false,
-    title: "S-Series Comfort Chair",
-    image:
-      "http://localhost:5173/our_products/698717_Z8A1X_3475_001_100_0000_Light-Reversible-quilted-satin-jacket 1.png",
-    price: 375,
-    oldprice: 500,
-    discount: 25,
-    rating: 4,
-    reviews: 99,
-    id: 12,
-  },
-]);
+const products1 = ref([]);
 
 onMounted(() => {
   fetch(BASE_URL + "/guest/api/get-products", {

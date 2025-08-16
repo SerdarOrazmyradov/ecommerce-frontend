@@ -11,7 +11,6 @@
         <div class="flex flex-col gap-4 sm:gap-6">
           <div class="text-2xl font-bold">Exclusive</div>
 
-          
           <!-- <div class="text-lg sm:text-xl font-medium cursor-pointer">
             {{ t("subscribe") }}
           </div>
@@ -66,7 +65,18 @@
               ></div>
             </div>
           </div>
-
+          <div class="w-full flex justify-center sm:justify-normal relative">
+            <div
+              class="group flex flex-col items-center w-fit sm:items-start relative"
+            >
+              <a href="mailto:exclusive@gmail.com" class="text-base sm:text-lg">
+                +880 1611 12222
+              </a>
+              <div
+                class="after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-50 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] group-hover:after:origin-bottom-left group-hover:after:scale-x-100 w-full after:flex after:justify-center"
+              ></div>
+            </div>
+          </div>
 
           <!-- <div>salam</div> -->
         </div>

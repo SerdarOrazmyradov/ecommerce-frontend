@@ -8,38 +8,13 @@
       <div
         class="max-w-[1170px] mx-auto px-4 sm:px-6 lg:px-8 mb-8 sm:mb-10 md:mb-12"
       >
-        <Galleria
-          :value="product_images"
-          :activeIndex="activeIndex"
-          :circular="true"
-          containerStyle="max-width: 640px"
-          :showItemNavigators="true"
-          :showThumbnails="true"
-        >
-          <template #item="slotProps">
-            <img
-              :src="slotProps.item"
-              alt="galleria image"
-              class="w-full h-auto"
-            />
-          </template>
-          <template #thumbnail="slotProps">
-            <div class="flex">
-              <img
-                :src="slotProps.item"
-                alt="galleria thumbnail"
-                class="size-20"
-              />
-            </div>
-          </template>
-        </Galleria>
+       
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import Galleria from "primevue/galleria";
 import { defineProps, defineEmits, ref, watch } from "vue";
 
 const props = defineProps({

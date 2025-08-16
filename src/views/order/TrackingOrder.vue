@@ -18,7 +18,7 @@
             <p class="text-base font-semibold">{{ tracking[0]?.shipper }}</p>
             <p class="text-sm">Shipper</p>
           </div>
-          <img src="" alt="" />
+          <img src="" alt="practice" />
         </div>
       </div>
       <!-- processing -->

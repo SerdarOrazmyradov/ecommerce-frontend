@@ -61,7 +61,7 @@
     <!-- Right Side (Image) -->
     <div v-lazyload class="md:w-1/2 mt-10 md:mt-0">
       <img
-        data-url="http://localhost:5173/exchange/JBL_BOOMBOX_2_HERO_020_x1%20(1)%201.png"
+        data-url="https://ecommerce-frontend-bx39.onrender.com/exchange/JBL_BOOMBOX_2_HERO_020_x1%20(1)%201.png"
         alt="Speaker"
         class="w-full max-w-md mx-auto"
       />

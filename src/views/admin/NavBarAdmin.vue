@@ -16,7 +16,7 @@
         </div>
         <div class="cursor-pointer" @click="">
           <img
-            src="http://localhost:5173/icons/sidebar_left.png"
+            src="https://ecommerce-frontend-bx39.onrender.com/icons/sidebar_left.png"
             alt="sidebar_left"
           />
         </div>
@@ -119,7 +119,7 @@
             :to="{ name: '' }"
           >
             <img
-              src="http://localhost:5173/icons/user.png"
+              src="https://ecommerce-frontend-bx39.onrender.com/icons/user.png"
               class="size-4 bg-cover"
               alt="user png"
             />
@@ -133,7 +133,7 @@
             :to="{ name: '' }"
           >
             <img
-              src="http://localhost:5173/icons/setting.png"
+              src="https://ecommerce-frontend-bx39.onrender.com/icons/setting.png"
               class="size-4 bg-cover"
               alt="user png"
             />
@@ -169,7 +169,7 @@
             :to="{ name: '' }"
           >
             <img
-              src="http://localhost:5173/icons/setting.png"
+              src="https://ecommerce-frontend-bx39.onrender.com/icons/setting.png"
               class="size-4 bg-cover"
               alt="user png"
             />
@@ -183,7 +183,7 @@
             :to="{ name: '' }"
           >
             <img
-              src="http://localhost:5173/icons/setting.png"
+              src="https://ecommerce-frontend-bx39.onrender.com/icons/setting.png"
               class="size-4 bg-cover"
               alt="user png"
             />
@@ -199,7 +199,6 @@
 4;
 import { useRoute, useRouter } from "vue-router";
 
-import Button from "primevue/button";
 const router = useRouter();
 const route = useRoute();
 </script>

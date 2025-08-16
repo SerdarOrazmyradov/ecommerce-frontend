@@ -10,7 +10,7 @@
             class="flex items-center justify-center w-[60px] h-[60px] rounded-full bg-black"
           >
             <img
-              src="http://localhost:5173/icons/icon-delivery.png"
+              src="https://ecommerce-frontend-bx39.onrender.com/icons/icon-delivery.png"
               alt="icon-delivery"
               class="mx-auto w-[40px] h-[40px]"
             />
@@ -29,7 +29,7 @@
             class="flex items-center justify-center w-[60px] h-[60px] rounded-full bg-black"
           >
             <img
-              src="http://localhost:5173/icons/Icon-Customer service.png"
+              src="https://ecommerce-frontend-bx39.onrender.com/icons/Icon-Customer service.png"
               alt="icon-delivery"
               class="mx-auto w-[40px] h-[40px]"
             />
@@ -48,7 +48,7 @@
             class="flex items-center justify-center w-[60px] h-[60px] rounded-full bg-black"
           >
             <img
-              src="http://localhost:5173/icons/Icon-secure.png"
+              src="https://ecommerce-frontend-bx39.onrender.com/icons/Icon-secure.png"
               alt="icon-delivery"
               class="mx-auto w-[40px] h-[40px]"
             />
