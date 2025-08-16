@@ -306,7 +306,7 @@ import { useI18n } from "vue-i18n";
 
 const { t, locale, availableLocales } = useI18n({ useScope: "global" });
 
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = "https://ecommerce-backend-fh32.onrender.com";
 const get_products_api = "/guest/api/get-products";
 const get_categories_api = "/guest/api/categories";
 const get_bestsellingproducts_api = "/guest/api/best_selling";

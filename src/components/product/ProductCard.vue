@@ -84,7 +84,7 @@
             params: { id: productId },
           })
         "
-        :data-url="'http://localhost:3000/' + product.main_image"
+        :data-url="'https://ecommerce-backend-fh32.onrender.com/' + product.main_image"
         alt="product image "
         class="h-60 mt-9 mx-auto object-scale-down transition-opacity opacity-100 duration-200 ease-in-out"
       />
@@ -96,7 +96,7 @@
             params: { id: productId },
           })
         "
-        :data-url="'http://localhost:3000/uploads/images' + product.image"
+        :data-url="'https://ecommerce-backend-fh32.onrender.com/uploads/images' + product.image"
         alt="product image "
         class="h-60 mt-9 mx-auto object-scale-down transition-opacity opacity-100 duration-200 ease-in-out"
       />

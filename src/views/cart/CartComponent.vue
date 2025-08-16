@@ -244,8 +244,8 @@ const useLikedStore = useLiked();
 const useCartStore = useCart();
 const useToastStore = useToast();
 
-const BASE_URL = "http://localhost:3000/";
-const IMAGE_BASE_URL = "http://localhost:3000/uploads/images/";
+const BASE_URL = "https://ecommerce-backend-fh32.onrender.com/";
+const IMAGE_BASE_URL = "https://ecommerce-backend-fh32.onrender.com/uploads/images/";
 const products = ref([]);
 function onQuantityChange(product) {
   if (product.count < 1) product.count = 1;

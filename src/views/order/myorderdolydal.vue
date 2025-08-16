@@ -111,7 +111,7 @@
         <div v-for="(product, i) in order.products">
           <img
             class="size-10 object-scale-down"
-            :src="'http://localhost:3000/' + product.main_image"
+            :src="'https://ecommerce-backend-fh32.onrender.com/' + product.main_image"
             alt="orderes main_image"
           />
         </div>
@@ -164,7 +164,7 @@ const arrived = computed(() =>
 // ähli order-leri fetch etmek
 const fetchOrders = async () => {
   try {
-    const res = await fetch("http://localhost:3000/user/api/my-orders", {
+    const res = await fetch("https://ecommerce-backend-fh32.onrender.com/user/api/my-orders", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -179,7 +179,7 @@ const fetchOrderStatus = async () => {
   if (!selectedOrderId.value) return;
   try {
     const res = await fetch(
-      `http://localhost:3000/track-order-status/${selectedOrderId.value}`,
+      `https://ecommerce-backend-fh32.onrender.com/track-order-status/${selectedOrderId.value}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

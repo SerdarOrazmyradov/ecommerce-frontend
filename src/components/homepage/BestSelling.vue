@@ -108,7 +108,7 @@ const { t, locale } = useI18n({ useScope: "global" });
 
 const router = useRouter();
 const route = useRoute();
-const BASE_URL = "http://localhost:3000/";
+const BASE_URL = "https://ecommerce-backend-fh32.onrender.com/";
 const products = ref([]);
 onMounted(() => {
   fetch(BASE_URL + "guest/api/best_selling", {

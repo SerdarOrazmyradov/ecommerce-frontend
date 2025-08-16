@@ -359,8 +359,8 @@ const remainingText = computed(() =>
 );
 
 const showImageModal = ref(false);
-const BASE_URL = "http://localhost:3000/";
-const IMAGE_BASE_URL = "http://localhost:3000/";
+const BASE_URL = "https://ecommerce-backend-fh32.onrender.com/";
+const IMAGE_BASE_URL = "https://ecommerce-backend-fh32.onrender.com/";
 const relatedproducts = ref([]);
 const product = ref({});
 const product_images = ref([]);

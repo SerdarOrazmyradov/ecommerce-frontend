@@ -383,7 +383,7 @@ import NavbarProfile from "./profile/NavbarProfile.vue";
 import { useI18n } from "vue-i18n";
 const { t, locale } = useI18n({ useScope: "global" });
 
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = "https://ecommerce-backend-fh32.onrender.com";
 const get_categories_api = "/guest/api/categories";
 const categories = ref([]);
 const router = useRouter();

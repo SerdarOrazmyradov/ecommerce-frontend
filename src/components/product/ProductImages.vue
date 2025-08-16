@@ -132,7 +132,7 @@ const setThumbsSwiper = (swiper) => {
 };
 
 const getImageUrl = (imagePath) => {
-  return `http://localhost:3000/${imagePath}`;
+  return `https://ecommerce-backend-fh32.onrender.com/${imagePath}`;
 };
 </script>
 

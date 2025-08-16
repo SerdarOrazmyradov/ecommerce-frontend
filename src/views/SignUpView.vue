@@ -160,7 +160,7 @@ const { t, locale } = useI18n({ useScope: "global" });
 
 const router = useRouter();
 const route = useRoute();
-const BASE_URL = "http://localhost:3000/";
+const BASE_URL = "https://ecommerce-backend-fh32.onrender.com/";
 
 const username = ref("");
 const password = ref("");
@@ -230,7 +230,7 @@ const signUpFn = (username, password) => {
   //   return;
   // }
 
-  fetch("http://localhost:3000/auth/api/signup", {
+  fetch("https://ecommerce-backend-fh32.onrender.com/auth/api/signup", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -250,7 +250,7 @@ const signUpFn = (username, password) => {
         isVisibleSignupLoader.value = true;
         isCompleted.value = true;
 
-        fetch("http://localhost:3000/auth/api/login", {
+        fetch("https://ecommerce-backend-fh32.onrender.com/auth/api/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

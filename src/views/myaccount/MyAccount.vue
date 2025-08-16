@@ -272,7 +272,7 @@ const newpassword = ref("");
 const name = ref(useAuthStore.user?.name ?? "");
 const message = ref("");
 
-const BASE_URL = "http://localhost:3000/";
+const BASE_URL = "https://ecommerce-backend-fh32.onrender.com/";
 
 const saveChange = () => {
   const token = localStorage.getItem("token");

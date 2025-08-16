@@ -184,7 +184,7 @@ import { useI18n } from "vue-i18n";
 
 const { t, locale, availableLocales } = useI18n({ useScope: "global" });
 
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = "https://ecommerce-backend-fh32.onrender.com";
 
 const orderItems = ref([]);
 const order = ref({});

@@ -67,7 +67,7 @@ const { t, locale } = useI18n({ useScope: "global" });
 
 const router = useRouter();
 const route = useRoute();
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = "https://ecommerce-backend-fh32.onrender.com";
 const get_categories_api = "/guest/api/categories";
 
 const selectedCategories = ref({});

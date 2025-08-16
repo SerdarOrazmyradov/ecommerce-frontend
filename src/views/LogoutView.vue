@@ -79,7 +79,7 @@ import { signupValidation } from "../../validation/validations";
 import LoaderAndCheckmark from "../components/loader/LoaderAndCheckmark.vue";
 // import { getCookie, getToken } from "../compasable/cookie/vue-cookie-next";
 
-const BASE_URL = "http://localhost:3000/";
+const BASE_URL = "https://ecommerce-backend-fh32.onrender.com/";
 
 const toggle_password = ref(false);
 const isVisibleLogoutLoader = ref(false);

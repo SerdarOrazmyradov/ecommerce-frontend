@@ -54,7 +54,7 @@
           >
             <img
               class="w-12 h-12 object-cover rounded"
-              :src="'http://localhost:3000/' + product.main_image"
+              :src="'https://ecommerce-backend-fh32.onrender.com/' + product.main_image"
               alt="searched product image"
             />
             <div class="flex flex-col">
@@ -137,7 +137,7 @@ const typingText = computed(() => t("searchPlaceholder"));
 let typingIndex = 0;
 let typingInterval = null;
 
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = "https://ecommerce-backend-fh32.onrender.com";
 
 const { pause, resume } = useIntervalFn(
   () => {

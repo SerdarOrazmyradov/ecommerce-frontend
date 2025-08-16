@@ -160,7 +160,7 @@ const selectCategory = (index) => {
 const getCategories = (page = 1, limit = 20) => {
   // isLoading.value = true;
   fetch(
-    "http://localhost:3000" +
+    "https://ecommerce-backend-fh32.onrender.com" +
       "/guest/api/categories" +
       "?page=" +
       page +

@@ -163,7 +163,7 @@
                 class="flex gap-10 sm:gap-6 items-center"
               >
                 <img
-                  :data-url="'http://localhost:3000/' + product.main_image"
+                  :data-url="'https://ecommerce-backend-fh32.onrender.com/' + product.main_image"
                   alt="product"
                   class="w-16 h-16 object-scale-down shrink"
                 />
@@ -317,8 +317,8 @@ const isError = ref(false);
 const router = useRouter();
 const route = useRoute();
 const isLoading = ref(false);
-const BASE_URL = "http://localhost:3000/";
-const IMAGE_BASE_URL = "http://localhost:3000/uploads/images/";
+const BASE_URL = "https://ecommerce-backend-fh32.onrender.com/";
+const IMAGE_BASE_URL = "https://ecommerce-backend-fh32.onrender.com/uploads/images/";
 const myDiv = ref(null);
 const products = ref([]);
 const status = ref("pending");
