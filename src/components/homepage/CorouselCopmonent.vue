@@ -21,7 +21,9 @@
           <div v-lazyload class="flex items-center justify-start">
             <!-- apple logo -->
             <img
-              :data-url="'https://ecommerce-frontend-bx39.onrender.com/' + image_src_logo"
+              :data-url="
+                'https://ecommerce-frontend-bx39.onrender.com/' + image_src_logo
+              "
               alt="Apple"
               class="w-6 h-8 sm:w-8 sm:h-10 md:w-10 md:h-12 mb-3 md:mb-0"
             />
@@ -47,7 +49,7 @@
 
         <div v-lazyload class="sm:absolute sm:top-10 mt-10 sm:mt-0 sm:right-20">
           <img
-            :data-url=" product.image"
+            :data-url="product.image"
             alt=""
             class="size-48 sm:size-64 object-scale-down"
           />
@@ -77,9 +79,18 @@ const toastStore = useToast();
 const image_src_logo = ref("/hero_section/1200px-Apple_gray_logo 1.png");
 
 const slides = ref([
-  { image: "https://ecommerce-frontend-bx39.onrender.com/hero_section/color_large_2x.png" },
-  { image: "https://ecommerce-frontend-bx39.onrender.com/hero_section/flex_magsafe_large_2x.png" },
-  { image: "https://ecommerce-frontend-bx39.onrender.com/hero_section/flex_applecare_large_2x.png" },
+  {
+    image:
+      "https://ecommerce-frontend-bx39.onrender.com/hero_section/color_large_2x.webp",
+  },
+  {
+    image:
+      "https://ecommerce-frontend-bx39.onrender.com/hero_section/flex_magsafe_large_2x.webp",
+  },
+  {
+    image:
+      "https://ecommerce-frontend-bx39.onrender.com/hero_section/flex_applecare_large_2x.webp",
+  },
 ]);
 
 const currentIndex = ref(0);
